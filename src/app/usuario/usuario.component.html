@@ -1,0 +1,35 @@
+<h1>Lista de Usuários</h1>
+
+<ul>
+  <div *ngFor="let usuario of usuarios">
+    <div>Nome: {{ usuario.name }}</div>
+    <div>Email: {{ usuario.email }}</div>
+    <div>Idade: {{ usuario.age }}</div>
+    <div>Ativo: {{ usuario.active ? 'Sim' : 'Não' }}</div>
+    <button (click)="toggleAtivo(usuario.id == null ? 0 : usuario.id)">Alternar Ativo</button>
+    <button (click)="deletarUsuario(usuario.id == null ? 0 : usuario.id)">Excluir</button>
+    <hr>
+  </div>
+</ul>
+
+<!-- Formulário para adicionar novo usuário -->
+<h2>Adicionar Novo Usuário</h2>
+<form (submit)="adicionarUsuario()">
+  <div>
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name"  [(ngModel)]="usuarioNovo.name" required>
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" [(ngModel)]="usuarioNovo.email" required>
+  </div>
+  <div>
+    <label for="age">Idade:</label>
+    <input type="number" id="age" name="age" [(ngModel)]="usuarioNovo.age" required>
+  </div>
+  <div>
+    <label for="active">Ativo:</label>
+    <input type="checkbox" id="active" name="active" [(ngModel)]="usuarioNovo.active">
+  </div>
+  <button type="submit">Adicionar Usuário</button>
+</form>

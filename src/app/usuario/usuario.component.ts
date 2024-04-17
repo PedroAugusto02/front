@@ -4,11 +4,14 @@ import { UsuarioService } from './service/usuario.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-usuario',
   standalone: true,
-  imports: [HttpClientModule,CommonModule,FormsModule],
+  imports: [HttpClientModule,CommonModule,FormsModule,MatFormFieldModule, MatInputModule, MatTableModule],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
@@ -16,6 +19,7 @@ export class UsuarioComponent {
 
   usuarios: Usuario[] = [];
   usuarioNovo : Usuario = new Usuario();
+  displayedColumns: string[] = ['nome', 'name', 'idade', 'ativo'];
 
   constructor(private usuarioService: UsuarioService) { }
 
@@ -72,4 +76,9 @@ export class UsuarioComponent {
       }
     );
   }
+
+  // applyFilter(event: Event) {
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   this.dataSource = filterValue.trim().toLowerCase();
+  // }
 }

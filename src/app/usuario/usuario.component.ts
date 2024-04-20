@@ -7,11 +7,12 @@ import { FormsModule } from '@angular/forms';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-usuario',
   standalone: true,
-  imports: [HttpClientModule,CommonModule,FormsModule,MatFormFieldModule, MatInputModule, MatTableModule],
+  imports: [HttpClientModule,CommonModule,FormsModule,MatFormFieldModule, MatInputModule, MatTableModule,MatSelectModule],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
@@ -40,7 +41,6 @@ export class UsuarioComponent {
 
   adicionarUsuario(): void {
     // Usar os dados do usuário novo do formulário
-    console.log(this.usuarioNovo);
     this.usuarioService.criarUsuario(this.usuarioNovo).subscribe(
       novoUsuario => {
         this.usuarios.push(novoUsuario); // Adiciona o novo usuário à lista

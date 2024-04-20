@@ -4,6 +4,7 @@
         <mat-nav-list>
             <a mat-list-item  routerLinkActive="active" routerLink="/home">Home</a>
             <a mat-list-item  routerLinkActive="active" routerLink="/usuarios" href="#">Usuarios</a>
+            <a mat-list-item  routerLinkActive="active" routerLink="/atividades" href="#">Atividades</a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -12,7 +13,9 @@
               <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
         </mat-toolbar>
+        <div style="background-color:white">
         <router-outlet></router-outlet>
+        </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
 

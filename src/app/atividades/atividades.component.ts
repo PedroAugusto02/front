@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDragPlaceholder, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
+import { TitleService } from '../service/title.service';
 
 @Component({
   selector: 'app-atividades',
@@ -9,6 +10,17 @@ import { CdkDrag, CdkDragDrop, CdkDragPlaceholder, CdkDropList, moveItemInArray}
   styleUrl: './atividades.component.css'
 })
 export class AtividadesComponent {
+
+  constructor(
+    private titleService: TitleService) {
+  }
+
+  ngOnInit(): void {
+    // Usando setTimeout para definir o título após um curto atraso
+    setTimeout(() => {
+      this.titleService.setPageTitle('Atividades');
+    }, 10); // Defina o atraso desejado em milissegundos (por exemplo, 100ms)
+  }
 
   movies = [
     'Episode I - The Phantom Menace',

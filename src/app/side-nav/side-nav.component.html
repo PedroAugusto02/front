@@ -12,6 +12,7 @@
             <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
               <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
+            <h1 class="titulo">{{ pageTitle }}</h1>
         </mat-toolbar>
         <div style="background-color:white">
         <router-outlet></router-outlet>

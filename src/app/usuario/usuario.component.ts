@@ -8,6 +8,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { TitleService } from '../service/title.service';
 
 @Component({
   selector: 'app-usuario',
@@ -22,10 +23,14 @@ export class UsuarioComponent {
   usuarioNovo : Usuario = new Usuario();
   displayedColumns: string[] = ['nome', 'name', 'idade', 'ativo'];
 
-  constructor(private usuarioService: UsuarioService) { }
+  constructor(
+    private usuarioService: UsuarioService,
+    private titleService: TitleService
+  ) { }
 
   ngOnInit(): void {
     this.carregarUsuarios();
+    this.titleService.setPageTitle("Usuarios");
   }
 
   carregarUsuarios(): void {

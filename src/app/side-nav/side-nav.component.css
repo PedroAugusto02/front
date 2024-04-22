@@ -13,3 +13,8 @@
   .example-sidenav {
     padding: 20px;
   }
+
+  .titulo {
+    margin: auto;
+    font-size: 25px;
+  }

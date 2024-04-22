@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TitleService } from '../service/title.service';
 
 @Component({
   selector: 'app-home',
@@ -8,5 +9,16 @@ import { Component } from '@angular/core';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+
+  constructor(
+    private titleService: TitleService) {
+  }
+
+  ngOnInit(): void {
+    // Usando setTimeout para definir o título após um curto atraso
+    setTimeout(() => {
+      this.titleService.setPageTitle('Home');
+    }, 10); // Defina o atraso desejado em milissegundos (por exemplo, 100ms)
+  }
 
 }

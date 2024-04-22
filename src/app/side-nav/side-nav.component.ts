@@ -9,6 +9,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatMenuModule} from '@angular/material/menu';
 import { RouterLink, RouterModule } from '@angular/router';
+import { TitleService } from '../service/title.service';
 
 
 
@@ -30,8 +31,18 @@ imports: [
   RouterModule,
   UsuarioComponent],
   templateUrl: './side-nav.component.html',
-  styleUrl: './side-nav.component.css'
+  styleUrl: './side-nav.component.css',
+  providers: [TitleService]
 })
 export class SideNavComponent {
   showFiller = false;
+  pageTitle: string = '';
+  
+  constructor(private titleService: TitleService) {}
+
+  ngOnInit(): void {
+    this.titleService.getPageTitle().subscribe((title: string) => {
+      this.pageTitle = title;
+    });
+  }
 }

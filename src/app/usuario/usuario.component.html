@@ -12,43 +12,22 @@
   </div>
 </ul>
 
-<mat-form-field>
-  <mat-label>Input</mat-label>
-  <input matInput>
-</mat-form-field>
-<mat-form-field>
-  <mat-label>Select</mat-label>
-  <mat-select>
-    <mat-option value="one">First option</mat-option>
-    <mat-option value="two">Second option</mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-form-field>
-  <mat-label>Textarea</mat-label>
-  <textarea matInput></textarea>
-</mat-form-field>
-
-
 <!-- Formulário para adicionar novo usuário -->
+<!-- Utilize o novo componente inputtext para adicionar um novo usuário -->
 <h2>Adicionar Novo Usuário</h2>
-<form (submit)="adicionarUsuario()">
+<form>
   <div>
-    <label for="name">Nome:</label>
-    <input type="text" id="name" name="name"  [(ngModel)]="usuarioNovo.name" required>
+    <inputtext [label]="'Nome'" [value]="usuarioNovo.name" (valueChange)="usuarioNovo.name = $event"></inputtext>
   </div>
   <div>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" [(ngModel)]="usuarioNovo.email" required>
+    <inputtext [label]="'Email'" [value]="usuarioNovo.email" (valueChange)="usuarioNovo.email = $event"></inputtext>
   </div>
   <div>
-    <label for="age">Idade:</label>
-    <input type="number" id="age" name="age" [(ngModel)]="usuarioNovo.age" required>
+    <inputtext [label]="'Idade'" [value]="usuarioNovo.age" (valueChange)="usuarioNovo.age = $event"></inputtext>
   </div>
   <div>
     <label for="active">Ativo:</label>
     <input type="checkbox" id="active" name="active" [(ngModel)]="usuarioNovo.active">
   </div>
-  <button type="submit">Adicionar Usuário</button>
+  <app-button [label]="'Adicionar'" (buttonClick)="adicionarUsuario()"></app-button>
 </form>
-
-

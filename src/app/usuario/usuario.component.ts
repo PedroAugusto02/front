@@ -9,19 +9,20 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { TitleService } from '../service/title.service';
+import { InputtextComponent } from '../components/inputtext/inputtext.component';
+import { ButtonComponent } from '../components/button/button.component';
 
 @Component({
   selector: 'app-usuario',
   standalone: true,
-  imports: [HttpClientModule,CommonModule,FormsModule,MatFormFieldModule, MatInputModule, MatTableModule,MatSelectModule],
+  imports: [HttpClientModule,CommonModule,FormsModule,InputtextComponent,ButtonComponent],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
 export class UsuarioComponent {
 
   usuarios: Usuario[] = [];
-  usuarioNovo : Usuario = new Usuario();
-  displayedColumns: string[] = ['nome', 'name', 'idade', 'ativo'];
+  usuarioNovo: Usuario = new Usuario();
 
   constructor(
     private usuarioService: UsuarioService,
@@ -81,9 +82,4 @@ export class UsuarioComponent {
       }
     );
   }
-
-  // applyFilter(event: Event) {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.dataSource = filterValue.trim().toLowerCase();
-  // }
 }

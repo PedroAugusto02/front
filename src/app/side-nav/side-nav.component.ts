@@ -37,7 +37,7 @@ imports: [
 export class SideNavComponent {
   showFiller = false;
   pageTitle: string = '';
-  
+
   constructor(private titleService: TitleService) {}
 
   ngOnInit(): void {

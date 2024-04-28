@@ -1,33 +1,46 @@
-<h1>Lista de Usuários</h1>
+<div class="container shadow p-4">
+    <!-- Formulário para adicionar novo usuário -->
+  <!-- Utilize o novo componente inputtext para adicionar um novo usuário -->
+  <h2>Adicionar Novo Usuário</h2>
+  <form>
+    <div>
+      <inputtext [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.name" (valueChange)="usuarioNovo.name = $event"></inputtext>
+    </div>
+    <div>
+      <inputtext [label]="'Email'" [value]="usuarioNovo.email" (valueChange)="usuarioNovo.email = $event"></inputtext>
+    </div>
+    <div>
+      <inputtext [label]="'Idade'" [value]="usuarioNovo.age" (valueChange)="usuarioNovo.age = $event"></inputtext>
+    </div>
+    <div class="d-flex">
+      <checkbox  [label]="'Ativo'" ></checkbox>
+      <app-button [label]="'Adicionar'" [color]="'primary'" (buttonClick)="adicionarUsuario()"></app-button>
+    </div>
+  </form>
+</div>
 
-<ul>
-  <div *ngFor="let usuario of usuarios">
-    <div>Nome: {{ usuario.name }}</div>
-    <div>Email: {{ usuario.email }}</div>
-    <div>Idade: {{ usuario.age }}</div>
-    <div>Ativo: {{ usuario.active ? 'Sim' : 'Não' }}</div>
-    <button (click)="toggleAtivo(usuario.id == null ? 0 : usuario.id)">Alternar Ativo</button>
-    <button (click)="deletarUsuario(usuario.id == null ? 0 : usuario.id)">Excluir</button>
-    <hr>
-  </div>
-</ul>
+<div class="container shadow p-4">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">Email</th>
+        <th scope="col">Idade</th>
+        <th scope="col">Ativo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.name }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.age }}</td>
+        <td>{{ usuario.active ? 'Sim' : 'Não' }}</td>
+        <td>
+          <minibutton [color]="'primary'" [icon]="'done'" (click)="toggleAtivo(usuario.id == null ? 0 : usuario.id)"></minibutton>
+          <app-button [label]="'Excluir'" [color]="'warn'" (buttonClick)="deletarUsuario(usuario.id == null ? 0 : usuario.id)"></app-button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-<!-- Formulário para adicionar novo usuário -->
-<!-- Utilize o novo componente inputtext para adicionar um novo usuário -->
-<h2>Adicionar Novo Usuário</h2>
-<form>
-  <div>
-    <inputtext [label]="'Nome'" [value]="usuarioNovo.name" (valueChange)="usuarioNovo.name = $event"></inputtext>
-  </div>
-  <div>
-    <inputtext [label]="'Email'" [value]="usuarioNovo.email" (valueChange)="usuarioNovo.email = $event"></inputtext>
-  </div>
-  <div>
-    <inputtext [label]="'Idade'" [value]="usuarioNovo.age" (valueChange)="usuarioNovo.age = $event"></inputtext>
-  </div>
-  <div>
-    <label for="active">Ativo:</label>
-    <input type="checkbox" id="active" name="active" [(ngModel)]="usuarioNovo.active">
-  </div>
-  <app-button [label]="'Adicionar'" (buttonClick)="adicionarUsuario()"></app-button>
-</form>

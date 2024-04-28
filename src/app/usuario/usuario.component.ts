@@ -4,18 +4,17 @@ import { UsuarioService } from './service/usuario.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { TitleService } from '../service/title.service';
-import { InputtextComponent } from '../components/inputtext/inputtext.component';
-import { ButtonComponent } from '../components/button/button.component';
+import { InputtextComponent } from '../components/inputs/inputtext/inputtext.component';
+import { ButtonComponent } from '../components/buttons/button/button.component';
+import {MatCardModule} from '@angular/material/card';
+import { CheckboxComponent } from '../components/inputs/checkbox/checkbox.component';
+import { MinibuttonComponent } from '../components/buttons/minibutton/minibutton.component';
 
 @Component({
   selector: 'app-usuario',
   standalone: true,
-  imports: [HttpClientModule,CommonModule,FormsModule,InputtextComponent,ButtonComponent],
+  imports: [HttpClientModule,CommonModule,FormsModule,InputtextComponent,ButtonComponent,MatCardModule,CheckboxComponent, MinibuttonComponent],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
@@ -31,7 +30,9 @@ export class UsuarioComponent {
 
   ngOnInit(): void {
     this.carregarUsuarios();
-    this.titleService.setPageTitle("Usuarios");
+    setTimeout(() => {
+      this.titleService.setPageTitle("Usuarios");
+    }, 10);
   }
 
   carregarUsuarios(): void {

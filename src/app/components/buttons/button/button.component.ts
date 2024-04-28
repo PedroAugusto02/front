@@ -13,11 +13,12 @@ import { MatIconModule } from '@angular/material/icon';
 export class ButtonComponent {
 
   @Input() label!: string;
+  @Input() color!: string;
   @Output() buttonClick = new EventEmitter<void>();
 
   onClick(): void {
     // Emitir evento quando o botão é clicado
     this.buttonClick.emit();
   }
-  
+
 }

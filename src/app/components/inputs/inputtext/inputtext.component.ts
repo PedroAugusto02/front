@@ -14,6 +14,7 @@ export class InputtextComponent {
 
   @Input() label!: string;
   @Input() value!: any;
+  @Input() placeholder!: string;
   @Output() valueChange = new EventEmitter<any>();
 
   onInputChange(event: any) {
@@ -21,5 +22,5 @@ export class InputtextComponent {
     this.value = newValue;
     this.valueChange.emit(newValue);
   }
-  
+
 }

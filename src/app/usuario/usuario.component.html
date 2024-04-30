@@ -24,12 +24,32 @@
   </div>
 
   <div class="container-update shadow p-4">
-
+    <!-- <div
+    cdkDropList
+    #edicao="cdkDropList"
+    [cdkDropListData]="usuarios_update"
+    [cdkDropListConnectedTo]="[usuarios]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    @for (item of todo; track item) {
+      <div class="example-box" cdkDrag>{{item}}</div>
+    }
+  </div> -->
   </div>
-
 </div>
 
 <div class="container-tabela shadow p-4">
+  <!-- <div
+  cdkDropList
+  #usuarios="cdkDropList"
+  [cdkDropListData]="usuarios_lista"
+  [cdkDropListConnectedTo]="[edicao]"
+  class="example-list"
+  (cdkDropListDropped)="drop($event)">
+  @for (item of done; track item) {
+    <div class="example-box" cdkDrag>{{item}}</div>
+  }
+</div> -->
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -40,7 +60,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let usuario of usuarios">
+      <tr *ngFor="let usuario of usuarios_lista">
         <td>{{ usuario.name }}</td>
         <td>{{ usuario.email }}</td>
         <td>{{ usuario.age }}</td>

@@ -1,25 +1,35 @@
-<div class="container shadow p-4">
+<div class="d-flex">
+  <div class="container-usuarios shadow p-4">
     <!-- Formulário para adicionar novo usuário -->
-  <!-- Utilize o novo componente inputtext para adicionar um novo usuário -->
-  <h2>Adicionar Novo Usuário</h2>
-  <form>
-    <div>
-      <inputtext [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.name" (valueChange)="usuarioNovo.name = $event"></inputtext>
+    <!-- Utilize o novo componente inputtext para adicionar um novo usuário -->
+    <h2>Adicionar Novo Usuário</h2>
+    <div class="d-flex">
+      <div>
+        <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.name"
+          (valueChange)="usuarioNovo.name = $event"></inputtext>
+      </div>
+      <div class="idade">
+        <inputtext [label]="'Idade'" [value]="usuarioNovo.age" (valueChange)="usuarioNovo.age = $event"></inputtext>
+      </div>
     </div>
+
     <div>
       <inputtext [label]="'Email'" [value]="usuarioNovo.email" (valueChange)="usuarioNovo.email = $event"></inputtext>
     </div>
-    <div>
-      <inputtext [label]="'Idade'" [value]="usuarioNovo.age" (valueChange)="usuarioNovo.age = $event"></inputtext>
-    </div>
-    <div class="d-flex">
-      <checkbox  [label]="'Ativo'" ></checkbox>
+
+    <div class="ativo-adicionar">
+      <checkbox [label]="'Ativo'"></checkbox>
       <app-button [label]="'Adicionar'" [color]="'primary'" (buttonClick)="adicionarUsuario()"></app-button>
     </div>
-  </form>
+  </div>
+
+  <div class="container-update shadow p-4">
+
+  </div>
+
 </div>
 
-<div class="container shadow p-4">
+<div class="container-tabela shadow p-4">
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -36,11 +46,12 @@
         <td>{{ usuario.age }}</td>
         <td>{{ usuario.active ? 'Sim' : 'Não' }}</td>
         <td>
-          <minibutton [color]="'primary'" [icon]="'done'" (click)="toggleAtivo(usuario.id == null ? 0 : usuario.id)"></minibutton>
-          <app-button [label]="'Excluir'" [color]="'warn'" (buttonClick)="deletarUsuario(usuario.id == null ? 0 : usuario.id)"></app-button>
+          <minibutton [color]="'primary'" [icon]="'done'" (click)="toggleAtivo(usuario.id == null ? 0 : usuario.id)">
+          </minibutton>
+          <app-button [label]="'Excluir'" [color]="'warn'"
+            (buttonClick)="deletarUsuario(usuario.id == null ? 0 : usuario.id)"></app-button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
-

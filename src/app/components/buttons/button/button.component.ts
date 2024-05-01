@@ -14,6 +14,7 @@ export class ButtonComponent {
 
   @Input() label!: string;
   @Input() color!: string;
+  @Input() class!: string;
   @Output() buttonClick = new EventEmitter<void>();
 
   onClick(): void {

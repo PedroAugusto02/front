@@ -16,21 +16,35 @@
     </div>
 
     <div class="ativo-adicionar">
-      <checkbox [label]="'Ativo'"></checkbox>
+      <checkbox [label]="'Ativo'" [(value)]="usuarioNovo.active"></checkbox>
       <app-button [label]="'Adicionar'" [color]="'primary'" (buttonClick)="adicionarUsuario()"></app-button>
     </div>
   </div>
 
   <div class="container-update shadow p-4">
-    <div>
-      <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioUpdate.name"
-        (valueChange)="usuarioUpdate.name = $event"></inputtext>
-    </div>
-    <div>
-      <inputtext [label]="'Idade'" [value]="usuarioUpdate.age" (valueChange)="usuarioUpdate.age = $event"></inputtext>
-    </div>
-    <div>
-      <inputtext [label]="'Email'" [value]="usuarioUpdate.email" (valueChange)="usuarioUpdate.email = $event"></inputtext>
+    <div class="d-flex">
+      <div>
+        <div>
+          <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioUpdate.name"
+            (valueChange)="usuarioUpdate.name = $event"></inputtext>
+        </div>
+        <div>
+          <inputtext [label]="'Idade'" [value]="usuarioUpdate.age" (valueChange)="usuarioUpdate.age = $event">
+          </inputtext>
+        </div>
+        <div>
+          <inputtext [label]="'Email'" [value]="usuarioUpdate.email" (valueChange)="usuarioUpdate.email = $event">
+          </inputtext>
+        </div>
+        <div class="ativo-adicionar">
+          <checkbox [label]="'Ativo'" [(value)]="usuarioUpdate.active"></checkbox>
+        </div>
+      </div>
+      <div class="operacoes" *ngIf="this.usuarios_update.length > 0">
+        <app-button [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarUsuario()"></app-button>
+        <app-button [label]="'Limpar'" [color]="'clear'" (buttonClick)="refresh()"></app-button>
+        <app-button [label]="'Excluir'" [color]="'warn'" (buttonClick)="deletarUsuario(usuarioUpdate.id)"></app-button>
+      </div>
     </div>
 
     <div cdkDropList #edicao="cdkDropList" [cdkDropListData]="usuarios_update" [cdkDropListConnectedTo]="[usuarios]"
@@ -52,11 +66,6 @@
       <div>{{ usuario.name }}</div>
       <div>{{ usuario.email }}</div>
       <div>{{ usuario.age }}</div>
-      <div>{{ usuario.active ? 'Sim' : 'Não' }}</div>
-      <div>
-        <app-button [label]="'Excluir'" [color]="'warn'"
-          (buttonClick)="deletarUsuario(usuario.id == null ? 0 : usuario.id)"></app-button>
-      </div>
     </div>
     }
   </div>

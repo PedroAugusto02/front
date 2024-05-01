@@ -11,11 +11,14 @@ import { MatCardModule } from '@angular/material/card';
 import { CheckboxComponent } from '../components/inputs/checkbox/checkbox.component';
 import { MinibuttonComponent } from '../components/buttons/minibutton/minibutton.component';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-usuario',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, FormsModule, InputtextComponent, ButtonComponent, MatCardModule, CheckboxComponent, MinibuttonComponent, CdkDropListGroup, CdkDropList, CdkDrag],
+  imports: [HttpClientModule, CommonModule, FormsModule, InputtextComponent, ButtonComponent, MatCardModule, CheckboxComponent, MinibuttonComponent, CdkDropListGroup, CdkDropList, CdkDrag, MatButtonModule, MatDividerModule, MatIconModule],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
@@ -38,6 +41,13 @@ export class UsuarioComponent {
     }, 10);
   }
 
+  refresh() {
+    this.usuarioUpdate = new Usuario();
+    this.usuarioNovo = new Usuario();
+    this.usuarios_update = [];
+    this.carregarUsuarios();
+  }
+
   carregarUsuarios(): void {
     this.usuarioService.listarUsuarios().subscribe(
       usuarios => {
@@ -54,7 +64,7 @@ export class UsuarioComponent {
     this.usuarioService.criarUsuario(this.usuarioNovo).subscribe(
       novoUsuario => {
         this.usuarios_lista.push(novoUsuario); // Adiciona o novo usuário à lista
-        this.usuarioNovo = new Usuario(); // Limpa o formulário após adicionar
+        this.refresh()
       },
       error => {
         console.log('Erro ao adicionar usuário:', error);
@@ -79,7 +89,8 @@ export class UsuarioComponent {
   deletarUsuario(id: number): void {
     this.usuarioService.deleteUsuario(id).subscribe(
       () => {
-        this.usuarios_lista = this.usuarios_lista.filter(u => u.id !== id);
+        this.refresh()
+        // this.usuarios_lista = this.usuarios_lista.filter(u => u.id !== id);
       },
       error => {
         console.log('Erro ao excluir usuário:', error);
@@ -88,20 +99,16 @@ export class UsuarioComponent {
   }
 
   dropUpdate(event: CdkDragDrop<Usuario[]>, usuario: Usuario[]) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
+      if(this.usuarios_update.length == 0) {
+        transferArrayItem(
+          event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex,
+        );
+      }
     this.usuarioUpdate = usuario[0];
   }
-
-
 
   drop(event: CdkDragDrop<Usuario[]>) {
     if (event.previousContainer === event.container) {
@@ -114,7 +121,18 @@ export class UsuarioComponent {
         event.currentIndex,
       );
     }
-    if(this.usuarios_update.length == 0) this.usuarioUpdate = new Usuario();
-
+    if (this.usuarios_update.length == 0) this.usuarioUpdate = new Usuario();
   }
+
+  salvarUsuario() {
+    this.usuarioService.atualizarUsuario(this.usuarioUpdate.id, this.usuarioUpdate).subscribe(
+      () => {
+        this.refresh();
+      },
+      error => {
+        console.log('Erro ao salvar usuário:', error);
+      }
+    )
+  }
+
 }

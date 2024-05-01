@@ -1,5 +1,5 @@
+import { Usuario } from './../entity/Usuario';
 import { Component } from '@angular/core';
-import { Usuario } from '../entity/Usuario';
 import { UsuarioService } from './service/usuario.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { TitleService } from '../service/title.service';
 import { InputtextComponent } from '../components/inputs/inputtext/inputtext.component';
 import { ButtonComponent } from '../components/buttons/button/button.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { CheckboxComponent } from '../components/inputs/checkbox/checkbox.component';
 import { MinibuttonComponent } from '../components/buttons/minibutton/minibutton.component';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
@@ -15,7 +15,7 @@ import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, t
 @Component({
   selector: 'app-usuario',
   standalone: true,
-  imports: [HttpClientModule,CommonModule,FormsModule,InputtextComponent,ButtonComponent,MatCardModule,CheckboxComponent, MinibuttonComponent,CdkDropListGroup, CdkDropList, CdkDrag],
+  imports: [HttpClientModule, CommonModule, FormsModule, InputtextComponent, ButtonComponent, MatCardModule, CheckboxComponent, MinibuttonComponent, CdkDropListGroup, CdkDropList, CdkDrag],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
@@ -23,6 +23,7 @@ export class UsuarioComponent {
 
   usuarios_lista: Usuario[] = [];
   usuarios_update: Usuario[] = []
+  usuarioUpdate: Usuario = new Usuario();
   usuarioNovo: Usuario = new Usuario();
 
   constructor(
@@ -86,15 +87,7 @@ export class UsuarioComponent {
     );
   }
 
-  // drop(event: CdkDragDrop<string[]>) {
-  //   moveItemInArray(this.usuarios, event.previousIndex, event.currentIndex);
-  // }
-
-  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
-
-  done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
-
-  drop(event: CdkDragDrop<string[]>) {
+  dropUpdate(event: CdkDragDrop<Usuario[]>, usuario: Usuario[]) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -105,5 +98,23 @@ export class UsuarioComponent {
         event.currentIndex,
       );
     }
+    this.usuarioUpdate = usuario[0];
+  }
+
+
+
+  drop(event: CdkDragDrop<Usuario[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
+    if(this.usuarios_update.length == 0) this.usuarioUpdate = new Usuario();
+
   }
 }

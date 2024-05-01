@@ -18,3 +18,8 @@
     margin: auto;
     font-size: 25px;
   }
+
+  .conteudo-pagina{
+    background-color: white;
+    height: 100%;
+  }

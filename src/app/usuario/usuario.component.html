@@ -1,14 +1,12 @@
 <div class="d-flex">
   <div class="container-usuarios shadow p-4">
-    <!-- Formulário para adicionar novo usuário -->
-    <!-- Utilize o novo componente inputtext para adicionar um novo usuário -->
     <h2>Adicionar Novo Usuário</h2>
-    <div class="d-flex">
+    <div class="ativo-adicionar">
       <div>
         <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.name"
           (valueChange)="usuarioNovo.name = $event"></inputtext>
       </div>
-      <div class="idade">
+      <div>
         <inputtext [label]="'Idade'" [value]="usuarioNovo.age" (valueChange)="usuarioNovo.age = $event"></inputtext>
       </div>
     </div>
@@ -24,54 +22,42 @@
   </div>
 
   <div class="container-update shadow p-4">
-    <!-- <div
-    cdkDropList
-    #edicao="cdkDropList"
-    [cdkDropListData]="usuarios_update"
-    [cdkDropListConnectedTo]="[usuarios]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    @for (item of todo; track item) {
-      <div class="example-box" cdkDrag>{{item}}</div>
-    }
-  </div> -->
+    <div>
+      <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioUpdate.name"
+        (valueChange)="usuarioUpdate.name = $event"></inputtext>
+    </div>
+    <div>
+      <inputtext [label]="'Idade'" [value]="usuarioUpdate.age" (valueChange)="usuarioUpdate.age = $event"></inputtext>
+    </div>
+    <div>
+      <inputtext [label]="'Email'" [value]="usuarioUpdate.email" (valueChange)="usuarioUpdate.email = $event"></inputtext>
+    </div>
+
+    <div cdkDropList #edicao="cdkDropList" [cdkDropListData]="usuarios_update" [cdkDropListConnectedTo]="[usuarios]"
+      class="example-list" (cdkDropListDropped)="dropUpdate($event,usuarios_update)">
+      @for (usuario of usuarios_update; track usuario) {
+      <div class="example-box" cdkDrag>{{usuario.name}}</div>
+      }
+    </div>
   </div>
+
+
 </div>
 
 <div class="container-tabela shadow p-4">
-  <!-- <div
-  cdkDropList
-  #usuarios="cdkDropList"
-  [cdkDropListData]="usuarios_lista"
-  [cdkDropListConnectedTo]="[edicao]"
-  class="example-list"
-  (cdkDropListDropped)="drop($event)">
-  @for (item of done; track item) {
-    <div class="example-box" cdkDrag>{{item}}</div>
-  }
-</div> -->
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th scope="col">Nome</th>
-        <th scope="col">Email</th>
-        <th scope="col">Idade</th>
-        <th scope="col">Ativo</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let usuario of usuarios_lista">
-        <td>{{ usuario.name }}</td>
-        <td>{{ usuario.email }}</td>
-        <td>{{ usuario.age }}</td>
-        <td>{{ usuario.active ? 'Sim' : 'Não' }}</td>
-        <td>
-          <minibutton [color]="'primary'" [icon]="'done'" (click)="toggleAtivo(usuario.id == null ? 0 : usuario.id)">
-          </minibutton>
-          <app-button [label]="'Excluir'" [color]="'warn'"
-            (buttonClick)="deletarUsuario(usuario.id == null ? 0 : usuario.id)"></app-button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div cdkDropList #usuarios="cdkDropList" [cdkDropListData]="usuarios_lista" [cdkDropListConnectedTo]="[edicao]"
+    class="example-list" (cdkDropListDropped)="drop($event)">
+    @for (usuario of usuarios_lista; track usuario) {
+    <div class="example-box" cdkDrag>
+      <div>{{ usuario.name }}</div>
+      <div>{{ usuario.email }}</div>
+      <div>{{ usuario.age }}</div>
+      <div>{{ usuario.active ? 'Sim' : 'Não' }}</div>
+      <div>
+        <app-button [label]="'Excluir'" [color]="'warn'"
+          (buttonClick)="deletarUsuario(usuario.id == null ? 0 : usuario.id)"></app-button>
+      </div>
+    </div>
+    }
+  </div>
 </div>

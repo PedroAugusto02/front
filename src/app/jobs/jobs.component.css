@@ -1,0 +1,12 @@
+.menu-lateral {
+    width: 15%;
+    height: 830px;
+    margin: 10px;
+    border-radius: 3px;
+}
+
+.conteudo {
+    border: 1px solid black;
+    width: 100%;
+    margin: 10px;
+}

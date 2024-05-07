@@ -21,5 +21,17 @@
 
   .conteudo-pagina{
     background-color: white;
-    height: 100%;
+    height: 880px;
+  }
+
+  .icon-person{
+    padding-top: 5px;
+  }
+
+  .icon-home{
+    padding-top: 5px;
+  }
+
+  .icon-work{
+    padding-top: 5px;
   }

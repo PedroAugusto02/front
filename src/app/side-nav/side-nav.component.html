@@ -1,9 +1,10 @@
 <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #drawer [mode]="'side'" class="sidenav" fixedInViewport="true">
-        <mat-toolbar>Menu</mat-toolbar>
+        <mat-toolbar>Menu <mat-icon aria-label="Side nav toggle icon">restaurant_menu</mat-icon></mat-toolbar>
         <mat-nav-list>
-            <a mat-list-item  routerLinkActive="active" routerLink="/home">Home</a>
-            <a mat-list-item  routerLinkActive="active" routerLink="/usuarios" href="#">Usuarios</a>
+            <a mat-list-item  routerLinkActive="active" routerLink="/home">Home<mat-icon aria-label="Side nav toggle icon" class="icon-home">home</mat-icon></a>
+            <a mat-list-item  routerLinkActive="active" routerLink="/usuarios" href="#">Usuarios <mat-icon aria-label="Side nav toggle icon" class="icon-person">person</mat-icon> </a>
+            <a mat-list-item  routerLinkActive="active" routerLink="/trabalhos" href="#">Trabalhos <mat-icon aria-label="Side nav toggle icon" class="icon-work">work</mat-icon> </a>
             <a mat-list-item  routerLinkActive="active" routerLink="/atividades" href="#">Atividades</a>
         </mat-nav-list>
     </mat-sidenav>

@@ -1,27 +1,20 @@
-.adicionar-trabalho {
-    margin: 10px;
-}
-
-.selecionar-trabalho {
-    margin-bottom: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
-}
-
-.conteudo {
-    width: 100%;
-    margin: 10px;
-    height: 830px;
-}
 
 .ativo-adicionar {
     display: flex;
     justify-content: space-between;
 }
 
-.ativo-adicionar {
-    display: flex;
-    justify-content: space-between;
+.adicionar-trabalho{
+    width: 262px;
+    margin: 10px;
+}
+
+.conteudo{
+    margin: 10px;
+}
+
+.selecionar-trabalho{
+    margin: 10px;
 }
 
 .example-container {
@@ -42,18 +35,25 @@
 }
 
 .example-box {
-    /* padding: 20px 10px; */
-    border-bottom: solid 1px #ccc;
-    color: rgba(0, 0, 0, 0.87);
-    display: flex;
+    border-bottom: solid 1px #673ab7;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    box-sizing: border-box;
     cursor: move;
     background: white;
     font-size: 14px;
     height: 45px;
+    align-content: center;
+    text-align: center;
+}
+
+.lista-trabalho {
+    border: solid 1px #673ab7;
+    min-height: 60px;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    display: block;
 }
 
 .example-box-selecionado {
@@ -88,6 +88,14 @@
 
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.lista-trabalhos.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.usuarios-trabalhos {
+    margin: 10px;
 }
 
 .operacoes {

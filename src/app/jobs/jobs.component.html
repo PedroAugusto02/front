@@ -1,39 +1,45 @@
-<div class="d-flex">
-
-    <div class="menu-lateral ">
-        <div class="adicionar-trabalho shadow p-4">
-            <h2>Adicionar Trabalho</h2>
-            <inputtext class="titulo" [label]="'Título'" [placeholder]="'ex: Faxineiro'" [value]="trabalhoNovo.title"
-                (valueChange)="trabalhoNovo.title = $event"></inputtext>
-            <inputtext class="descrição" [label]="'Descrição'" [placeholder]="'ex: Trabalha na área de limpeza ...'"
-                [value]="trabalhoNovo.description" (valueChange)="trabalhoNovo.description = $event"></inputtext>
-            <div class="ativo-adicionar">
-                <checkbox [label]="'Ativo'" [(value)]="trabalhoNovo.active"></checkbox>
-                <app-button [label]="'Adicionar'" [color]="'primary'" (buttonClick)="adicionarTrabalho()"></app-button>
+<div>
+    <div class="d-flex">
+        <div class="menu-lateral ">
+            <div class="adicionar-trabalho shadow p-4">
+                <h2>Adicionar Trabalho</h2>
+                <inputtext class="titulo" [label]="'Título'" [placeholder]="'ex: Faxineiro'"
+                    [value]="trabalhoNovo.title" (valueChange)="trabalhoNovo.title = $event"></inputtext>
+                <inputtext class="descrição" [label]="'Descrição'" [placeholder]="'ex: Trabalha na área de limpeza ...'"
+                    [value]="trabalhoNovo.description" (valueChange)="trabalhoNovo.description = $event"></inputtext>
+                <div class="ativo-adicionar">
+                    <checkbox [label]="'Ativo'" [(value)]="trabalhoNovo.active"></checkbox>
+                    <app-button [label]="'Adicionar'" [color]="'primary'"
+                        (buttonClick)="adicionarTrabalho()"></app-button>
+                </div>
+            </div>
+            <div class="selecionar-trabalho shadow p-4">
+                <h2>Selecionar Trabalho</h2>
+                <div cdkDropList #trabalhosSelecionados="cdkDropList" [cdkDropListData]="listaTrabalhoSelecionados"
+                    [cdkDropListConnectedTo]="trabalhos" class="example-list"
+                    (cdkDropListDropped)="dropSelecionado($event,listaTrabalho)">
+                    @for (trabalho of listaTrabalhoSelecionados; track trabalho) {
+                    <div class="example-box-selecionado" cdkDrag>
+                        <div>{{ trabalho.title }}</div>
+                    </div>
+                    }
+                </div>
             </div>
         </div>
-        <div class="selecionar-trabalho shadow p-4">
-            <h2>Selecionar Trabalho</h2>
-            <div cdkDropList #trabalhosSelecionados="cdkDropList" [cdkDropListData]="listaTrabalhoSelecionados" [cdkDropListConnectedTo]="trabalhos" class="example-list"
-            (cdkDropListDropped)="dropSelecionado($event,listaTrabalho)">
-            @for (trabalho of listaTrabalhoSelecionados; track trabalho) {
-            <div class="example-box-selecionado" cdkDrag>
-                <div>{{ trabalho.title }}</div>
+        <div class="conteudo shadow p-4">
+            <h2>Lista de Trabalhos</h2>
+            <div cdkDropList #trabalhos="cdkDropList" [cdkDropListData]="listaTrabalho"
+                [cdkDropListConnectedTo]="trabalhosSelecionados" class="lista-trabalho"
+                (cdkDropListDropped)="drop($event)">
+                @for (trabalho of listaTrabalho; track trabalho) {
+                <div class="example-box" cdkDrag>
+                    <div>{{ trabalho.title }}</div>
+                </div>
+                }
             </div>
-            }
         </div>
-        </div>
-    </div>
-    <div class="conteudo shadow p-4">
-        <h2>Lista de Trabalhos</h2>
-        <div cdkDropList #trabalhos="cdkDropList" [cdkDropListData]="listaTrabalho" [cdkDropListConnectedTo]="trabalhosSelecionados" class="example-list"
-            (cdkDropListDropped)="drop($event)">
-            @for (trabalho of listaTrabalho; track trabalho) {
-            <div class="example-box" cdkDrag>
-                <div>{{ trabalho.title }}</div>
-                <div>{{ trabalho.description }}</div>
-            </div>
-            }
+        <div class="usuarios-trabalhos shadow p-4 ">
+            <h2>Lista de Usuarios</h2>
         </div>
     </div>
 

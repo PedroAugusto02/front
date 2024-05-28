@@ -1,0 +1,14 @@
+.conteudo-pagina {
+    position: relative;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.lds-dual-ring {
+    display: none; /* Inicialmente escondido */
+}
+
+.lds-dual-ring.active {
+    display: inline-block; /* Mostra quando ativo */
+}
+

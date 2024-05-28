@@ -1,37 +1,81 @@
-.container {
-    width: 100%;
-    height: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-  }
+.sidenav-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+}
 
-  .example-sidenav-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.sidenav {
+  width: 250px;
+  position: absolute;
+}
 
-  .example-sidenav {
-    padding: 20px;
-  }
+.mat-sidenav-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
 
-  .titulo {
-    margin: auto;
-    font-size: 25px;
-  }
+.container-fluid {
+  flex-grow: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
 
-  .conteudo-pagina{
-    background-color: white;
-    height: 880px;
-  }
+.titulo {
+  margin: auto;
+  font-size: 25px;
+}
 
-  .icon-person{
-    padding-top: 5px;
-  }
+.loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  z-index: 1000;
+}
 
-  .icon-home{
-    padding-top: 5px;
-  }
+.page-content.loading {
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: wait;
+}
 
-  .icon-work{
-    padding-top: 5px;
-  }
+.page-content.loading .loader-overlay {
+  opacity: 1;
+  pointer-events: all;
+  cursor: default;
+}
+
+.mat-expansion-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon-expand {
+  transform: rotate(0);
+  transition: transform 0.3s;
+}
+
+.mat-expansion-panel-header[aria-expanded="true"] .icon-expand {
+  transform: rotate(180deg);
+}
+
+.icon-person {
+  padding-top: 5px;
+}
+
+.icon-home {
+  padding-top: 5px;
+}
+
+.icon-work {
+  padding-top: 5px;
+}
+

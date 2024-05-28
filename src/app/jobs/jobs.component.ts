@@ -6,6 +6,9 @@ import { CheckboxComponent } from '../components/inputs/checkbox/checkbox.compon
 import { ButtonComponent } from '../components/buttons/button/button.component';
 import { JobsService } from './service/jobs.service';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Usuario } from '../entity/Usuario';
+import { UsuarioService } from '../usuario/service/usuario.service';
+import { LoaderService } from '../service/loader.service';
 
 @Component({
   selector: 'jobs',
@@ -21,10 +24,14 @@ export class JobsComponent implements OnInit {
   listaTrabalho: Jobs[] = [];
   listaTrabalhoSelecionados: Jobs[] = [];
 
+  listaUsuarios: Usuario[] = [];
+
 
   constructor(
     private titleService: TitleService,
     private trabalhoService: JobsService,
+    private usuarioService: UsuarioService,
+    private loader: LoaderService,
   ) { }
 
   ngOnInit(): void {
@@ -32,12 +39,16 @@ export class JobsComponent implements OnInit {
       this.titleService.setPageTitle("Trabalhos");
     }, 10);
     this.obterTrabalhos();
+    this.obterUsuarios();
+    this.loader.show();
   }
 
   refresh() {
     this.trabalhoSelecionado = new Jobs();
     this.trabalhoNovo = new Jobs();
+    this.listaTrabalhoSelecionados = [];
     this.obterTrabalhos();
+    this.obterUsuarios();
   }
 
   obterTrabalhos(): void {
@@ -49,6 +60,17 @@ export class JobsComponent implements OnInit {
         console.log('Erro ao carregar usuários:', error);
       }
     });
+  }
+
+  obterUsuarios(): void {
+    this.usuarioService.listarUsuarios().subscribe(
+      usuarios => {
+        this.listaUsuarios = usuarios;
+      },
+      error => {
+        console.log('Erro ao carregar usuários:', error);
+      }
+    );
   }
 
   adicionarTrabalho(): void {
@@ -74,7 +96,20 @@ export class JobsComponent implements OnInit {
     }
   }
 
-  drop(event: CdkDragDrop<Jobs[]>) {
+  dropTrabalhos(event: CdkDragDrop<Jobs[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
+  }
+
+  dropUsuarios(event: CdkDragDrop<Usuario[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {

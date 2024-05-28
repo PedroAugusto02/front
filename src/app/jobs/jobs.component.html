@@ -30,7 +30,7 @@
             <h2>Lista de Trabalhos</h2>
             <div cdkDropList #trabalhos="cdkDropList" [cdkDropListData]="listaTrabalho"
                 [cdkDropListConnectedTo]="trabalhosSelecionados" class="lista-trabalho"
-                (cdkDropListDropped)="drop($event)">
+                (cdkDropListDropped)="dropTrabalhos($event)">
                 @for (trabalho of listaTrabalho; track trabalho) {
                 <div class="example-box" cdkDrag>
                     <div>{{ trabalho.title }}</div>
@@ -40,6 +40,15 @@
         </div>
         <div class="usuarios-trabalhos shadow p-4 ">
             <h2>Lista de Usuarios</h2>
+            <div cdkDropList #usuarios="cdkDropList" [cdkDropListData]="listaUsuarios"
+                class="lista-trabalho"
+                (cdkDropListDropped)="dropUsuarios($event)">
+                @for (usuario of listaUsuarios; track usuario) {
+                <div class="example-box" cdkDrag>
+                    <div>{{ usuario.name }}</div>
+                </div>
+                }
+            </div>
         </div>
     </div>
 

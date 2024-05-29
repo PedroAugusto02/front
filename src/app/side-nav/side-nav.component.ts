@@ -50,16 +50,16 @@ export class SideNavComponent {
     {
       title: 'Mais Opções',
       submenus: [
-        { title: 'Opção 1.1', link: '/opcao1' },
-        { title: 'Opção 1.2', link: '/opcao2' }
+        { title: 'Usuario', link: '/usuarios' ,icon: "icon-person"},
+        // { title: 'Opção 1.2', link: '/opcao2' }
       ],
       expanded: false
     },
     {
       title: 'Outras Opções',
       submenus: [
-        { title: 'Opção 2.1', link: '/opcao3' },
-        { title: 'Opção 2.2', link: '/opcao4' }
+        // { title: 'Opção 2.1', link: '/opcao3' },
+        // { title: 'Opção 2.2', link: '/opcao4' }
       ],
       expanded: false
     }
@@ -83,9 +83,5 @@ export class SideNavComponent {
     });
   }
 
-  closeOtherPanels(openedMenu: Menu): void {
-    this.menus.forEach(menu => {
-      menu.expanded = menu === openedMenu;
-    });
-  }
+
 }

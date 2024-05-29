@@ -5,7 +5,6 @@
 }
 
 .sidenav {
-  width: 250px;
   position: absolute;
 }
 
@@ -79,3 +78,11 @@
   padding-top: 5px;
 }
 
+.menu {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.menu:active {
+  transform: scale(1.1);
+}

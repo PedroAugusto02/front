@@ -1,0 +1,6 @@
+.custom-icon {
+    font-size: 105px; /* Tamanho da fonte */
+    width: 105px;     /* Largura do ícone */
+    height: 105px;    /* Altura do ícone */
+    color: #ff5722;   /* Cor do ícone, se desejar */
+}

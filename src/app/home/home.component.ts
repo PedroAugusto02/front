@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { TitleService } from '../service/title.service';
+import { CardComponent } from '../components/card/card.component';
+import { IconComponent } from '../components/icon/icon.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [CardComponent,IconComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

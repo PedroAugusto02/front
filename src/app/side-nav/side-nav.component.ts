@@ -48,7 +48,7 @@ export class SideNavComponent {
   pageTitle: string = '';
   menus: Menu[] = [
     {
-      title: 'Mais Opções',
+      title: 'Pessoas',
       submenus: [
         { title: 'Usuario', link: '/usuarios' ,icon: "icon-person"},
         // { title: 'Opção 1.2', link: '/opcao2' }

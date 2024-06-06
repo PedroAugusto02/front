@@ -2,23 +2,22 @@
     <mat-sidenav #drawer [mode]="'side'" class="sidenav" fixedInViewport="true">
         <mat-toolbar routerLink="/home" class="menu" >Menu</mat-toolbar>
         <mat-nav-list>
-            <a mat-list-item routerLinkActive="active" routerLink="/usuarios">
-                Usuarios <mat-icon aria-label="Side nav toggle icon" class="icon-person">person</mat-icon>
-            </a>
-            <a mat-list-item routerLinkActive="active" routerLink="/trabalhos">
-                Trabalhos <mat-icon aria-label="Side nav toggle icon" class="icon-work">work</mat-icon>
-            </a>
-            <a mat-list-item routerLinkActive="active" routerLink="/atividades">
-                Atividades
-            </a>
             <mat-expansion-panel *ngFor="let menu of menus" [expanded]="menu.expanded">
                 <mat-expansion-panel-header>
                     {{menu.title}}
                 </mat-expansion-panel-header>
                 <div class="item-menu" *ngFor="let submenu of menu.submenus">
                     <a mat-list-item routerLinkActive="active" [routerLink]="submenu.link">
-                        <mat-icon aria-label="Side nav toggle icon" class="icon-person">person</mat-icon>
+                        <mat-icon aria-label="Side nav toggle icon" class="icons">person</mat-icon>
                         {{submenu.title}}
+                    </a>
+                    <a mat-list-item routerLinkActive="active" routerLink="/trabalhos">
+                        <mat-icon aria-label="Side nav toggle icon" class="icons">work</mat-icon>
+                        Trabalhos
+                    </a>
+                    <a mat-list-item routerLinkActive="active" routerLink="/atividades">
+                        <mat-icon aria-label="Side nav toggle icon" class="icons">extension</mat-icon>
+                        Atividades
                     </a>
                 </div>
             </mat-expansion-panel>

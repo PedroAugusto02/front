@@ -8,16 +8,8 @@
                 </mat-expansion-panel-header>
                 <div class="item-menu" *ngFor="let submenu of menu.submenus">
                     <a mat-list-item routerLinkActive="active" [routerLink]="submenu.link">
-                        <mat-icon aria-label="Side nav toggle icon" class="icons">person</mat-icon>
+                        <mat-icon aria-label="Side nav toggle icon" class="icons">{{submenu.icon}}</mat-icon>
                         {{submenu.title}}
-                    </a>
-                    <a mat-list-item routerLinkActive="active" routerLink="/trabalhos">
-                        <mat-icon aria-label="Side nav toggle icon" class="icons">work</mat-icon>
-                        Trabalhos
-                    </a>
-                    <a mat-list-item routerLinkActive="active" routerLink="/atividades">
-                        <mat-icon aria-label="Side nav toggle icon" class="icons">extension</mat-icon>
-                        Atividades
                     </a>
                 </div>
             </mat-expansion-panel>

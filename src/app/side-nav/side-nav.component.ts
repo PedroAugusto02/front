@@ -50,15 +50,16 @@ export class SideNavComponent {
     {
       title: 'Pessoas',
       submenus: [
-        { title: 'Usuario', link: '/usuarios' ,icon: "icon-person"},
-        // { title: 'Opção 1.2', link: '/opcao2' }
+        { title: 'Usuario', link: '/usuarios' ,icon: "person"},
+        { title: 'Trabalho', link: '/trabalhos', icon: "work" },
+        { title: 'Atividades', link: '/atividades', icon: "extension"},
       ],
       expanded: false
     },
     {
-      title: 'Outras Opções',
+      title: 'Reservagas',
       submenus: [
-        // { title: 'Opção 2.1', link: '/opcao3' },
+        { title: 'Estacionamento', link: '/estacionamento', icon:"directions_car" },
         // { title: 'Opção 2.2', link: '/opcao4' }
       ],
       expanded: false

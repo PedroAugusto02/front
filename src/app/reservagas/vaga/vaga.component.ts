@@ -9,12 +9,13 @@ import { InputtextComponent } from '../../components/inputs/inputtext/inputtext.
 import { CheckboxComponent } from '../../components/inputs/checkbox/checkbox.component';
 import { CdkDrag, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
+import { InputselectComponent } from '../../components/inputs/inputselect/inputselect.component';
 
 @Component({
   selector: 'app-vaga',
   templateUrl: './vaga.component.html',
   standalone: true,
-  imports: [InputtextComponent,ButtonComponent,CheckboxComponent,CdkDropListGroup, CdkDropList, CdkDrag,CommonModule],
+  imports: [InputtextComponent,ButtonComponent,CheckboxComponent,CdkDropListGroup, CdkDropList, CdkDrag,CommonModule,InputselectComponent],
   styleUrls: ['./vaga.component.css']
 })
 export class VagaComponent implements OnInit {

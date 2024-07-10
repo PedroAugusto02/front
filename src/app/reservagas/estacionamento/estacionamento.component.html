@@ -1,1 +1,63 @@
-<p>estacionamento works!</p>
+<div class="d-flex">
+  <div class="container-estacionamentos shadow p-4">
+    <h2>Adicionar Novo Estacionamento</h2>
+    <div class="ativo-adicionar">
+      <div>
+        <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Estacionamento ABC'" [value]="estacionamentoNovo.nome"
+          (valueChange)="estacionamentoNovo.nome = $event"></inputtext>
+      </div>
+      <div>
+        <inputtext [label]="'Número de Vagas'" [value]="estacionamentoNovo.quantidadeVagas" (valueChange)="estacionamentoNovo.quantidadeVagas = $event"></inputtext>
+      </div>
+    </div>
+
+    <div>
+      <inputtext [label]="'Endereço'" [value]="estacionamentoNovo.endereco" (valueChange)="estacionamentoNovo.endereco = $event"></inputtext>
+    </div>
+
+    <div class="ativo-adicionar">
+      <app-button [label]="'Adicionar'" [color]="'primary'" (buttonClick)="adicionarEstacionamento()"></app-button>
+    </div>
+  </div>
+
+  <div class="container-update shadow p-4">
+    <div class="d-flex">
+      <div>
+        <div>
+          <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Estacionamento ABC'" [value]="estacionamentoUpdate.nome"
+            (valueChange)="estacionamentoUpdate.nome = $event"></inputtext>
+        </div>
+        <div>
+          <inputtext [label]="'Número de Vagas'" [value]="estacionamentoUpdate.quantidadeVagas" (valueChange)="estacionamentoUpdate.quantidadeVagas = $event">
+          </inputtext>
+        </div>
+        <div>
+          <inputtext [label]="'Endereço'" [value]="estacionamentoUpdate.endereco" (valueChange)="estacionamentoUpdate.endereco = $event">
+          </inputtext>
+        </div>
+      </div>
+      <div class="operacoes" *ngIf="this.estacionamentos_update.length > 0">
+        <app-button [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarEstacionamento()"></app-button>
+        <app-button [label]="'Limpar'" [color]="'clear'" (buttonClick)="refresh()"></app-button>
+        <app-button [label]="'Excluir'" [color]="'warn'" (buttonClick)="deletarEstacionamento(estacionamentoUpdate.id)"></app-button>
+      </div>
+    </div>
+
+    <div cdkDropList #edicao="cdkDropList" [cdkDropListData]="estacionamentos_update" [cdkDropListConnectedTo]="[estacionamentos]"
+      class="example-list" (cdkDropListDropped)="dropUpdate($event, estacionamentos_update)">
+      <div *ngFor="let estacionamento of estacionamentos_update; let i = index" class="example-box" cdkDrag>{{ estacionamento.nome }}</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="container-tabela shadow p-4">
+  <div cdkDropList #estacionamentos="cdkDropList" [cdkDropListData]="estacionamentos_lista" [cdkDropListConnectedTo]="[edicao]"
+    class="example-list" (cdkDropListDropped)="drop($event)">
+    <div *ngFor="let estacionamento of estacionamentos_lista; let i = index" class="example-box" cdkDrag>
+      <div>{{ estacionamento.nome }}</div>
+      <div>{{ estacionamento.quantidadeVagas }}</div>
+      <div>{{ estacionamento.endereco }}</div>
+    </div>
+  </div>
+</div>

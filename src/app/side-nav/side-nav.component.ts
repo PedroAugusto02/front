@@ -60,7 +60,8 @@ export class SideNavComponent {
       title: 'Reservagas',
       submenus: [
         { title: 'Estacionamento', link: '/estacionamento', icon:"directions_car" },
-        // { title: 'Opção 2.2', link: '/opcao4' }
+        { title: 'Vagas', link: '/vagas', icon: "local_parking" },
+        { title: 'Vendedores', link: '/vendedores', icon: "person_pin_circle" }
       ],
       expanded: false
     }

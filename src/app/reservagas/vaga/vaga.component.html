@@ -1,0 +1,50 @@
+<div class="d-flex">
+    <div class="container-vagas shadow p-4">
+      <h2>Adicionar Nova Vaga</h2>
+      <div class="ativo-adicionar">
+        <div>
+
+
+        </div>
+        <div>
+          <checkbox [label]="'Disponível'" [(value)]="vagaNova.disponivel"></checkbox>
+        </div>
+        <app-button [label]="'Adicionar'" [color]="'primary'" (buttonClick)="adicionarVaga()"></app-button>
+      </div>
+    </div>
+  
+    <div class="container-update shadow p-4">
+      <div class="d-flex">
+        <div>
+          <inputtext class="estilomeu" [label]="'Estacionamento'" [value]="vagaUpdate.estacionamento"
+            (valueChange)="vagaUpdate.estacionamento = $event"></inputtext>
+          <checkbox [label]="'Disponível'" [(value)]="vagaUpdate.disponivel"></checkbox>
+        </div>
+        <div class="operacoes" *ngIf="this.vagas_update.length > 0">
+          <app-button [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarVaga()"></app-button>
+          <app-button [label]="'Limpar'" [color]="'clear'" (buttonClick)="refresh()"></app-button>
+          <app-button [label]="'Excluir'" [color]="'warn'" (buttonClick)="deletarVaga(vagaUpdate.id)"></app-button>
+        </div>
+      </div>
+  
+      <div cdkDropList #edicao="cdkDropList" [cdkDropListData]="vagas_update" [cdkDropListConnectedTo]="[vagas]"
+        class="example-list" (cdkDropListDropped)="dropUpdate($event, vagas_update)">
+        @for (vaga of vagas_update; track vaga) {
+        <div class="example-box" cdkDrag>{{vaga.estacionamento.nome}}</div>
+        }
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-tabela shadow p-4">
+    <div cdkDropList #vagas="cdkDropList" [cdkDropListData]="vagas_lista" [cdkDropListConnectedTo]="[edicao]"
+      class="example-list" (cdkDropListDropped)="drop($event)">
+      @for (vaga of vagas_lista; track vaga) {
+      <div class="example-box" cdkDrag>
+        <div>{{ vaga.estacionamento.nome }}</div>
+        <div>{{ vaga.disponivel ? 'Disponível' : 'Indisponível' }}</div>
+      </div>
+      }
+    </div>
+  </div>
+  

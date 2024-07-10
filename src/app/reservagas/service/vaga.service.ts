@@ -1,0 +1,30 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Vaga } from '../../entity/Vaga';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class VagaService {
+
+  private baseUrl = 'http://localhost:8080/vagas';
+
+  constructor(private http: HttpClient) { }
+
+  criarVaga(vaga: Vaga): Observable<Vaga> {
+    return this.http.post<Vaga>(this.baseUrl, vaga);
+  }
+
+  listarVagas(): Observable<Vaga[]> {
+    return this.http.get<Vaga[]>(this.baseUrl);
+  }
+
+  atualizarVaga(id: number, vaga: Vaga): Observable<Vaga> {
+    return this.http.put<Vaga>(`${this.baseUrl}/${id}`, vaga);
+  }
+
+  deletarVaga(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+}

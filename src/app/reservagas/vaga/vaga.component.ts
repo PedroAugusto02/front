@@ -10,6 +10,7 @@ import { CheckboxComponent } from '../../components/inputs/checkbox/checkbox.com
 import { CdkDrag, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { InputselectComponent } from '../../components/inputs/inputselect/inputselect.component';
+import { TitleService } from '../../service/title.service';
 
 @Component({
   selector: 'app-vaga',
@@ -25,15 +26,19 @@ export class VagaComponent implements OnInit {
   vagaNova: Vaga = new Vaga();
   vagaUpdate: Vaga = new Vaga();
   estacionamentos: Estacionamento[] = [];
+  selectedEstacionamento!: Estacionamento;
 
   constructor(
     private vagaService: VagaService,
-    private estacionamentoService: EstacionamentoService
+    private estacionamentoService: EstacionamentoService,
+    private titleService: TitleService
   ) { }
 
   ngOnInit(): void {
-    this.carregarVagas();
     this.carregarEstacionamentos();
+    setTimeout(() => {
+      this.titleService.setPageTitle("Vagas");
+    }, 10);
   }
 
   refresh() {

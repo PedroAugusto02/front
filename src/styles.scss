@@ -1,0 +1,64 @@
+@use '@angular/material' as mat;
+
+// Definindo a paleta de cores roxa
+$purple-palette: mat.define-palette((
+  50: #f3e5f5,
+  100: #e1bee7,
+  200: #ce93d8,
+  300: #ba68c8,
+  400: #ab47bc,
+  500: #673ab7,
+  600: #8e24aa,
+  700: #7b1fa2,
+  800: #6a1b9a,
+  900: #4a148c,
+  A100: #ea80fc,
+  A200: #e040fb,
+  A400: #d500f9,
+  A700: #aa00ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  )
+));
+
+$accent: mat.define-palette(mat.$pink-palette);
+
+$warn: mat.define-palette(mat.$red-palette);
+
+$theme-light: mat.define-light-theme((
+  color: (
+    primary: $purple-palette,
+    accent: $accent,
+    warn: $warn,
+  )
+));
+
+$theme-dark: mat.define-dark-theme((
+  color: (
+    primary: $purple-palette,
+    accent: $accent,
+    warn: $warn,
+  )
+));
+
+// Aplicando os temas usando os mixins específicos para cores
+.light-theme {
+  @include mat.all-component-colors($theme-light);
+}
+
+.dark-theme {
+  @include mat.all-component-colors($theme-dark);
+}

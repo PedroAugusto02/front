@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { UsuarioComponent } from '../usuario/usuario.component';
@@ -16,7 +16,8 @@ import { filter } from 'rxjs';
 import { LoaderService } from '../service/loader.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Menu } from './interfaces/model';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ToggleDarkThemeComponent } from '../components/toggle-dark-theme/toggle-dark-theme.component';
 
 @Component({
   selector: 'app-side-nav',
@@ -38,6 +39,7 @@ import { CommonModule } from '@angular/common';
     MatExpansionModule,
     UsuarioComponent,
     CommonModule,
+    ToggleDarkThemeComponent
   ],
   templateUrl: './side-nav.component.html',
   styleUrls: ['./side-nav.component.css'],
@@ -46,20 +48,21 @@ import { CommonModule } from '@angular/common';
 export class SideNavComponent {
   showFiller = false;
   pageTitle: string = '';
+  isDarkTheme = false;
   menus: Menu[] = [
     {
       title: 'Pessoas',
       submenus: [
-        { title: 'Usuario', link: '/usuarios' ,icon: "person"},
+        { title: 'Usuario', link: '/usuarios', icon: "person" },
         { title: 'Trabalho', link: '/trabalhos', icon: "work" },
-        { title: 'Atividades', link: '/atividades', icon: "extension"},
+        // { title: 'Atividades', link: '/atividades', icon: "extension" },
       ],
       expanded: false
     },
     {
       title: 'Reservagas',
       submenus: [
-        { title: 'Estacionamento', link: '/estacionamento', icon:"directions_car" },
+        { title: 'Estacionamento', link: '/estacionamento', icon: "directions_car" },
         { title: 'Vagas', link: '/vagas', icon: "local_parking" },
         { title: 'Vendedores', link: '/vendedores', icon: "person_pin_circle" }
       ],
@@ -71,6 +74,8 @@ export class SideNavComponent {
     private titleService: TitleService,
     private loader: LoaderService,
     private router: Router,
+    private renderer: Renderer2,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   ngOnInit(): void {
@@ -83,7 +88,15 @@ export class SideNavComponent {
     ).subscribe(() => {
       this.loader.reset();
     });
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.setTheme();
+    }
   }
 
+  setTheme(): void {
+    const currentTheme = localStorage.getItem('theme') || 'light-theme';
+    this.renderer.addClass(document.body, currentTheme);
+  }
 
 }

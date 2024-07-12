@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { EstacionamentoService } from '../service/estacionamento.service';
 import { Vaga } from '../../entity/Vaga';
 import { Estacionamento } from '../../entity/Estacionamento';
@@ -11,6 +10,8 @@ import { CdkDrag, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { InputselectComponent } from '../../components/inputs/inputselect/inputselect.component';
 import { TitleService } from '../../service/title.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-vaga',
@@ -20,34 +21,22 @@ import { TitleService } from '../../service/title.service';
   styleUrls: ['./vaga.component.css']
 })
 export class VagaComponent implements OnInit {
-  vagas_lista: Vaga[] = [];
   estacionamentos: Estacionamento[] = [];
-  selectedEstacionamento: Estacionamento | null = null; // Inicialmente nenhum estacionamento selecionado
-  cardsVagas: any[] = []; 
+  selectedEstacionamento: Estacionamento | null = null;
+  cardsVagas: Vaga[] = [];
 
   constructor(
     private vagaService: VagaService,
     private estacionamentoService: EstacionamentoService,
+    private router: Router,
     private titleService: TitleService
   ) { }
 
   ngOnInit(): void {
     this.carregarEstacionamentos();
-    this.carregarVagas(); // Carrega as vagas inicialmente
     setTimeout(() => {
       this.titleService.setPageTitle("Vagas");
     }, 10);
-  }
-
-  carregarVagas(): void {
-    this.vagaService.listarVagas().subscribe(
-      vagas => {
-        this.vagas_lista = vagas;
-      },
-      error => {
-        console.log('Erro ao carregar vagas:', error);
-      }
-    );
   }
 
   carregarEstacionamentos(): void {
@@ -67,19 +56,26 @@ export class VagaComponent implements OnInit {
   }
 
   gerarCardsDeVagas(): void {
-    this.cardsVagas = []; // Limpar o array de cards antes de gerar novamente
+    this.cardsVagas = [];
 
     if (this.selectedEstacionamento) {
       const quantidadeVagas = this.selectedEstacionamento.quantidadeVagas;
 
       for (let i = 1; i <= quantidadeVagas; i++) {
-        const card = {
-          numero: i,
-          status: 'Disponível' // Você pode adicionar mais propriedades conforme necessário
+        const vaga: Vaga = {
+          id: i,
+          estacionamento: this.selectedEstacionamento,
+          disponivel: true,
+          reservas: []
         };
-        this.cardsVagas.push(card);
+        this.cardsVagas.push(vaga);
       }
     }
+  }
+
+  abrirDetalhesReserva(vaga: Vaga): void {
+    // Navega para a página de detalhes da reserva, passando a vaga completa como parâmetro
+    this.router.navigateByUrl(`/reserva-detalhes`, { state: { vaga } });
   }
 
 }

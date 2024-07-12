@@ -1,0 +1,10 @@
+<div *ngIf="vaga" class="container-estacionamento shadow p-4">
+    <h2>Detalhes da Vaga</h2>  
+    <div class="ativo-adicionar">
+      <div>
+        <app-button [label]="'Voltar'" [color]="'primary'" (buttonClick)="voltar()"></app-button>
+        <inputtext [label]="'Estacionamento'" [disabled]="true" [value]="vaga.estacionamento.nome" ></inputtext>
+        <toggle></toggle>
+      </div>
+    </div>
+  </div>

@@ -20,13 +20,10 @@ import { TitleService } from '../../service/title.service';
   styleUrls: ['./vaga.component.css']
 })
 export class VagaComponent implements OnInit {
-
   vagas_lista: Vaga[] = [];
-  vagas_update: Vaga[] = [];
-  vagaNova: Vaga = new Vaga();
-  vagaUpdate: Vaga = new Vaga();
   estacionamentos: Estacionamento[] = [];
-  selectedEstacionamento!: Estacionamento;
+  selectedEstacionamento: Estacionamento | null = null; // Inicialmente nenhum estacionamento selecionado
+  cardsVagas: any[] = []; 
 
   constructor(
     private vagaService: VagaService,
@@ -36,16 +33,10 @@ export class VagaComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarEstacionamentos();
+    this.carregarVagas(); // Carrega as vagas inicialmente
     setTimeout(() => {
       this.titleService.setPageTitle("Vagas");
     }, 10);
-  }
-
-  refresh() {
-    this.vagaUpdate = new Vaga();
-    this.vagaNova = new Vaga();
-    this.vagas_update = [];
-    this.carregarVagas();
   }
 
   carregarVagas(): void {
@@ -70,46 +61,25 @@ export class VagaComponent implements OnInit {
     );
   }
 
-  adicionarVaga(): void {
-    this.vagaService.criarVaga(this.vagaNova).subscribe(
-      novaVaga => {
-        this.vagas_lista.push(novaVaga);
-        this.refresh();
-      },
-      error => {
-        console.log('Erro ao adicionar vaga:', error);
+  selecionarEstacionamento(estacionamento: Estacionamento): void {
+    this.selectedEstacionamento = estacionamento;
+    this.gerarCardsDeVagas();
+  }
+
+  gerarCardsDeVagas(): void {
+    this.cardsVagas = []; // Limpar o array de cards antes de gerar novamente
+
+    if (this.selectedEstacionamento) {
+      const quantidadeVagas = this.selectedEstacionamento.quantidadeVagas;
+
+      for (let i = 1; i <= quantidadeVagas; i++) {
+        const card = {
+          numero: i,
+          status: 'Disponível' // Você pode adicionar mais propriedades conforme necessário
+        };
+        this.cardsVagas.push(card);
       }
-    );
+    }
   }
 
-  salvarVaga(): void {
-    this.vagaService.atualizarVaga(this.vagaUpdate.id, this.vagaUpdate).subscribe(
-      () => {
-        this.refresh();
-      },
-      error => {
-        console.log('Erro ao salvar vaga:', error);
-      }
-    );
-  }
-
-  deletarVaga(id: number): void {
-    this.vagaService.deletarVaga(id).subscribe(
-      () => {
-        this.refresh();
-      },
-      error => {
-        console.log('Erro ao excluir vaga:', error);
-      }
-    );
-  }
-
-  dropUpdate(event: any, vagas: Vaga[]): void {
-    // Lógica para manipular o drop, se necessário
-    this.vagaUpdate = vagas[0];
-  }
-
-  drop(event: any): void {
-    // Lógica para manipular o drop, se necessário
-  }
 }

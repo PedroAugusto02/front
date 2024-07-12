@@ -1,24 +1,30 @@
 <div class="d-flex">
-    <div class="container-estacionamento shadow p-4">
-      <h2>Estacionamento</h2>
-      <div class="ativo-adicionar">
-        <div>
-          <app-inputselect 
-            [atributoExibido]="'nome'" 
-            [lista]="estacionamentos" 
-            [label]="'Selecione um Estacionamento'" 
-            [atributoValor]="'id'" 
-            [(value)]="selectedEstacionamento">
+  <div class="container-estacionamento shadow p-4">
+    <h2>Estacionamento</h2>
+    <div class="ativo-adicionar">
+      <div>
+        <app-inputselect 
+          [atributoExibido]="'nome'" 
+          [lista]="estacionamentos" 
+          [label]="'Selecione um Estacionamento'" 
+          [atributoValor]="'id'" 
+          (valueChange)="selecionarEstacionamento($event)">
         </app-inputselect>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-vagas shadow p-4">
+    <h2>Vagas</h2>
+    <div class="ativo-adicionar">
+      <div class="grid-vagas">
+        <!-- Iteração sobre os cards de vagas -->
+        <div *ngFor="let card of cardsVagas" class="cartao">
+          <h1>Vaga {{ card.numero }}</h1>
+          <p>Status: {{ card.status }}</p>
+          <!-- Adicione mais conteúdo conforme necessário -->
         </div>
       </div>
     </div>
-    <div class="container-vagas shadow p-4">
-      <h2>Vagas</h2>
-      <div class="ativo-adicionar">
-        <div>
-          <!-- Logica para pegar a quantidade de vagas do estacionamento e criar os cards -->
-        </div>
-      </div>
-    </div>
+  </div>
 </div>

@@ -1,5 +1,10 @@
-<mat-form-field>
-  <mat-label>{{label}}</mat-label>
-  <input matInput [disabled]="disabled" [value]="value" (input)="onInputChange($event)" matInput placeholder={{placeholder}}>
+<mat-form-field class="example-full-width">
+  <mat-label>{{ label }}</mat-label>
+  <input matInput
+         [formControl]="campoFormControl"
+         [placeholder]="placeholder"
+         [required]="validacao">
+  <mat-error *ngIf="campoFormControl.hasError('required')">
+    {{ label }} é <strong>obrigatório</strong>
+  </mat-error>
 </mat-form-field>
-

@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -14,34 +14,24 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: 'inputtext',
+  selector: 'input-email',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule,CommonModule],
-  templateUrl: './inputtext.component.html',
-  styleUrl: './inputtext.component.css'
+  imports: [MatFormFieldModule,MatInputModule,ReactiveFormsModule,CommonModule],
+  templateUrl: './input-email.component.html',
+  styleUrl: './input-email.component.css'
 })
-export class InputtextComponent implements OnInit {
-
+export class InputEmailComponent {
   @Input() label!: string;
-  @Input() value!: any;
   @Input() placeholder!: string;
-  @Input() disabled!: boolean;
-  @Input() validacao!: boolean;
+  @Input() value!: any;
   @Output() valueChange = new EventEmitter<any>();
-  campoFormControl = new FormControl();
 
-  ngOnInit(): void {
-    this.campoFormControl = new FormControl(this.value);
-    if (this.validacao) {
-      this.campoFormControl.setValidators([Validators.required]);
-      
-    }
-  }
+  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  matcher = new MyErrorStateMatcher();
 
   onInputChange(event: any) {
     const newValue = event.target.value;
     this.value = newValue;
     this.valueChange.emit(newValue);
   }
-
 }

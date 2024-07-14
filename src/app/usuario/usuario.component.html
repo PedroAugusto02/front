@@ -3,16 +3,19 @@
     <h2>Adicionar Novo Usuário</h2>
     <div class="ativo-adicionar">
       <div>
-        <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.name"
+        <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.name" [validacao]="true"
           (valueChange)="usuarioNovo.name = $event"></inputtext>
       </div>
       <div>
-        <inputtext [label]="'Idade'" [value]="usuarioNovo.age" (valueChange)="usuarioNovo.age = $event"></inputtext>
+        <inputtext [label]="'Idade'" [value]="usuarioNovo.age" (valueChange)="usuarioNovo.age = $event" [validacao]="false"></inputtext>
       </div>
     </div>
 
     <div>
-      <inputtext [label]="'Email'" [value]="usuarioNovo.email" (valueChange)="usuarioNovo.email = $event"></inputtext>
+      <!-- <inputtext [label]="'Email'" [value]="usuarioNovo.email" (valueChange)="usuarioNovo.email = $event"></inputtext> -->
+      <input-email [label]="'Email'" [placeholder]="'Ex. pat@example.com'"
+             [value]="usuarioNovo.email" (valueChange)="usuarioNovo.email = $event"></input-email>
+
     </div>
 
     <div class="ativo-adicionar">

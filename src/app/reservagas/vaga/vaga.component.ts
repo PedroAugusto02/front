@@ -69,7 +69,7 @@ export class VagaComponent implements OnInit {
 
   abrirDetalhesReserva(vaga: Vaga): void {
     // Navega para a página de detalhes da reserva, passando a vaga completa como parâmetro
-    this.router.navigateByUrl(`/reserva-detalhes`, { state: { vaga } });
+    this.router.navigate([`/reserva-detalhes`], { state: { vaga } });
   }
   
 }

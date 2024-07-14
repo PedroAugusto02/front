@@ -35,10 +35,15 @@ export class ReservaDetalhesComponent {
   }
 
   ngOnInit(): void {
-    this.vaga = history.state.vaga;
-    this.buscaEstacionamento(this.vaga.estacionamento.id);
-    console.log('Vaga detalhada:', this.vaga);
+    if (history.state && history.state.vaga) {
+      this.vaga = history.state.vaga;
+      this.buscaEstacionamento(this.vaga.estacionamento.id);
+      console.log('Vaga detalhada:', this.vaga);
+    } else {
+      // Lógica de tratamento caso não haja state.vaga definido
+    }
   }
+  
 
   buscaEstacionamento(estacionamentoId: number): void {
     this.estacionamentoService.buscarEstacionamentoPorId(estacionamentoId).subscribe({

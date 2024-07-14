@@ -1,0 +1,18 @@
+<form class="example-form">
+  <mat-form-field class="example-full-width">
+    <mat-label>{{ label }}</mat-label>
+    <input matInput
+           type="email"
+           [formControl]="emailFormControl"
+           [errorStateMatcher]="matcher"
+           [placeholder]="placeholder"
+           [value]="value"
+           (input)="onInputChange($event)">
+    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+      Por favor, insira um endereço de email válido
+    </mat-error>
+    <mat-error *ngIf="emailFormControl.hasError('required')">
+      Email é <strong>obrigatório</strong>
+    </mat-error>
+  </mat-form-field>
+</form>

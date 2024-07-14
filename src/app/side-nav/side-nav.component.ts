@@ -17,7 +17,7 @@ import { LoaderService } from '../service/loader.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Menu } from './interfaces/model';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ToggleDarkThemeComponent } from '../components/toggle-dark-theme/toggle-dark-theme.component';
+import { ToggleDarkThemeComponent } from '../components/inputs/toggle-dark-theme/toggle-dark-theme.component';
 
 @Component({
   selector: 'app-side-nav',

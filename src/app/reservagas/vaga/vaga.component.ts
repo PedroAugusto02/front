@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
   selector: 'app-vaga',
   templateUrl: './vaga.component.html',
   standalone: true,
-  imports: [InputtextComponent,ButtonComponent,CheckboxComponent,CdkDropListGroup, CdkDropList, CdkDrag,CommonModule,InputselectComponent],
+  imports: [InputtextComponent, ButtonComponent, CheckboxComponent, CdkDropListGroup, CdkDropList, CdkDrag, CommonModule, InputselectComponent],
   styleUrls: ['./vaga.component.css']
 })
 export class VagaComponent implements OnInit {
@@ -26,56 +26,50 @@ export class VagaComponent implements OnInit {
   cardsVagas: Vaga[] = [];
 
   constructor(
-    private vagaService: VagaService,
-    private estacionamentoService: EstacionamentoService,
-    private router: Router,
-    private titleService: TitleService
-  ) { }
+      private vagaService: VagaService,
+      private estacionamentoService: EstacionamentoService,
+      private router: Router,
+      private titleService: TitleService
+  ) {
+    this.titleService.setPageTitle("Vagas");
+  }
 
   ngOnInit(): void {
-    this.carregarEstacionamentos();
-    setTimeout(() => {
-      this.titleService.setPageTitle("Vagas");
-    }, 10);
+      this.carregarEstacionamentos();
   }
 
   carregarEstacionamentos(): void {
-    this.estacionamentoService.listarEstacionamentos().subscribe(
-      estacionamentos => {
-        this.estacionamentos = estacionamentos;
-      },
-      error => {
-        console.log('Erro ao carregar estacionamentos:', error);
-      }
-    );
+      this.estacionamentoService.listarEstacionamentos().subscribe(
+          estacionamentos => {
+              this.estacionamentos = estacionamentos;
+          },
+          error => {
+              console.log('Erro ao carregar estacionamentos:', error);
+          }
+      );
   }
 
   selecionarEstacionamento(estacionamento: Estacionamento): void {
-    this.selectedEstacionamento = estacionamento;
-    this.gerarCardsDeVagas();
+      this.selectedEstacionamento = estacionamento;
+      this.carregarVagas(estacionamento.id);
   }
 
-  gerarCardsDeVagas(): void {
-    this.cardsVagas = [];
-
-    if (this.selectedEstacionamento) {
-      const quantidadeVagas = this.selectedEstacionamento.quantidadeVagas;
-
-      for (let i = 1; i <= quantidadeVagas; i++) {
-        const vaga: Vaga = {
-          id: i,
-          estacionamento: this.selectedEstacionamento,
-          disponivel: true,
-          reservas: []
-        };
-        this.cardsVagas.push(vaga);
-      }
-    }
+  carregarVagas(estacionamentoId: number): void {
+      this.vagaService.listarVagasPorEstacionamento(estacionamentoId).subscribe({
+          next: (result) => {
+              this.cardsVagas = result;
+              // Verifique aqui se o estacionamento está sendo carregado corretamente junto com as vagas
+              console.log('Vagas carregadas:', this.cardsVagas);
+          },
+          error: (error) => {
+              console.log('Erro ao carregar vagas:', error);
+          }
+      });
   }
 
   abrirDetalhesReserva(vaga: Vaga): void {
     // Navega para a página de detalhes da reserva, passando a vaga completa como parâmetro
     this.router.navigateByUrl(`/reserva-detalhes`, { state: { vaga } });
   }
-
+  
 }

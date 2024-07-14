@@ -1,0 +1,4 @@
+<input [(colorPicker)]="color"
+       [style.background]="color"
+       [cpOutputFormat]="'hex'"
+       (colorPickerChange)="onColorChange($event)" />

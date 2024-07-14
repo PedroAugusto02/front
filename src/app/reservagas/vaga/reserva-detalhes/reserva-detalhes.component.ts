@@ -5,32 +5,73 @@ import { Reserva } from '../../../entity/Reserva';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../components/buttons/button/button.component';
 import { InputtextComponent } from "../../../components/inputs/inputtext/inputtext.component";
-import { ToggleComponent } from '../../../components/toggle/toggle.component';
+import { ToggleComponent } from '../../../components/inputs/toggle/toggle.component';
+import { Estacionamento } from '../../../entity/Estacionamento';
+import { EstacionamentoService } from '../../service/estacionamento.service';
+import { ColorPickerComponent } from "../../../components/inputs/color-picker/color-picker.component";
+import { VagaService } from '../../service/vaga.service';
 
 
 @Component({
   selector: 'app-reserva-detalhes',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, InputtextComponent,ToggleComponent],
+  imports: [CommonModule, ButtonComponent, InputtextComponent, ToggleComponent, ColorPickerComponent],
   templateUrl: './reserva-detalhes.component.html',
   styleUrl: './reserva-detalhes.component.css'
 })
 export class ReservaDetalhesComponent {
 
-  vaga: Vaga | undefined;
+  vaga: Vaga;
+  estacionamento: Estacionamento;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-  ) { }
+    private estacionamentoService: EstacionamentoService,
+    private vagaService: VagaService,
+  ) {
+    this.vaga = new Vaga();
+    this.estacionamento = new Estacionamento();
+  }
 
   ngOnInit(): void {
     this.vaga = history.state.vaga;
+    this.buscaEstacionamento(this.vaga.estacionamento.id);
     console.log('Vaga detalhada:', this.vaga);
   }
 
+  buscaEstacionamento(estacionamentoId: number): void {
+    this.estacionamentoService.buscarEstacionamentoPorId(estacionamentoId).subscribe({
+      next: (estacionamento) => {
+        this.estacionamento = estacionamento;
+      },
+      error: (error) => {
+        console.log('Erro ao buscar estacionamento:', error);
+      }
+    });
+  }
+
   voltar(): void {
-    // Navega de volta à página anterior
     this.router.navigate(['/vagas']);
   }
+
+  onColorPickerChange(newColor: string) {
+    this.vaga.cor = newColor;
+  }
+  
+  onDisponivelChange(checked: boolean): void {
+    this.vaga.disponivel = checked;
+  }
+
+  salvarVaga(): void {
+    this.vagaService.atualizarVaga(this.vaga).subscribe({
+      next: () => {
+        this.router.navigate(['/vagas'], { state: { reload: true } });
+      },
+      error: (error) => {
+        console.log('Erro ao salvar a vaga:', error);
+      }
+    });
+  }
+
 }

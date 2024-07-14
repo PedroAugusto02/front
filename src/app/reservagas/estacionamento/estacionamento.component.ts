@@ -16,6 +16,8 @@ import { MinibuttonComponent } from '../../components/buttons/minibutton/minibut
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { LoaderService } from '../../service/loader.service';
+import { finalize } from 'rxjs';
 
 
 @Component({
@@ -26,22 +28,22 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./estacionamento.component.css']
 })
 export class EstacionamentoComponent implements OnInit {
-
   estacionamentos_lista: Estacionamento[] = [];
   estacionamentos_update: Estacionamento[] = [];
   estacionamentoUpdate: Estacionamento = new Estacionamento();
   estacionamentoNovo: Estacionamento = new Estacionamento();
+  vagas: Vaga[] = [];
 
   constructor(
     private estacionamentoService: EstacionamentoService,
-    private titleService: TitleService
-  ) { }
+    private titleService: TitleService,
+    private loader: LoaderService,
+  ) { 
+    this.titleService.setPageTitle("Estacionamentos");
+  }
 
   ngOnInit(): void {
     this.carregarEstacionamentos();
-    setTimeout(() => {
-      this.titleService.setPageTitle("Estacionamentos");
-    }, 10);
   }
 
   refresh() {
@@ -52,37 +54,46 @@ export class EstacionamentoComponent implements OnInit {
   }
 
   carregarEstacionamentos(): void {
-    this.estacionamentoService.listarEstacionamentos().subscribe(
-      estacionamentos => {
+    this.loader.show();
+    this.estacionamentoService.listarEstacionamentos().pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
+      next: (estacionamentos) => {
         this.estacionamentos_lista = estacionamentos;
       },
-      error => {
+      error: (error) => {
         console.log('Erro ao carregar estacionamentos:', error);
-      }
+      }}
     );
   }
 
   adicionarEstacionamento(): void {
-    this.estacionamentoService.criarEstacionamento(this.estacionamentoNovo).subscribe(
-      novoEstacionamento => {
+    this.loader.show();
+    this.estacionamentoService.criarEstacionamento(this.estacionamentoNovo).pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
+      next: (novoEstacionamento) => {
         this.estacionamentos_lista.push(novoEstacionamento);
         this.refresh();
       },
-      error => {
+      error: (error) => {
         console.log('Erro ao adicionar estacionamento:', error);
-      }
-    );
+      }  
+    });
   }
 
   deletarEstacionamento(id: number): void {
-    this.estacionamentoService.deletarEstacionamento(id).subscribe(
-      () => {
+    this.loader.show();
+    this.estacionamentoService.deletarEstacionamento(id).pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
+      next: () => {
         this.refresh();
       },
-      error => {
+      error: (error) => {
         console.log('Erro ao excluir estacionamento:', error);
       }
-    );
+    });
   }
 
   dropUpdate(event: CdkDragDrop<Estacionamento[]>, estacionamento: Estacionamento[]) {
@@ -112,14 +123,16 @@ export class EstacionamentoComponent implements OnInit {
   }
 
   salvarEstacionamento() {
-    this.estacionamentoService.atualizarEstacionamento(this.estacionamentoUpdate.id, this.estacionamentoUpdate).subscribe(
-      () => {
+    this.estacionamentoService.atualizarEstacionamento(this.estacionamentoUpdate.id, this.estacionamentoUpdate).pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
+      next: () => {
         this.refresh();
       },
-      error => {
+      error: (error) => {
         console.log('Erro ao salvar estacionamento:', error);
       }
-    )
+    })
   }
 }
 

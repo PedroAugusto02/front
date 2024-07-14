@@ -17,12 +17,17 @@
   <div class="container-vagas shadow p-4">
     <h2>Vagas</h2>
     <div class="grid-vagas">
-      <!-- Iteração sobre os cards de vagas -->
-      <div *ngFor="let vaga of cardsVagas" class="cartao" (click)="abrirDetalhesReserva(vaga)">
-        <h1>Vaga {{ vaga.id }}</h1>
-        <p *ngIf="vaga.disponivel">Status: Disponível</p>
-        <p *ngIf="!vaga.disponivel">Status: Indisponível</p>
-        <!-- Adicione mais conteúdo conforme necessário -->
+      <div *ngFor="let vaga of cardsVagas" 
+           class="cartao" 
+           (click)="abrirDetalhesReserva(vaga)"
+           [style.background]="vaga.cor">
+        <h1>Vaga {{ vaga.numeroDaVaga }}</h1>
+        <p>
+          Status: 
+          <span class="status-texto" [ngClass]="{'texto-disponivel': vaga.disponivel, 'texto-indisponivel': !vaga.disponivel}">
+            {{ vaga.disponivel ? 'Disponível' : 'Indisponível' }}
+          </span>
+        </p>
       </div>
     </div>
   </div>

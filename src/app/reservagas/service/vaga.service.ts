@@ -20,11 +20,16 @@ export class VagaService {
     return this.http.get<Vaga[]>(this.baseUrl);
   }
 
-  atualizarVaga(id: number, vaga: Vaga): Observable<Vaga> {
-    return this.http.put<Vaga>(`${this.baseUrl}/${id}`, vaga);
+  atualizarVaga(vaga: Vaga): Observable<Vaga> {
+    return this.http.put<Vaga>(`${this.baseUrl}/${vaga.id}`, vaga);
   }
 
   deletarVaga(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  
+  listarVagasPorEstacionamento(estacionamentoId: number): Observable<Vaga[]> {
+    return this.http.get<Vaga[]>(`${this.baseUrl}/estacionamento/${estacionamentoId}`);
+  }
+
 }

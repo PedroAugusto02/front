@@ -1,10 +1,35 @@
-<div *ngIf="vaga" class="container-estacionamento shadow p-4">
-    <h2>Detalhes da Vaga</h2>  
+<div class="d-flex">
+  <div class="container-vaga shadow p-4">
+    <h2>Detalhes da Vaga</h2>
     <div class="ativo-adicionar">
       <div>
-        <app-button [label]="'Voltar'" [color]="'primary'" (buttonClick)="voltar()"></app-button>
-        <inputtext [label]="'Estacionamento'" [disabled]="true" [value]="vaga.estacionamento.nome" ></inputtext>
-        <toggle></toggle>
+        <div class="d-flex">
+          <h4>Estacionamento:</h4>
+          <h4 class="estacionamentoNome">{{estacionamento.nome}}</h4>
+        </div>
+        <div class="d-flex">
+          <h4>Numero da Vaga:</h4>
+          <inputtext class="disponivel" [label]="'Numero'" [value]="vaga.numeroDaVaga"
+            (valueChange)="vaga.numeroDaVaga = $event"></inputtext>
+        </div>
+        <div class="d-flex">
+          <h4>Disponibilidade:</h4>
+          <toggle class="disponivel" [label]="'Disponível'" [checked]="vaga.disponivel"
+            (checkedChange)="onDisponivelChange($event)" />
+        </div>
+        <div class="d-flex">
+          <h4>Cor:</h4>
+          <color-picker class="disponivel" (colorChange)="onColorPickerChange($event)" [color]="vaga.cor"></color-picker>
+        </div>
+        <div class="marginTopo">
+          <app-button [label]="'Voltar'" [color]="'primary'" (buttonClick)="voltar()"></app-button>
+          <app-button class="disponivel" [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarVaga()"></app-button>
+          <app-button class="disponivel" [label]="'Incluir Reserva'" [color]="'incluir-reserva'" (buttonClick)="salvarVaga()"></app-button>
+        </div>
       </div>
     </div>
   </div>
+  <div class="container-vaga-listagem shadow p-4">
+    
+  </div>
+</div>

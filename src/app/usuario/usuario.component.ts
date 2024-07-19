@@ -21,7 +21,7 @@ import { InputEmailComponent } from "../components/inputs/input-email/input-emai
   standalone: true,
   imports: [HttpClientModule, CommonModule, FormsModule, InputtextComponent, ButtonComponent, MatCardModule, CheckboxComponent, MinibuttonComponent, CdkDropListGroup, CdkDropList, CdkDrag, MatButtonModule, MatDividerModule, MatIconModule, InputEmailComponent],
   templateUrl: './usuario.component.html',
-  styleUrl: './usuario.component.css'
+  styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent {
 
@@ -65,7 +65,7 @@ export class UsuarioComponent {
     this.usuarioService.criarUsuario(this.usuarioNovo).subscribe(
       novoUsuario => {
         this.usuarios_lista.push(novoUsuario); // Adiciona o novo usuário à lista
-        this.refresh()
+        this.refresh();
       },
       error => {
         console.log('Erro ao adicionar usuário:', error);
@@ -90,8 +90,7 @@ export class UsuarioComponent {
   deletarUsuario(id: number): void {
     this.usuarioService.deleteUsuario(id).subscribe(
       () => {
-        this.refresh()
-        // this.usuarios_lista = this.usuarios_lista.filter(u => u.id !== id);
+        this.refresh();
       },
       error => {
         console.log('Erro ao excluir usuário:', error);
@@ -99,19 +98,19 @@ export class UsuarioComponent {
     );
   }
 
-  dropUpdate(event: CdkDragDrop<Usuario[]>, usuario: Usuario[]) {
-      if(this.usuarios_update.length == 0) {
-        transferArrayItem(
-          event.previousContainer.data,
-          event.container.data,
-          event.previousIndex,
-          event.currentIndex,
-        );
-      }
-    this.usuarioUpdate = usuario[0];
+  dropUpdate(event: CdkDragDrop<Usuario[]>): void {
+    if (this.usuarios_update.length === 0) {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+      this.usuarioUpdate = this.usuarios_update[0];
+    }
   }
 
-  drop(event: CdkDragDrop<Usuario[]>) {
+  drop(event: CdkDragDrop<Usuario[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -119,13 +118,15 @@ export class UsuarioComponent {
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex,
+        event.currentIndex
       );
     }
-    if (this.usuarios_update.length == 0) this.usuarioUpdate = new Usuario();
+    if (this.usuarios_update.length === 0) {
+      this.usuarioUpdate = new Usuario();
+    }
   }
 
-  salvarUsuario() {
+  salvarUsuario(): void {
     this.usuarioService.atualizarUsuario(this.usuarioUpdate.id, this.usuarioUpdate).subscribe(
       () => {
         this.refresh();
@@ -133,7 +134,10 @@ export class UsuarioComponent {
       error => {
         console.log('Erro ao salvar usuário:', error);
       }
-    )
+    );
   }
 
+  trackByFn(index: number, usuario: Usuario): number {
+    return usuario.id;
+  }
 }

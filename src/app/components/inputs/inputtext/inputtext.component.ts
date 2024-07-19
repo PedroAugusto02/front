@@ -16,32 +16,40 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'inputtext',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule,CommonModule],
+  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule],
   templateUrl: './inputtext.component.html',
-  styleUrl: './inputtext.component.css'
+  styleUrls: ['./inputtext.component.css']
 })
 export class InputtextComponent implements OnInit {
-
   @Input() label!: string;
   @Input() value!: any;
   @Input() placeholder!: string;
-  @Input() disabled!: boolean;
-  @Input() validacao!: boolean;
+  @Input() disabled: boolean = false;
+  @Input() validacao: boolean = false;
   @Output() valueChange = new EventEmitter<any>();
-  campoFormControl = new FormControl();
+  
+  campoFormControl!: FormControl;
 
   ngOnInit(): void {
-    this.campoFormControl = new FormControl(this.value);
+    // Initialize the FormControl with the value and disabled status
+    this.campoFormControl = new FormControl({
+      value: this.value,
+      disabled: this.disabled
+    });
+    
     if (this.validacao) {
       this.campoFormControl.setValidators([Validators.required]);
-      
     }
+
+    // Emit value change when form control value changes
+    this.campoFormControl.valueChanges.subscribe(newValue => {
+      this.valueChange.emit(newValue);
+    });
   }
 
   onInputChange(event: any) {
     const newValue = event.target.value;
-    this.value = newValue;
+    this.campoFormControl.setValue(newValue, { emitEvent: false });
     this.valueChange.emit(newValue);
   }
-
 }

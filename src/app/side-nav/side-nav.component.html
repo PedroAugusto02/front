@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #drawer [mode]="'side'" class="sidenav" fixedInViewport="true">
-        <mat-toolbar routerLink="/home" class="menu" >Menu</mat-toolbar>
+        <mat-toolbar routerLink="/home" class="menu">Menu</mat-toolbar>
         <mat-nav-list>
             <mat-expansion-panel *ngFor="let menu of menus" [expanded]="menu.expanded">
                 <mat-expansion-panel-header>
@@ -22,6 +22,9 @@
             </button>
             <h1 class="titulo">{{ pageTitle }}</h1>
             <app-toggle-dark-theme></app-toggle-dark-theme>
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="logout()" [title]="'Sair'">
+                <mat-icon aria-label="Side nav toggle icon">logout</mat-icon>
+            </button>
         </mat-toolbar>
         <loader-circular></loader-circular>
         <div class="container-fluid">

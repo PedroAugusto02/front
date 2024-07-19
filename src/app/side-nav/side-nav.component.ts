@@ -18,6 +18,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { Menu } from './interfaces/model';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ToggleDarkThemeComponent } from '../components/inputs/toggle-dark-theme/toggle-dark-theme.component';
+import { AuthService } from '../authentication/auth.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -73,12 +74,17 @@ export class SideNavComponent {
   constructor(
     private titleService: TitleService,
     private loader: LoaderService,
+    private authService: AuthService,
     private router: Router,
     private renderer: Renderer2,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   ngOnInit(): void {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+    }
+
     this.titleService.getPageTitle().subscribe((title: string) => {
       this.pageTitle = title;
     });
@@ -97,6 +103,10 @@ export class SideNavComponent {
   setTheme(): void {
     const currentTheme = localStorage.getItem('theme') || 'light-theme';
     this.renderer.addClass(document.body, currentTheme);
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
 }

@@ -3,21 +3,18 @@
     <h2>Adicionar Novo Usuário</h2>
     <div class="ativo-adicionar">
       <div>
-        <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.name" [validacao]="true"
-          (valueChange)="usuarioNovo.name = $event"></inputtext>
+        <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.name"
+          [validacao]="true" (valueChange)="usuarioNovo.name = $event"></inputtext>
       </div>
       <div>
-        <inputtext [label]="'Idade'" [value]="usuarioNovo.age" (valueChange)="usuarioNovo.age = $event" [validacao]="false"></inputtext>
+        <inputtext [label]="'Idade'" [value]="usuarioNovo.age" (valueChange)="usuarioNovo.age = $event"
+          [validacao]="false"></inputtext>
       </div>
     </div>
-
     <div>
-      <!-- <inputtext [label]="'Email'" [value]="usuarioNovo.email" (valueChange)="usuarioNovo.email = $event"></inputtext> -->
-      <input-email [label]="'Email'" [placeholder]="'Ex. pat@example.com'"
-             [value]="usuarioNovo.email" (valueChange)="usuarioNovo.email = $event"></input-email>
-
+      <input-email [label]="'Email'" [placeholder]="'Ex. pat@example.com'" [value]="usuarioNovo.email"
+        (valueChange)="usuarioNovo.email = $event"></input-email>
     </div>
-
     <div class="ativo-adicionar">
       <checkbox [label]="'Ativo'" [(value)]="usuarioNovo.active"></checkbox>
       <app-button [label]="'Adicionar'" [color]="'primary'" (buttonClick)="adicionarUsuario()"></app-button>
@@ -43,7 +40,7 @@
           <checkbox [label]="'Ativo'" [(value)]="usuarioUpdate.active"></checkbox>
         </div>
       </div>
-      <div class="operacoes" *ngIf="this.usuarios_update.length > 0">
+      <div class="operacoes" *ngIf="usuarios_update.length > 0">
         <app-button [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarUsuario()"></app-button>
         <app-button [label]="'Limpar'" [color]="'clear'" (buttonClick)="refresh()"></app-button>
         <app-button [label]="'Excluir'" [color]="'warn'" (buttonClick)="deletarUsuario(usuarioUpdate.id)"></app-button>
@@ -51,25 +48,19 @@
     </div>
 
     <div cdkDropList #edicao="cdkDropList" [cdkDropListData]="usuarios_update" [cdkDropListConnectedTo]="[usuarios]"
-      class="example-list" (cdkDropListDropped)="dropUpdate($event,usuarios_update)">
-      @for (usuario of usuarios_update; track usuario) {
-      <div class="example-box" cdkDrag>{{usuario.name}}</div>
-      }
+      class="example-list" (cdkDropListDropped)="dropUpdate($event)">
+      <div *ngFor="let usuario of usuarios_update; trackBy: trackByFn" class="example-box" cdkDrag>{{usuario.name}}</div>
     </div>
   </div>
-
-
 </div>
 
 <div class="container-tabela shadow p-4">
   <div cdkDropList #usuarios="cdkDropList" [cdkDropListData]="usuarios_lista" [cdkDropListConnectedTo]="[edicao]"
     class="example-list" (cdkDropListDropped)="drop($event)">
-    @for (usuario of usuarios_lista; track usuario) {
-    <div class="example-box" cdkDrag>
+    <div *ngFor="let usuario of usuarios_lista; trackBy: trackByFn" class="example-box" cdkDrag>
       <div>{{ usuario.name }}</div>
       <div>{{ usuario.email }}</div>
       <div>{{ usuario.age }}</div>
     </div>
-    }
   </div>
 </div>

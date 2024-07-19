@@ -1,0 +1,9 @@
+<mat-toolbar color="primary">
+    <h1 class="titulo">Login</h1>
+    <app-toggle-dark-theme></app-toggle-dark-theme>
+</mat-toolbar>
+<inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="login" [validacao]="true"
+    (valueChange)="login = $event"></inputtext>
+<inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="password" [validacao]="true"
+    (valueChange)="password = $event"></inputtext>
+    <app-button [label]="'Adicionar'" [color]="'primary'" (buttonClick)="loginMethod()"></app-button>

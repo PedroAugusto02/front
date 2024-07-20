@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { Component, ComponentFactoryResolver, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { UsuarioComponent } from '../usuario/usuario.component';
@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
-import { NavigationEnd, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, RouterLink, RouterModule } from '@angular/router';
 import { TitleService } from '../service/title.service';
 import { LoaderCircularComponent } from '../components/loader-circular/loader-circular.component';
 import { Router } from '@angular/router';
@@ -19,6 +19,7 @@ import { Menu } from './interfaces/model';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ToggleDarkThemeComponent } from '../components/inputs/toggle-dark-theme/toggle-dark-theme.component';
 import { AuthService } from '../authentication/auth.service';
+import { MinimizeService } from '../service/minimize.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -50,6 +51,7 @@ export class SideNavComponent {
   showFiller = false;
   pageTitle: string = '';
   isDarkTheme = false;
+  isHomePage = false;
   menus: Menu[] = [
     {
       title: 'Pessoas',
@@ -77,6 +79,9 @@ export class SideNavComponent {
     private authService: AuthService,
     private router: Router,
     private renderer: Renderer2,
+    private minimize: MinimizeService,
+    private route: ActivatedRoute,
+    private componentFactoryResolver: ComponentFactoryResolver,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
@@ -93,6 +98,7 @@ export class SideNavComponent {
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.loader.reset();
+      this.isHomePage = this.router.url === '/home';
     });
 
     if (isPlatformBrowser(this.platformId)) {
@@ -108,5 +114,42 @@ export class SideNavComponent {
   logout() {
     this.authService.logout();
   }
+
+  minimizePage(): void {
+    // Cria um objeto para a página minimizada
+    const minimizedPage = {
+      name: this.pageTitle,
+      icon: this.getIconForCurrentPage(),
+      component: this.getCurrentComponent(),
+      data: this.getCurrentPageData()
+    };
+
+    // Adiciona a página minimizada ao serviço
+    this.minimize.minimizedPages.push(minimizedPage);
+
+    // Adiciona a classe 'minimized' ao body para aplicar a animação
+    document.body.classList.add('minimized');
+
+    // Navega para a página inicial
+    this.router.navigate(['/home']);
+}
+
+  getCurrentComponent(): any {
+    const routeSnapshot = this.route.snapshot;
+    const component = routeSnapshot.component;
+    return component;
+  }
+
+  getCurrentPageData(): any {
+    const routeSnapshot = this.route.snapshot;
+    const data = routeSnapshot.data;
+    return data;
+  }
+
+  getIconForCurrentPage(): string {
+    // Retorna o ícone correspondente à página atual
+    return this.menus.flatMap(menu => menu.submenus).find(submenu => submenu.link === this.router.url)?.icon || 'help';
+  }
+
 
 }

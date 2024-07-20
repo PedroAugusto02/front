@@ -14,3 +14,17 @@ bootstrapApplication(AppComponent, {
 }).catch((err) =>
   console.error(err)
 );
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.minimize').forEach(function(button) {
+    button.addEventListener('click', function() {
+      document.body.classList.add('minimized');
+    });
+  });
+
+  document.querySelectorAll('.maximize').forEach(function(button) {
+    button.addEventListener('click', function() {
+      document.body.classList.remove('minimized');
+    });
+  });
+});

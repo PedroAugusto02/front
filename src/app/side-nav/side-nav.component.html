@@ -22,8 +22,11 @@
             </button>
             <h1 class="titulo">{{ pageTitle }}</h1>
             <app-toggle-dark-theme></app-toggle-dark-theme>
-            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="logout()" [title]="'Sair'">
-                <mat-icon aria-label="Side nav toggle icon">logout</mat-icon>
+            <button *ngIf="!isHomePage" type="button" aria-label="Minimize page" mat-icon-button (click)="minimizePage()">
+                <mat-icon aria-label="Minimize icon">minimize</mat-icon>
+            </button>
+            <button type="button" aria-label="Logout" mat-icon-button (click)="logout()" [title]="'Sair'">
+                <mat-icon aria-label="Logout icon">logout</mat-icon>
             </button>
         </mat-toolbar>
         <loader-circular></loader-circular>

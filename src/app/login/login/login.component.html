@@ -1,9 +1,12 @@
 <mat-toolbar color="primary">
-    <h1 class="titulo">Login</h1>
-    <app-toggle-dark-theme></app-toggle-dark-theme>
+  <h1 class="titulo">Login</h1>
 </mat-toolbar>
-<inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="login" [validacao]="true"
-    (valueChange)="login = $event"></inputtext>
-<inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="password" [validacao]="true"
-    (valueChange)="password = $event"></inputtext>
-    <app-button [label]="'Adicionar'" [color]="'primary'" (buttonClick)="loginMethod()"></app-button>
+<div class="login-container">
+  <div class="shadow p-4 menu-login">
+    <inputtext class="input-custom-width" [label]="'Login'" [placeholder]="'ex: Pedro'" [value]="login" [validacao]="true"
+      (valueChange)="login = $event"></inputtext>
+    <input-password class="estilomeu" [label]="'Senha'" [placeholder]="'ex: *****'" [value]="password" [validacao]="true"
+      (valueChange)="password = $event"></input-password>
+    <app-button [label]="'Login'" [color]="'primary'" class="full-width-button" (buttonClick)="loginMethod()"></app-button>
+  </div>
+</div>

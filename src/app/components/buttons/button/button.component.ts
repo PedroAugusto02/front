@@ -8,10 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [MatButtonModule, MatDividerModule, MatIconModule],
   templateUrl: './button.component.html',
-  styleUrl: './button.component.css'
+  styleUrls: ['./button.component.css']
 })
 export class ButtonComponent {
-
   @Input() label!: string;
   @Input() color!: string;
   @Input() class!: string;
@@ -21,5 +20,4 @@ export class ButtonComponent {
     // Emitir evento quando o botão é clicado
     this.buttonClick.emit();
   }
-
 }

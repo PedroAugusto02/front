@@ -1,34 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
-
 @Component({
-  selector: 'inputtext',
+  selector: 'input-password',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './inputtext.component.html',
-  styleUrls: ['./inputtext.component.css']
+  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule, MatIconModule],
+  templateUrl: './input-password.component.html',
+  styleUrl: './input-password.component.css'
 })
-export class InputtextComponent implements OnInit {
+export class InputPasswordComponent {
   @Input() label!: string;
   @Input() value!: any;
   @Input() placeholder!: string;
   @Input() disabled: boolean = false;
   @Input() validacao: boolean = false;
-  @Input() class: string = '';  // Classe personalizada
   @Output() valueChange = new EventEmitter<any>();
-  
+
   campoFormControl!: FormControl;
 
   ngOnInit(): void {
@@ -37,7 +28,7 @@ export class InputtextComponent implements OnInit {
       value: this.value,
       disabled: this.disabled
     });
-    
+
     if (this.validacao) {
       this.campoFormControl.setValidators([Validators.required]);
     }
@@ -52,5 +43,11 @@ export class InputtextComponent implements OnInit {
     const newValue = event.target.value;
     this.campoFormControl.setValue(newValue, { emitEvent: false });
     this.valueChange.emit(newValue);
+  }
+
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
   }
 }

@@ -17,13 +17,18 @@
     </mat-sidenav>
     <mat-sidenav-content>
         <mat-toolbar color="primary">
-            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSidenav(drawer)">
+                <mat-icon aria-label="Side nav toggle icon">{{ sidenavIcon }}</mat-icon>
             </button>
             <h1 class="titulo">{{ pageTitle }}</h1>
             <app-toggle-dark-theme></app-toggle-dark-theme>
-            <button *ngIf="!isHomePage" type="button" aria-label="Minimize page" mat-icon-button (click)="minimizePage()">
+            <button *ngIf="!isHomePage" type="button" aria-label="Minimize page" mat-icon-button
+                (click)="minimizePage()" [title]="'Minimizar Pagina'">
                 <mat-icon aria-label="Minimize icon">minimize</mat-icon>
+            </button>
+            <button *ngIf="!isHomePage" type="button" aria-label="Minimize page" mat-icon-button (click)="closePage()"
+                [title]="'Fechar Pagina'">
+                <mat-icon aria-label="Minimize icon">close</mat-icon>
             </button>
             <button type="button" aria-label="Logout" mat-icon-button (click)="logout()" [title]="'Sair'">
                 <mat-icon aria-label="Logout icon">logout</mat-icon>

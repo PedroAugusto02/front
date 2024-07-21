@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDragPlaceholder, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
-import { TitleService } from '../service/title.service';
+import { TitleService } from '../../service/title.service';
 
 @Component({
   selector: 'app-atividades',

@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { UsuarioComponent } from '../usuario/usuario.component';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,6 +20,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ToggleDarkThemeComponent } from '../components/inputs/toggle-dark-theme/toggle-dark-theme.component';
 import { AuthService } from '../authentication/auth.service';
 import { MinimizeService } from '../service/minimize.service';
+import { UsuarioComponent } from '../pessoas/usuario/usuario.component';
 
 @Component({
   selector: 'app-side-nav',
@@ -54,6 +55,8 @@ export class SideNavComponent {
   isHomePage = false;
   filters: any;
   state: any;
+  sidenavIcon: string = 'menu'; // ícone padrão
+  
   menus: Menu[] = [
     {
       title: 'Pessoas',
@@ -90,6 +93,8 @@ export class SideNavComponent {
   ngOnInit(): void {
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
+    } else {
+      this.isHomePage = this.router.url === '/home';
     }
 
     this.titleService.getPageTitle().subscribe((title: string) => {
@@ -115,6 +120,10 @@ export class SideNavComponent {
 
   logout() {
     this.authService.logout();
+  }
+
+  closePage() {
+    this.router.navigate(['/home']);
   }
 
   minimizePage(): void {
@@ -162,5 +171,9 @@ export class SideNavComponent {
     return this.menus.flatMap(menu => menu.submenus).find(submenu => submenu.link === this.router.url)?.icon || 'help';
   }
 
+  toggleSidenav(drawer: any) {
+    drawer.toggle();
+    this.sidenavIcon = drawer.opened ? 'close' : 'menu'; // Atualiza o ícone com base no estado
+  }
 
 }

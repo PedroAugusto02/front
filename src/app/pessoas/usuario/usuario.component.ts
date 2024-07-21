@@ -7,14 +7,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { ButtonComponent } from '../components/buttons/button/button.component';
-import { MinibuttonComponent } from '../components/buttons/minibutton/minibutton.component';
-import { CheckboxComponent } from '../components/inputs/checkbox/checkbox.component';
-import { InputEmailComponent } from "../components/inputs/input-email/input-email.component";
-import { InputtextComponent } from '../components/inputs/inputtext/inputtext.component';
-import { TitleService } from '../service/title.service';
-import { Usuario } from './../entity/Usuario';
+
 import { UsuarioService } from './service/usuario.service';
+import { InputtextComponent } from '../../components/inputs/inputtext/inputtext.component';
+import { ButtonComponent } from '../../components/buttons/button/button.component';
+import { CheckboxComponent } from '../../components/inputs/checkbox/checkbox.component';
+import { MinibuttonComponent } from '../../components/buttons/minibutton/minibutton.component';
+import { Usuario } from '../../entity/Usuario';
+import { TitleService } from '../../service/title.service';
+import { InputEmailComponent } from '../../components/inputs/input-email/input-email.component';
 
 @Component({
   selector: 'app-usuario',

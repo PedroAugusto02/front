@@ -19,9 +19,8 @@ export class LoginComponent  {
   password: string = '';
 
   constructor(
-    private authService: AuthService, 
-    private renderer: Renderer2, 
-    @Inject(PLATFORM_ID) private platformId: Object) { }
+    private authService: AuthService,
+  ) { }
 
   loginMethod() {
     this.authService.login(this.login, this.password);

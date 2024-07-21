@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { TitleService } from '../service/title.service';
-import { Jobs } from '../entity/Jobs';
-import { InputtextComponent } from '../components/inputs/inputtext/inputtext.component';
-import { CheckboxComponent } from '../components/inputs/checkbox/checkbox.component';
-import { ButtonComponent } from '../components/buttons/button/button.component';
-import { JobsService } from './service/jobs.service';
-import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Usuario } from '../entity/Usuario';
-import { UsuarioService } from '../usuario/service/usuario.service';
-import { LoaderService } from '../service/loader.service';
+import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
+import { ButtonComponent } from "../../components/buttons/button/button.component";
+import { CheckboxComponent } from "../../components/inputs/checkbox/checkbox.component";
+import { InputtextComponent } from "../../components/inputs/inputtext/inputtext.component";
+import { Component, OnInit } from "@angular/core";
+import { Jobs } from "../../entity/Jobs";
+import { Usuario } from "../../entity/Usuario";
+import { TitleService } from "../../service/title.service";
+import { JobsService } from "./service/jobs.service";
+
+import { LoaderService } from "../../service/loader.service";
+import { UsuarioService } from "../usuario/service/usuario.service";
+
 
 @Component({
   selector: 'jobs',
@@ -32,12 +34,11 @@ export class JobsComponent implements OnInit {
     private trabalhoService: JobsService,
     private usuarioService: UsuarioService,
     private loader: LoaderService,
-  ) { }
+  ) {
+    this.titleService.setPageTitle("Trabalhos");
+   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.titleService.setPageTitle("Trabalhos");
-    }, 10);
     this.obterTrabalhos();
     this.obterUsuarios();
     this.loader.show();

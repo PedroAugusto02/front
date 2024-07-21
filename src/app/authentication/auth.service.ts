@@ -2,6 +2,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoaderService } from '../service/loader.service';
+import { finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +14,16 @@ export class AuthService {
 
   constructor(
     private http: HttpClient, 
-    private router: Router, 
+    private router: Router,
+    private loader: LoaderService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   login(login: string, password: string) {
-    return this.http.post<{token: string}>(`${this.apiUrl}`, { login, password })
-      .subscribe({
+    this.loader.show();
+    return this.http.post<{token: string}>(`${this.apiUrl}`, { login, password }).pipe(finalize(() => {
+      this.loader.show();
+    })).subscribe({
         next: (response) => {
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('authToken', response.token);

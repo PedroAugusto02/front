@@ -23,4 +23,9 @@ export class MinimizableStateService {
   triggerMinimizeEvent(componentName: string): void {
     this.minimizeEvent.next(componentName);
   }
+
+  // Método para limpar o estado de um componente
+  clearComponentState(componentName: string): void {
+    this.componentStates.delete(componentName);
+  }
 }

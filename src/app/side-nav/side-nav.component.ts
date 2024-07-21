@@ -134,21 +134,22 @@ export class SideNavComponent {
     this.minimizableStateService.triggerMinimizeEvent('UsuarioComponent');
 
     // Aguardar um pequeno atraso para garantir que o estado foi salvo
-    setTimeout(() => {
-      const currentState = this.getCurrentPageState();
 
-      const minimizedPage = {
-        name: this.pageTitle,
-        icon: this.getIconForCurrentPage(),
-        route: this.router.url,
-        state: currentState
-      };
+    const currentState = this.getCurrentPageState();
+    console.log('Estado atual:', currentState);
 
-      this.minimizeService.minimizePage(minimizedPage);
+    const minimizedPage = {
+      name: this.pageTitle,
+      icon: this.getIconForCurrentPage(),
+      route: this.router.url,
+      state: currentState
+    };
 
-      document.body.classList.add('minimized');
-      this.router.navigate(['/home']);
-    }, 100);
+    this.minimizeService.minimizePage(minimizedPage);
+
+    document.body.classList.add('minimized');
+    this.router.navigate(['/home']);
+
   }
 
   getCurrentPageState(): any {

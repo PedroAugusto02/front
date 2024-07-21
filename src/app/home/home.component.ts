@@ -19,7 +19,8 @@ interface Menu {
 interface MinimizedPage {
   name: string;
   icon: string;
-  data: any;
+  route: string; // Altere para armazenar a rota
+  state: any; // Armazena o estado da página, como filtros
 }
 
 @Component({
@@ -44,12 +45,11 @@ export class HomeComponent {
 
   restorePage(page: any): void {
     // Remove a aba minimizada da lista
-    this.minimizeService.minimizedPages = this.minimizeService.minimizedPages.filter(p => p !== page);
+    this.minimizeService.restorePage(page);
 
     // Navega para a rota armazenada na página minimizada
-    this.router.navigate([page.route], { state: { data: page.data } });
-  }
-
+    this.router.navigate([page.route], { state: { data: page.state } });
+}
 
   getIconForCurrentPage(): string {
     return this.menus.flatMap((menu: Menu) => menu.submenus)

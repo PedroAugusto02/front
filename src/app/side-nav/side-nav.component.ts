@@ -52,6 +52,7 @@ export class SideNavComponent {
   pageTitle: string = '';
   isDarkTheme = false;
   isHomePage = false;
+  filters: any;
   menus: Menu[] = [
     {
       title: 'Pessoas',
@@ -116,22 +117,29 @@ export class SideNavComponent {
   }
 
   minimizePage(): void {
+    const currentState = this.getCurrentPageState(); // Método para obter o estado da página
+
     // Cria um objeto para a página minimizada
     const minimizedPage = {
       name: this.pageTitle,
       icon: this.getIconForCurrentPage(),
       route: this.router.url,
-      data: this.getCurrentPageData()
     };
 
-    // Adiciona a página minimizada ao serviço
-    this.minimize.minimizedPages.push(minimizedPage);
+    // Adiciona a página minimizada ao serviço com o estado atual
+    this.minimize.minimizePage(minimizedPage, currentState);
 
     // Adiciona a classe 'minimized' ao body para aplicar a animação
     document.body.classList.add('minimized');
 
     // Navega para a página inicial
     this.router.navigate(['/home']);
+  }
+
+  getCurrentPageState(): any {
+    return {
+      filters: this.filters // Exemplo de estado
+    };
   }
 
   getCurrentComponent(): any {

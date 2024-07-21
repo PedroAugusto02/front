@@ -43,12 +43,14 @@ export class HomeComponent {
     this.minimizedPages = this.minimizeService.getMinimizedPages();
   }
 
-  restorePage(page: any): void {
+  restorePage(page: MinimizedPage): void {
     const restoredPage = this.minimizeService.restorePage(page.route);
     if (restoredPage) {
-      this.router.navigate([restoredPage.route], { state: restoredPage.state });
+      this.router.navigate([restoredPage.route], { state: { data: restoredPage.state } });
     }
   }
+  
+
 
   getMinimizedPages(): any[] {
     return this.minimizeService.getMinimizedPages();

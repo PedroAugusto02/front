@@ -17,15 +17,16 @@ export class MinimizeService {
     this.minimizedPages.push(page);
   }
 
+  getMinimizedPages(): MinimizedPage[] {
+    return this.minimizedPages;
+  }
+
   restorePage(route: string): MinimizedPage | undefined {
     const index = this.minimizedPages.findIndex(page => page.route === route);
     if (index !== -1) {
-      return this.minimizedPages.splice(index, 1)[0];
+      const [restoredPage] = this.minimizedPages.splice(index, 1);
+      return restoredPage;
     }
     return undefined;
-  }
-
-  getMinimizedPages(): MinimizedPage[] {
-    return this.minimizedPages;
   }
 }

@@ -19,8 +19,10 @@ import { Menu } from './interfaces/model';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ToggleDarkThemeComponent } from '../components/inputs/toggle-dark-theme/toggle-dark-theme.component';
 import { AuthService } from '../authentication/auth.service';
-import { MinimizeService } from '../service/minimize.service';
+
 import { UsuarioComponent } from '../pessoas/usuario/usuario.component';
+import { MinimizableStateService } from '../service/minimizable-state.service';
+import { MinimizeService } from '../service/minimize.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -56,7 +58,7 @@ export class SideNavComponent {
   filters: any;
   state: any;
   sidenavIcon: string = 'menu'; // ícone padrão
-  
+
   menus: Menu[] = [
     {
       title: 'Pessoas',
@@ -86,6 +88,7 @@ export class SideNavComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private minimizeService: MinimizeService,
+    private minimizableStateService: MinimizableStateService,
     private componentFactoryResolver: ComponentFactoryResolver,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
@@ -127,45 +130,30 @@ export class SideNavComponent {
   }
 
   minimizePage(): void {
-    const currentRoute = this.activatedRoute.snapshot.root;
-    const currentState = this.getCurrentPageState(currentRoute);
+    // Disparar evento para salvar o estado do componente antes de minimizar
+    this.minimizableStateService.triggerMinimizeEvent('UsuarioComponent');
 
-    const minimizedPage = {
-      name: this.pageTitle,
-      icon: this.getIconForCurrentPage(),
-      route: this.router.url,
-      state: currentState
-    };
+    // Aguardar um pequeno atraso para garantir que o estado foi salvo
+    setTimeout(() => {
+      const currentState = this.getCurrentPageState();
 
-    this.minimizeService.minimizePage(minimizedPage);
+      const minimizedPage = {
+        name: this.pageTitle,
+        icon: this.getIconForCurrentPage(),
+        route: this.router.url,
+        state: currentState
+      };
 
-    document.body.classList.add('minimized');
-    this.router.navigate(['/home']);
+      this.minimizeService.minimizePage(minimizedPage);
+
+      document.body.classList.add('minimized');
+      this.router.navigate(['/home']);
+    }, 100);
   }
 
-  getCurrentPageState(route: ActivatedRouteSnapshot): any {
-    let state: any = {};
-
-    // Recorrer para encontrar o componente ativo
-    while (route.firstChild) {
-      route = route.firstChild;
-    }
-
-    const component = route.component;
-
-    if (component && (component as any).prototype && (component as any).prototype.getMinimizeState) {
-      const routeData = route.data;
-      if (routeData) {
-        const instance = routeData['instance'];
-        if (instance && instance.prototype.getMinimizeState()) {
-          state = instance.prototype.getMinimizeState();
-        }
-      }
-    }
-
-    return state;
+  getCurrentPageState(): any {
+    return this.minimizableStateService.getComponentState('UsuarioComponent');
   }
-
 
   getIconForCurrentPage(): string {
     return this.menus.flatMap(menu => menu.submenus).find(submenu => submenu.link === this.router.url)?.icon || 'help';

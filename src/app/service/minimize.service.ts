@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
 interface MinimizedPage {
   name: string;
@@ -12,28 +11,21 @@ interface MinimizedPage {
   providedIn: 'root'
 })
 export class MinimizeService {
-  public minimizedPages: MinimizedPage[] = [];
+  private minimizedPages: MinimizedPage[] = [];
 
-  constructor(private router: Router) { }
-
-  minimizePage(page: any, state: any) {
-    const minimizedPage: MinimizedPage = {
-      name: page.name,
-      icon: page.icon,
-      route: page.route,
-      state: state
-    };
-    this.minimizedPages.push(minimizedPage);
+  minimizePage(page: MinimizedPage): void {
+    this.minimizedPages.push(page);
   }
 
-  restorePage(page: MinimizedPage) {
-    const index = this.minimizedPages.indexOf(page);
+  restorePage(route: string): MinimizedPage | undefined {
+    const index = this.minimizedPages.findIndex(page => page.route === route);
     if (index !== -1) {
-      this.minimizedPages.splice(index, 1);
+      return this.minimizedPages.splice(index, 1)[0];
     }
+    return undefined;
   }
 
-  getMinimizedPages() {
+  getMinimizedPages(): MinimizedPage[] {
     return this.minimizedPages;
   }
 }

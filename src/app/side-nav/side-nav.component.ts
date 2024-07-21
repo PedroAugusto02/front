@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
-import { ActivatedRoute, NavigationEnd, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, RouterLink, RouterModule, RouterStateSnapshot } from '@angular/router';
 import { TitleService } from '../service/title.service';
 import { LoaderCircularComponent } from '../components/loader-circular/loader-circular.component';
 import { Router } from '@angular/router';
@@ -53,6 +53,7 @@ export class SideNavComponent {
   isDarkTheme = false;
   isHomePage = false;
   filters: any;
+  state: any;
   menus: Menu[] = [
     {
       title: 'Pessoas',
@@ -78,10 +79,10 @@ export class SideNavComponent {
     private titleService: TitleService,
     private loader: LoaderService,
     private authService: AuthService,
-    private router: Router,
     private renderer: Renderer2,
-    private minimize: MinimizeService,
-    private route: ActivatedRoute,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private minimizeService: MinimizeService,
     private componentFactoryResolver: ComponentFactoryResolver,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
@@ -117,45 +118,47 @@ export class SideNavComponent {
   }
 
   minimizePage(): void {
-    const currentState = this.getCurrentPageState(); // Método para obter o estado da página
+    const currentRoute = this.activatedRoute.snapshot.root;
+    const currentState = this.getCurrentPageState(currentRoute);
 
-    // Cria um objeto para a página minimizada
     const minimizedPage = {
       name: this.pageTitle,
       icon: this.getIconForCurrentPage(),
       route: this.router.url,
+      state: currentState
     };
 
-    // Adiciona a página minimizada ao serviço com o estado atual
-    this.minimize.minimizePage(minimizedPage, currentState);
+    this.minimizeService.minimizePage(minimizedPage);
 
-    // Adiciona a classe 'minimized' ao body para aplicar a animação
     document.body.classList.add('minimized');
-
-    // Navega para a página inicial
     this.router.navigate(['/home']);
   }
 
-  getCurrentPageState(): any {
-    return {
-      filters: this.filters // Exemplo de estado
-    };
+  getCurrentPageState(route: ActivatedRouteSnapshot): any {
+    let state: any = {};
+
+    // Recorrer para encontrar o componente ativo
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+
+    const component = route.component;
+
+    if (component && (component as any).prototype && (component as any).prototype.getMinimizeState) {
+      const routeData = route.data;
+      if (routeData) {
+        const instance = routeData['instance'];
+        if (instance && instance.prototype.getMinimizeState()) {
+          state = instance.prototype.getMinimizeState();
+        }
+      }
+    }
+
+    return state;
   }
 
-  getCurrentComponent(): any {
-    const routeSnapshot = this.route.snapshot;
-    const component = routeSnapshot.component;
-    return component;
-  }
-
-  getCurrentPageData(): any {
-    const routeSnapshot = this.route.snapshot;
-    const data = routeSnapshot.data;
-    return data;
-  }
 
   getIconForCurrentPage(): string {
-    // Retorna o ícone correspondente à página atual
     return this.menus.flatMap(menu => menu.submenus).find(submenu => submenu.link === this.router.url)?.icon || 'help';
   }
 

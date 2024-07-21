@@ -44,12 +44,15 @@ export class HomeComponent {
   }
 
   restorePage(page: any): void {
-    // Remove a aba minimizada da lista
-    this.minimizeService.restorePage(page);
+    const restoredPage = this.minimizeService.restorePage(page.route);
+    if (restoredPage) {
+      this.router.navigate([restoredPage.route], { state: restoredPage.state });
+    }
+  }
 
-    // Navega para a rota armazenada na página minimizada
-    this.router.navigate([page.route], { state: { data: page.state } });
-}
+  getMinimizedPages(): any[] {
+    return this.minimizeService.getMinimizedPages();
+  }
 
   getIconForCurrentPage(): string {
     return this.menus.flatMap((menu: Menu) => menu.submenus)

@@ -1,22 +1,20 @@
-import { Usuario } from './../entity/Usuario';
-import { Component } from '@angular/core';
-import { UsuarioService } from './service/usuario.service';
-import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { TitleService } from '../service/title.service';
-import { InputtextComponent } from '../components/inputs/inputtext/inputtext.component';
-import { ButtonComponent } from '../components/buttons/button/button.component';
-import { MatCardModule } from '@angular/material/card';
-import { CheckboxComponent } from '../components/inputs/checkbox/checkbox.component';
-import { MinibuttonComponent } from '../components/buttons/minibutton/minibutton.component';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { ButtonComponent } from '../components/buttons/button/button.component';
+import { MinibuttonComponent } from '../components/buttons/minibutton/minibutton.component';
+import { CheckboxComponent } from '../components/inputs/checkbox/checkbox.component';
 import { InputEmailComponent } from "../components/inputs/input-email/input-email.component";
-import { ActivatedRoute, Router } from '@angular/router';
-import { MinimizeService } from '../service/minimize.service';
+import { InputtextComponent } from '../components/inputs/inputtext/inputtext.component';
+import { TitleService } from '../service/title.service';
+import { Usuario } from './../entity/Usuario';
+import { UsuarioService } from './service/usuario.service';
 
 @Component({
   selector: 'app-usuario',
@@ -35,42 +33,12 @@ export class UsuarioComponent {
   constructor(
     private usuarioService: UsuarioService,
     private titleService: TitleService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private minimizeService: MinimizeService,
   ) {
     this.titleService.setPageTitle("Usuarios");
   }
 
   ngOnInit(): void {
     this.carregarUsuarios();
-    // Adapte conforme a estrutura real de seu aplicativo
-    // `filters` pode ser um nome de variável ou função no contexto
-  }
-
-  getCurrentPageState(): any {
-    return {
-      usuarios_lista: this.usuarios_lista,
-      usuarios_update: this.usuarios_update,
-      usuarioUpdate: this.usuarioUpdate,
-      usuarioNovo: this.usuarioNovo
-    };
-  }
-
-  minimizePage(): void {
-    const currentState = this.getCurrentPageState();
-
-    // Supondo que você tenha uma maneira de obter o nome da página e o ícone
-    const minimizedPage = {
-      name: 'Usuários',
-      icon: 'user',
-      route: this.router.url
-    };
-
-    this.minimizeService.minimizePage(minimizedPage, currentState);
-
-    document.body.classList.add('minimized');
-    this.router.navigate(['/home']);
   }
 
   refresh() {
@@ -169,6 +137,15 @@ export class UsuarioComponent {
 
   trackByFn(index: number, usuario: Usuario): number {
     return usuario.id;
+  }
+
+  getMinimizeState(): any {
+    return {
+      usuarios_lista: this.usuarios_lista,
+      usuarios_update: this.usuarios_update,
+      usuarioUpdate: this.usuarioUpdate,
+      usuarioNovo: this.usuarioNovo
+    };
   }
 }
 

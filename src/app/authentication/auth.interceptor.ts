@@ -3,9 +3,6 @@ import { HttpInterceptorFn } from '@angular/common/http';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   // Obtém o token do localStorage
   const authToken = localStorage.getItem('authToken');
-  
-  // Log para verificar o token
-  console.log('Auth Token:', authToken);
 
   // Clona a requisição e adiciona o cabeçalho de autorização se o token estiver presente
   if (authToken) {

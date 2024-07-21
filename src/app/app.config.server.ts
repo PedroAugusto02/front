@@ -7,7 +7,7 @@ import { authInterceptor } from './authentication/auth.interceptor';
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(),
   ]
 };
 

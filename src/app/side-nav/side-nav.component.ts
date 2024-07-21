@@ -120,7 +120,7 @@ export class SideNavComponent {
     const minimizedPage = {
       name: this.pageTitle,
       icon: this.getIconForCurrentPage(),
-      component: this.getCurrentComponent(),
+      route: this.router.url,
       data: this.getCurrentPageData()
     };
 
@@ -132,7 +132,7 @@ export class SideNavComponent {
 
     // Navega para a página inicial
     this.router.navigate(['/home']);
-}
+  }
 
   getCurrentComponent(): any {
     const routeSnapshot = this.route.snapshot;

@@ -17,8 +17,6 @@ export class MinimizeService {
 
   constructor(private router: Router) { }
 
-
-
   minimizePage(page: any) {
     this.minimizedPages.push(page);
   }

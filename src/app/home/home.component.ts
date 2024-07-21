@@ -25,12 +25,12 @@ interface MinimizedPage {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CardComponent,IconComponent,MatIcon,CommonModule],
+  imports: [CardComponent, IconComponent, MatIcon, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  
+
   minimizedPages: MinimizedPage[] = [];
   menus: Menu[] = []; // Adicione esta linha para inicializar menus
 
@@ -46,22 +46,21 @@ export class HomeComponent {
     // Remove a aba minimizada da lista
     this.minimizeService.minimizedPages = this.minimizeService.minimizedPages.filter(p => p !== page);
 
-    // Navega de volta para a página minimizada
-    this.router.navigate([page.component]);
+    // Navega para a rota armazenada na página minimizada
+    this.router.navigate([page.route], { state: { data: page.data } });
   }
+
 
   getIconForCurrentPage(): string {
     return this.menus.flatMap((menu: Menu) => menu.submenus)
-                     .find((submenu: SubMenu) => submenu.link === this.router.url)?.icon || 'help';
+      .find((submenu: SubMenu) => submenu.link === this.router.url)?.icon || 'help';
   }
 
-  getCurrentComponent(): any {
-    // Retorna o componente atual (ajuste conforme a sua estrutura)
+  getCurrentComponent(): string {
     return this.router.url;
   }
 
   getCurrentPageData(): any {
-    // Retorna os dados da página atual (ajuste conforme a sua estrutura)
     return history.state.data;
   }
 

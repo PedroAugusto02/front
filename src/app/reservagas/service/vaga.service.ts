@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Vaga } from '../../entity/Vaga';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VagaService {
 
-  private baseUrl = 'http://localhost:8080/vagas';
+  private baseUrl = `${environment.apiUrl}/vagas`;
 
   constructor(private http: HttpClient) { }
 
@@ -27,7 +28,7 @@ export class VagaService {
   deletarVaga(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
-  
+
   listarVagasPorEstacionamento(estacionamentoId: number): Observable<Vaga[]> {
     return this.http.get<Vaga[]>(`${this.baseUrl}/estacionamento/${estacionamentoId}`);
   }

@@ -4,16 +4,17 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoaderService } from '../service/loader.service';
 import { finalize } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8080/auth/login';
+  private apiUrl = `${environment.apiUrl}/auth/login`;
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private router: Router,
     private loader: LoaderService,
     @Inject(PLATFORM_ID) private platformId: Object

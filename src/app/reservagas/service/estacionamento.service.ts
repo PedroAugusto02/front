@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Estacionamento } from '../../entity/Estacionamento';
 import { Vaga } from '../../entity/Vaga';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EstacionamentoService {
 
-  private baseUrl = 'http://localhost:8080/estacionamentos';
+  private baseUrl = `${environment.apiUrl}/estacionamentos`;
 
   constructor(private http: HttpClient) { }
 

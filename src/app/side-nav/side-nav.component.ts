@@ -23,6 +23,7 @@ import { AuthService } from '../authentication/auth.service';
 import { UsuarioComponent } from '../pessoas/usuario/usuario.component';
 import { MinimizableStateService } from '../service/minimizable-state.service';
 import { MinimizeService } from '../service/minimize.service';
+import { MenuService } from '../service/menu.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -58,32 +59,13 @@ export class SideNavComponent {
   filters: any;
   state: any;
   sidenavIcon: string = 'menu'; // ícone padrão
-
-  menus: Menu[] = [
-    {
-      title: 'Pessoas',
-      submenus: [
-        { title: 'Usuario', link: '/usuarios', icon: "person" },
-        { title: 'Trabalho', link: '/trabalhos', icon: "work" },
-        // { title: 'Atividades', link: '/atividades', icon: "extension" },
-      ],
-      expanded: false
-    },
-    {
-      title: 'Reservagas',
-      submenus: [
-        { title: 'Estacionamento', link: '/estacionamento', icon: "directions_car" },
-        { title: 'Vagas', link: '/vagas', icon: "local_parking" },
-        { title: 'Vendedores', link: '/vendedores', icon: "person_pin_circle" }
-      ],
-      expanded: false
-    }
-  ];
+  menus: Menu[] = [];
 
   constructor(
     private titleService: TitleService,
     private loader: LoaderService,
     private authService: AuthService,
+    private menuService: MenuService,
     private renderer: Renderer2,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -98,7 +80,12 @@ export class SideNavComponent {
       this.router.navigate(['/login']);
     } else {
       this.isHomePage = this.router.url === '/home';
+      this.menuService.loadUserMenus();
     }
+
+    this.menuService.getUserMenus().subscribe(menus => {
+      this.menus = menus;
+    });
 
     this.titleService.getPageTitle().subscribe((title: string) => {
       this.pageTitle = title;

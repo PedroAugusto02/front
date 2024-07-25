@@ -38,7 +38,9 @@ export class HomeComponent {
   constructor(
     private router: Router,
     private minimizeService: MinimizeService,
+    private title: TitleService,
   ) {
+    title.setPageTitle("Home");
     const navigation = this.router.getCurrentNavigation();
     this.minimizedPages = this.minimizeService.getMinimizedPages();
   }
@@ -49,7 +51,7 @@ export class HomeComponent {
       this.router.navigate([restoredPage.route], { state: { data: restoredPage.state } });
     }
   }
-  
+
 
 
   getMinimizedPages(): any[] {

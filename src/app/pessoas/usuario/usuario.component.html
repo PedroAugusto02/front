@@ -2,12 +2,12 @@
   <div class="container-usuarios shadow p-4">
     <h2>Adicionar Novo Usuário</h2>
     <div class="ativo-adicionar">
-      <inputtext class="estilomeu" [label]="'Login'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.login"
+      <inputtext class="estilomeu" [label]="'Usuario'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.login"
         [validacao]="true" (valueChange)="usuarioNovo.login = $event"></inputtext>
     </div>
     <div class="ativo-adicionar">
-      <input-password class="estilomeu" [label]="'password'" [placeholder]="'ex: *****'" [value]="usuarioNovo.password"
-        [validacao]="true" (valueChange)="usuarioNovo.password = $event"></input-password>
+      <inputtext class="estilomeu" [label]="'Senha'" [placeholder]="'ex: *****'" [value]="usuarioNovo.password"
+        [validacao]="true" (valueChange)="usuarioNovo.password = $event"></inputtext>
     </div>
     <div class="ativo-adicionar">
       <app-inputselect [atributoExibido]="'role'" [lista]="roles" [label]="'Selecione um Estacionamento'"

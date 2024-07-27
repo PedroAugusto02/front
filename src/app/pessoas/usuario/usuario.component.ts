@@ -201,7 +201,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       usuarios_lista: this.usuarios_lista,
       usuarios_update: this.usuarios_update,
       usuarioUpdate: this.usuarioUpdate,
-      usuarioNovo: this.usuarioNovo
+      usuarioNovo: this.usuarioNovo,
+      roles: this.roles,
     };
     console.log('Salvando estado:', state);
     this.minimizableStateService.setComponentState('UsuarioComponent', state);
@@ -220,6 +221,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       this.usuarios_update = state.usuarios_update;
       this.usuarioUpdate = state.usuarioUpdate;
       this.usuarioNovo = state.usuarioNovo;
+      this.roles = state.roles;
     }
   }
 
@@ -228,7 +230,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       usuarios_lista: this.usuarios_lista,
       usuarios_update: this.usuarios_update,
       usuarioUpdate: this.usuarioUpdate,
-      usuarioNovo: this.usuarioNovo
+      usuarioNovo: this.usuarioNovo,
+      roles: this.roles,
     };
   }
 

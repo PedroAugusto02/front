@@ -10,6 +10,8 @@ import { Estacionamento } from '../../../entity/Estacionamento';
 import { EstacionamentoService } from '../../service/estacionamento.service';
 import { ColorPickerComponent } from "../../../components/inputs/color-picker/color-picker.component";
 import { VagaService } from '../../service/vaga.service';
+import { LoaderService } from '../../../service/loader.service';
+import { finalize } from 'rxjs';
 
 
 @Component({
@@ -29,6 +31,7 @@ export class ReservaDetalhesComponent {
     private router: Router,
     private estacionamentoService: EstacionamentoService,
     private vagaService: VagaService,
+    private loader: LoaderService,
   ) {
     this.vaga = new Vaga();
     this.estacionamento = new Estacionamento();
@@ -46,7 +49,10 @@ export class ReservaDetalhesComponent {
   
 
   buscaEstacionamento(estacionamentoId: number): void {
-    this.estacionamentoService.buscarEstacionamentoPorId(estacionamentoId).subscribe({
+    this.loader.show();
+    this.estacionamentoService.buscarEstacionamentoPorId(estacionamentoId).pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
       next: (estacionamento) => {
         this.estacionamento = estacionamento;
       },

@@ -11,6 +11,8 @@ import { CommonModule } from '@angular/common';
 import { InputselectComponent } from '../../components/inputs/inputselect/inputselect.component';
 import { TitleService } from '../../service/title.service';
 import { Router } from '@angular/router';
+import { LoaderService } from '../../service/loader.service';
+import { finalize } from 'rxjs';
 
 
 @Component({
@@ -29,7 +31,8 @@ export class VagaComponent implements OnInit {
       private vagaService: VagaService,
       private estacionamentoService: EstacionamentoService,
       private router: Router,
-      private titleService: TitleService
+      private titleService: TitleService,
+      private loader: LoaderService,
   ) {
     this.titleService.setPageTitle("Vagas");
   }
@@ -39,14 +42,17 @@ export class VagaComponent implements OnInit {
   }
 
   carregarEstacionamentos(): void {
-      this.estacionamentoService.listarEstacionamentos().subscribe(
-          estacionamentos => {
-              this.estacionamentos = estacionamentos;
-          },
-          error => {
-              console.log('Erro ao carregar estacionamentos:', error);
-          }
-      );
+    this.loader.show();
+      this.estacionamentoService.listarEstacionamentos().pipe(finalize(() => {
+        this.loader.hide();
+      })).subscribe({
+        next: (estacionamentos) => {
+            this.estacionamentos = estacionamentos;
+        },
+        error: (error) => {
+            console.log('Erro ao carregar estacionamentos:', error);
+        },
+      });
   }
 
   selecionarEstacionamento(estacionamento: Estacionamento): void {
@@ -55,7 +61,10 @@ export class VagaComponent implements OnInit {
   }
 
   carregarVagas(estacionamentoId: number): void {
-      this.vagaService.listarVagasPorEstacionamento(estacionamentoId).subscribe({
+    this.loader.show();
+      this.vagaService.listarVagasPorEstacionamento(estacionamentoId).pipe(finalize(() => {
+        this.loader.hide();
+      })).subscribe({
           next: (result) => {
               this.cardsVagas = result;
               // Verifique aqui se o estacionamento está sendo carregado corretamente junto com as vagas

@@ -14,6 +14,7 @@
 .ativo-adicionar {
   display: flex;
   justify-content: space-between;
+  width: 18%;
 }
 
 .example-container {
@@ -35,14 +36,12 @@
 .example-box {
   /* padding: 20px 10px; */
   border-bottom: solid 1px #ccc;
-  color: rgba(0, 0, 0, 0.87);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
   cursor: move;
-  background: white;
   font-size: 14px;
   height: 58px;
 }
@@ -74,5 +73,11 @@
 .operacoes{
   margin-bottom: 22px;
   margin-left: 50px;
+  display: inline-flex;
+  width: 22%;
+  justify-content: space-around;
 }
 
+.teste button{
+  width: 200px;
+}

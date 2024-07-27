@@ -14,7 +14,7 @@
             [atributoValor]="'role'" [(value)]="usuarioNovo.role">
           </app-inputselect>
     </div>
-    <app-button [label]="'Adicionar'" [color]="'success'" (buttonClick)="adicionarUsuario()"></app-button>
+    <app-button class="teste" [label]="'Adicionar'" [color]="'success'" (buttonClick)="adicionarUsuario()"></app-button>
   </div>
   <div class="container-update shadow p-4">
     <div class="d-flex">
@@ -34,9 +34,9 @@
         </div>
       </div>
       <div class="operacoes" *ngIf="usuarios_update.length > 0">
-        <app-button [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarUsuario()"></app-button>
-        <app-button [label]="'Limpar'" [color]="'clear'" (buttonClick)="refresh()"></app-button>
-        <app-button [label]="'Excluir'" [color]="'warn'" (buttonClick)="deletarUsuario(usuarioUpdate.id)"></app-button>
+        <div><app-button [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarUsuario()"></app-button></div>
+        <div><app-button [label]="'Limpar'" [color]="'clear'" (buttonClick)="refresh()"></app-button></div>
+        <div><app-button [label]="'Excluir'" [color]="'warn'" (buttonClick)="deletarUsuario(usuarioUpdate.id)"></app-button></div>
       </div>
     </div>
 
@@ -53,6 +53,7 @@
     class="example-list" (cdkDropListDropped)="drop($event)">
     <div *ngFor="let usuario of usuarios_lista; trackBy: trackByFn" class="example-box" cdkDrag>
       <div>{{ usuario.login }}</div>
+      <div>{{ usuario.role }}</div>
       <div>{{ usuario.email }}</div>
       <div>{{ usuario.age }}</div>
     </div>

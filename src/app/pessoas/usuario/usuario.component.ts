@@ -123,14 +123,17 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   }
 
   adicionarUsuario(): void {
-    this.authService.register(this.usuarioNovo).subscribe(
-      novoUsuario => {
+    this.loader.show();
+    this.authService.register(this.usuarioNovo).pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
+      next: (result) => {
         this.refresh(); // Se necessário
       },
-      error => {
+      error: (error) => {
         console.log('Erro ao adicionar usuário:', error);
       }
-    );
+    });
   }
 
   toggleAtivo(id: number): void {

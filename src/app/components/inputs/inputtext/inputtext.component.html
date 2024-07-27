@@ -2,7 +2,8 @@
   <mat-label>{{ label }}</mat-label>
   <input matInput
          [formControl]="campoFormControl"
-         [placeholder]="placeholder">
+         [placeholder]="placeholder"
+         [disabled]="disabled">
   <mat-error *ngIf="campoFormControl.hasError('required')">
     {{ label }} é <strong>obrigatório</strong>
   </mat-error>

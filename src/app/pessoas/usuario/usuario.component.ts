@@ -2,7 +2,7 @@ import { UserRoles } from './../../entity/UserRoles';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -18,10 +18,11 @@ import { Usuario } from '../../entity/Usuario';
 import { TitleService } from '../../service/title.service';
 import { InputEmailComponent } from '../../components/inputs/input-email/input-email.component';
 import { MinimizableStateService } from '../../service/minimizable-state.service';
-import { Subscription } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 import { InputPasswordComponent } from '../../components/inputs/input-password/input-password.component';
 import { InputselectComponent } from '../../components/inputs/inputselect/inputselect.component';
 import { Estacionamento } from '../../entity/Estacionamento';
+import { LoaderService } from '../../service/loader.service';
 
 @Component({
   selector: 'app-usuario',
@@ -67,6 +68,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     private usuarioService: UsuarioService,
     private titleService: TitleService,
     private minimizableStateService: MinimizableStateService,
+    private loader: LoaderService,
   ) {
     this.titleService.setPageTitle("Usuarios");
   }
@@ -100,20 +102,22 @@ export class UsuarioComponent implements OnInit, OnDestroy {
 
   refresh() {
     this.usuarioUpdate = new Usuario();
-    this.usuarioNovo = new Usuario();
     this.usuarios_update = [];
     this.carregarUsuarios();
   }
 
   carregarUsuarios(): void {
-    this.usuarioService.listarUsuarios().subscribe(
-      usuarios => {
+    this.loader.show();
+    this.usuarioService.listarUsuarios().pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
+      next: (usuarios) => {
         this.usuarios_lista = usuarios;
       },
-      error => {
+      error: (error) => {
         console.log('Erro ao carregar usuários:', error);
-      }
-    );
+      }  
+    });
   }
 
   adicionarUsuario(): void {
@@ -162,6 +166,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
         event.currentIndex
       );
       this.usuarioUpdate = this.usuarios_update[0];
+      
+
     }
   }
 
@@ -222,6 +228,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       this.usuarioUpdate = state.usuarioUpdate;
       this.usuarioNovo = state.usuarioNovo;
       this.roles = state.roles;
+      // Adicione esta linha para garantir que o valor da role esteja correto
+      this.selecionarRole(state.usuarioNovo.role);
     }
   }
 

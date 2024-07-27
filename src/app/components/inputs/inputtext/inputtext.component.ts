@@ -1,17 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'inputtext',
@@ -20,37 +11,44 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './inputtext.component.html',
   styleUrls: ['./inputtext.component.css']
 })
-export class InputtextComponent implements OnInit {
+export class InputtextComponent implements OnInit, OnChanges {
   @Input() label!: string;
-  @Input() value!: any;
+  @Input() value: any = '';  // Inicialize com uma string vazia para evitar 'undefined'
   @Input() placeholder!: string;
   @Input() disabled: boolean = false;
   @Input() validacao: boolean = false;
-  @Input() class: string = '';  // Classe personalizada
+  @Input() class: string = '';
   @Output() valueChange = new EventEmitter<any>();
-  
+
   campoFormControl!: FormControl;
 
   ngOnInit(): void {
-    // Initialize the FormControl with the value and disabled status
-    this.campoFormControl = new FormControl({
-      value: this.value,
-      disabled: this.disabled
-    });
-    
+    // Inicialize o FormControl com o valor e o status de desabilitado
+    this.campoFormControl = new FormControl({ value: this.value, disabled: this.disabled });
+
     if (this.validacao) {
       this.campoFormControl.setValidators([Validators.required]);
     }
 
-    // Emit value change when form control value changes
+    // Emite a mudança de valor quando o FormControl muda
     this.campoFormControl.valueChanges.subscribe(newValue => {
       this.valueChange.emit(newValue);
     });
   }
 
-  onInputChange(event: any) {
-    const newValue = event.target.value;
-    this.campoFormControl.setValue(newValue, { emitEvent: false });
-    this.valueChange.emit(newValue);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['value'] && !changes['value'].firstChange) {
+      // Atualize o valor do FormControl se a entrada mudar
+      this.campoFormControl.setValue(this.value, { emitEvent: false });
+    }
+
+    if (changes['disabled']) {
+      // Atualize o status de desabilitado do FormControl
+      if (this.disabled) {
+        this.campoFormControl.disable();
+      } else {
+        this.campoFormControl.enable();
+      }
+    }
   }
 }

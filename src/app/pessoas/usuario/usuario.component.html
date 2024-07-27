@@ -10,7 +10,7 @@
         [validacao]="true" (valueChange)="usuarioNovo.password = $event"></inputtext>
     </div>
     <div class="ativo-adicionar">
-      <app-inputselect [atributoExibido]="'role'" [lista]="roles" [label]="'Selecione um Estacionamento'"
+      <app-inputselect [atributoExibido]="'role'" [lista]="roles" [label]="'Selecione uma Role'"
         [atributoValor]="'role'" (valueChange)="selecionarRole($event)">
       </app-inputselect>
     </div>
@@ -24,13 +24,11 @@
             (valueChange)="usuarioUpdate.login = $event"></inputtext>
         </div>
         <div>
-          <inputtext [label]="'Idade'" [value]="usuarioUpdate.age" (valueChange)="usuarioUpdate.age = $event">
-          </inputtext>
+          <app-inputselect [atributoExibido]="'role'" [lista]="roles" [label]="'Selecione uma Role'"
+            [atributoValor]="'role'" [(value)]="usuarioUpdate.role">
+          </app-inputselect>
         </div>
-        <div>
-          <inputtext [label]="'Email'" [value]="usuarioUpdate.email" (valueChange)="usuarioUpdate.email = $event">
-          </inputtext>
-        </div>
+
         <div class="ativo-adicionar">
           <checkbox [label]="'Ativo'" [(value)]="usuarioUpdate.active"></checkbox>
         </div>

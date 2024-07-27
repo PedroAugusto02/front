@@ -11,10 +11,10 @@
     </div>
     <div class="ativo-adicionar">
       <app-inputselect [atributoExibido]="'role'" [lista]="roles" [label]="'Selecione uma Role'"
-        [atributoValor]="'role'" (valueChange)="selecionarRole($event)">
-      </app-inputselect>
+            [atributoValor]="'role'" [(value)]="usuarioNovo.role">
+          </app-inputselect>
     </div>
-    <app-button [label]="'Adicionar'" [color]="'success'" (buttonClick)="salvarUsuario()"></app-button>
+    <app-button [label]="'Adicionar'" [color]="'success'" (buttonClick)="adicionarUsuario()"></app-button>
   </div>
   <div class="container-update shadow p-4">
     <div class="d-flex">

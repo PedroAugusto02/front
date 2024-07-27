@@ -23,6 +23,7 @@ import { InputPasswordComponent } from '../../components/inputs/input-password/i
 import { InputselectComponent } from '../../components/inputs/inputselect/inputselect.component';
 import { Estacionamento } from '../../entity/Estacionamento';
 import { LoaderService } from '../../service/loader.service';
+import { AuthService } from '../../authentication/auth.service';
 
 @Component({
   selector: 'app-usuario',
@@ -68,6 +69,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     private usuarioService: UsuarioService,
     private titleService: TitleService,
     private minimizableStateService: MinimizableStateService,
+    private authService: AuthService,
     private loader: LoaderService,
   ) {
     this.titleService.setPageTitle("Usuarios");
@@ -121,10 +123,9 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   }
 
   adicionarUsuario(): void {
-    this.usuarioService.criarUsuario(this.usuarioNovo).subscribe(
+    this.authService.register(this.usuarioNovo).subscribe(
       novoUsuario => {
-        this.usuarios_lista.push(novoUsuario);
-        this.refresh();
+        this.refresh(); // Se necessário
       },
       error => {
         console.log('Erro ao adicionar usuário:', error);

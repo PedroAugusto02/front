@@ -6,6 +6,7 @@ import { LoaderService } from '../service/loader.service';
 import { finalize } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ModalService } from '../service/modal.service';
+import { Usuario } from '../entity/Usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ import { ModalService } from '../service/modal.service';
 export class AuthService {
 
   private apiUrl = `${environment.apiUrl}/auth/login`;
+  private registerUrl = `${environment.apiUrl}/auth/register`;
 
   constructor(
     private http: HttpClient,
@@ -46,6 +48,15 @@ export class AuthService {
         console.log('Erro ao fazer login:', error);
       }
     });
+  }
+
+  register(usuario: Usuario) {
+    this.loader.show();
+    return this.http.post<Usuario>(`${this.registerUrl}`, usuario).pipe(
+      finalize(() => {
+        this.loader.hide();
+      })
+    );
   }
 
   logout() {

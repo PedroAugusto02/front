@@ -6,8 +6,9 @@
 .login-container {
   display: flex;
   justify-content: center;
-  margin-top: 10px; /* Ajuste a margem superior conforme necessário */
+  align-items: center;
 }
+
 
 .menu-login {
   display: grid;

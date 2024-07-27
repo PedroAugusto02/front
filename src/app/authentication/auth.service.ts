@@ -10,6 +10,7 @@ import { ModalService } from '../service/modal.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
 
   private apiUrl = `${environment.apiUrl}/auth/login`;
@@ -23,25 +24,29 @@ export class AuthService {
   ) { }
 
   login(login: string, password: string) {
-  return this.http.post<{ token: string }>(`${this.apiUrl}`, { login, password }).subscribe({
-    next: (response) => {
-      if (isPlatformBrowser(this.platformId)) {
-        localStorage.setItem('authToken', response.token);
+    this.loader.show();
+    return this.http.post<{ token: string }>(`${this.apiUrl}`, { login, password }).pipe(
+      finalize(() => {
+        this.loader.hide();
+      })
+    ).subscribe({
+      next: (response) => {
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.setItem('authToken', response.token);
+        }
+        this.router.navigate(['/']);
+      },
+      error: (error: HttpErrorResponse) => {
+        let errorMessage = "";
+        if (error.status == 401)
+          errorMessage = error.error;
+        else
+          errorMessage = 'Erro desconhecido ao fazer login';
+        this.modalService.showError(errorMessage);
+        console.log('Erro ao fazer login:', error);
       }
-      this.router.navigate(['/']);
-    },
-    error: (error: HttpErrorResponse) => {
-      let errorMessage = "";
-      if(error.status == 401)
-        errorMessage = error.error;
-      else
-        errorMessage = 'Erro desconhecido ao fazer login';
-      this.modalService.showError(errorMessage);
-      console.log('Erro ao fazer login:', error);
-    }
-  });
-}
-
+    });
+  }
 
   logout() {
     if (isPlatformBrowser(this.platformId)) {

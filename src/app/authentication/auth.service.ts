@@ -23,7 +23,7 @@ export class AuthService {
   login(login: string, password: string) {
     this.loader.show();
     return this.http.post<{token: string}>(`${this.apiUrl}`, { login, password }).pipe(finalize(() => {
-      this.loader.show();
+      this.loader.hide();
     })).subscribe({
         next: (response) => {
           if (isPlatformBrowser(this.platformId)) {

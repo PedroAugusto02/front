@@ -2,31 +2,26 @@
   <div class="container-usuarios shadow p-4">
     <h2>Adicionar Novo Usuário</h2>
     <div class="ativo-adicionar">
-      <div>
-        <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.name"
-          [validacao]="true" (valueChange)="usuarioNovo.name = $event"></inputtext>
-      </div>
-      <div>
-        <inputtext [label]="'Idade'" [value]="usuarioNovo.age" (valueChange)="usuarioNovo.age = $event"
-          [validacao]="false"></inputtext>
-      </div>
-    </div>
-    <div>
-      <input-email [label]="'Email'" [placeholder]="'Ex. pat@example.com'" [value]="usuarioNovo.email"
-        (valueChange)="usuarioNovo.email = $event"></input-email>
+      <inputtext class="estilomeu" [label]="'Login'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.login"
+        [validacao]="true" (valueChange)="usuarioNovo.login = $event"></inputtext>
     </div>
     <div class="ativo-adicionar">
-      <checkbox [label]="'Ativo'" [(value)]="usuarioNovo.active"></checkbox>
-      <app-button [label]="'Adicionar'" [color]="'primary'" (buttonClick)="adicionarUsuario()"></app-button>
+      <input-password class="estilomeu" [label]="'password'" [placeholder]="'ex: *****'" [value]="usuarioNovo.password"
+        [validacao]="true" (valueChange)="usuarioNovo.password = $event"></input-password>
     </div>
+    <div class="ativo-adicionar">
+      <app-inputselect [atributoExibido]="'role'" [lista]="roles" [label]="'Selecione um Estacionamento'"
+        [atributoValor]="'role'" (valueChange)="selecionarRole($event)">
+      </app-inputselect>
+    </div>
+    <app-button [label]="'Adicionar'" [color]="'success'" (buttonClick)="salvarUsuario()"></app-button>
   </div>
-
   <div class="container-update shadow p-4">
     <div class="d-flex">
       <div>
         <div>
-          <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioUpdate.name"
-            (valueChange)="usuarioUpdate.name = $event"></inputtext>
+          <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioUpdate.login"
+            (valueChange)="usuarioUpdate.login = $event"></inputtext>
         </div>
         <div>
           <inputtext [label]="'Idade'" [value]="usuarioUpdate.age" (valueChange)="usuarioUpdate.age = $event">
@@ -49,7 +44,8 @@
 
     <div cdkDropList #edicao="cdkDropList" [cdkDropListData]="usuarios_update" [cdkDropListConnectedTo]="[usuarios]"
       class="example-list" (cdkDropListDropped)="dropUpdate($event)">
-      <div *ngFor="let usuario of usuarios_update; trackBy: trackByFn" class="example-box" cdkDrag>{{usuario.name}}</div>
+      <div *ngFor="let usuario of usuarios_update; trackBy: trackByFn" class="example-box" cdkDrag>{{usuario.login}}
+      </div>
     </div>
   </div>
 </div>
@@ -58,7 +54,7 @@
   <div cdkDropList #usuarios="cdkDropList" [cdkDropListData]="usuarios_lista" [cdkDropListConnectedTo]="[edicao]"
     class="example-list" (cdkDropListDropped)="drop($event)">
     <div *ngFor="let usuario of usuarios_lista; trackBy: trackByFn" class="example-box" cdkDrag>
-      <div>{{ usuario.name }}</div>
+      <div>{{ usuario.login }}</div>
       <div>{{ usuario.email }}</div>
       <div>{{ usuario.age }}</div>
     </div>

@@ -45,7 +45,7 @@
                 (cdkDropListDropped)="dropUsuarios($event)">
                 @for (usuario of listaUsuarios; track usuario) {
                 <div class="example-box" cdkDrag>
-                    <div>{{ usuario.name }}</div>
+                    <div>{{ usuario.login }}</div>
                 </div>
                 }
             </div>

@@ -1,3 +1,4 @@
+import { UserRoles } from './../../entity/UserRoles';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,11 +19,32 @@ import { TitleService } from '../../service/title.service';
 import { InputEmailComponent } from '../../components/inputs/input-email/input-email.component';
 import { MinimizableStateService } from '../../service/minimizable-state.service';
 import { Subscription } from 'rxjs';
+import { InputPasswordComponent } from '../../components/inputs/input-password/input-password.component';
+import { InputselectComponent } from '../../components/inputs/inputselect/inputselect.component';
+import { Estacionamento } from '../../entity/Estacionamento';
 
 @Component({
   selector: 'app-usuario',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, FormsModule, InputtextComponent, ButtonComponent, MatCardModule, CheckboxComponent, MinibuttonComponent, CdkDropListGroup, CdkDropList, CdkDrag, MatButtonModule, MatDividerModule, MatIconModule, InputEmailComponent],
+  imports: [
+    HttpClientModule,
+    CommonModule,
+    FormsModule,
+    InputtextComponent,
+    ButtonComponent,
+    MatCardModule,
+    CheckboxComponent,
+    MinibuttonComponent,
+    CdkDropListGroup,
+    CdkDropList,
+    CdkDrag,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    InputEmailComponent,
+    InputPasswordComponent,
+    InputselectComponent,
+  ],
   templateUrl: './usuario.component.html',
   styleUrls: ['./usuario.component.css']
 })
@@ -36,6 +58,11 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   usuarioUpdate: Usuario = new Usuario();
   usuarioNovo: Usuario = new Usuario();
 
+  userRole: UserRoles = new UserRoles();
+  adminRole: UserRoles = new UserRoles();
+  donoRole: UserRoles = new UserRoles();
+  roles: UserRoles[] = [this.userRole,this.adminRole,this.donoRole];
+
   constructor(
     private usuarioService: UsuarioService,
     private titleService: TitleService,
@@ -47,6 +74,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.carregarUsuarios();
     this.restoreStateIfNeeded();
+    this.carregarRoles();
 
     // Inscrever-se no evento de minimização
     this.minimizeSubscription = this.minimizableStateService.getMinimizeEvent()
@@ -204,6 +232,15 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     };
   }
 
+  selecionarRole(role: UserRoles): void {
+    this.usuarioNovo.role = role;
+  }
+
+  carregarRoles(): void {
+    this.userRole.role = "USER";
+    this.adminRole.role = "ADMIN";
+    this.donoRole.role = "DONO";
+  }
 
 }
 

@@ -118,7 +118,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.log('Erro ao carregar usuários:', error);
-      }  
+      }
     });
   }
 
@@ -128,7 +128,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       this.loader.hide();
     })).subscribe({
       next: (result) => {
-        this.refresh(); // Se necessário
+        this.usuarioNovo = new Usuario();
+        this.refresh();
       },
       error: (error) => {
         console.log('Erro ao adicionar usuário:', error);
@@ -170,7 +171,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
         event.currentIndex
       );
       this.usuarioUpdate = this.usuarios_update[0];
-      
+
 
     }
   }

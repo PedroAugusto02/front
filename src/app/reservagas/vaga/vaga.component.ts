@@ -56,29 +56,29 @@ export class VagaComponent implements OnInit {
   }
 
   selecionarEstacionamento(estacionamento: Estacionamento): void {
-      this.selectedEstacionamento = estacionamento;
-      this.carregarVagas(estacionamento.id);
+    this.selectedEstacionamento = estacionamento;
+    this.carregarVagas(estacionamento.id);
   }
 
   carregarVagas(estacionamentoId: number): void {
     this.loader.show();
-      this.vagaService.listarVagasPorEstacionamento(estacionamentoId).pipe(finalize(() => {
-        this.loader.hide();
-      })).subscribe({
-          next: (result) => {
-              this.cardsVagas = result;
-              // Verifique aqui se o estacionamento está sendo carregado corretamente junto com as vagas
-              console.log('Vagas carregadas:', this.cardsVagas);
-          },
-          error: (error) => {
-              console.log('Erro ao carregar vagas:', error);
-          }
-      });
+    this.vagaService.listarVagasPorEstacionamento(estacionamentoId).pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
+      next: (result) => {
+        this.cardsVagas = result;
+        console.log('Vagas carregadas:', this.cardsVagas);
+      },
+      error: (error) => {
+        console.log('Erro ao carregar vagas:', error);
+      }
+    });
   }
+
 
   abrirDetalhesReserva(vaga: Vaga): void {
     // Navega para a página de detalhes da reserva, passando a vaga completa como parâmetro
     this.router.navigate([`/reserva-detalhes`], { state: { vaga } });
   }
-  
+
 }

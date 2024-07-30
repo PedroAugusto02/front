@@ -17,6 +17,7 @@
     <app-button class="teste" [label]="'Adicionar'" [color]="'success'" (buttonClick)="adicionarUsuario()"></app-button>
   </div>
   <div class="container-update shadow p-4">
+    <h2>Editar Usuarios</h2>
     <div class="d-flex">
       <div>
         <div>
@@ -49,6 +50,7 @@
 </div>
 
 <div class="container-tabela shadow p-4">
+  <h2>Lista de Usuarios</h2>
   <div cdkDropList #usuarios="cdkDropList" [cdkDropListData]="usuarios_lista" [cdkDropListConnectedTo]="[edicao]"
     class="example-list" (cdkDropListDropped)="drop($event)">
     <div *ngFor="let usuario of usuarios_lista; trackBy: trackByFn" class="example-box" cdkDrag>

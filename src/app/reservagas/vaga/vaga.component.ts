@@ -55,9 +55,8 @@ export class VagaComponent implements OnInit {
       });
   }
 
-  selecionarEstacionamento(estacionamento: Estacionamento): void {
-    this.selectedEstacionamento = estacionamento;
-    this.carregarVagas(estacionamento.id);
+  selecionarEstacionamento(id: number): void {
+    this.carregarVagas(id);
   }
 
   carregarVagas(estacionamentoId: number): void {

@@ -1,68 +1,76 @@
-<div class="d-flex">
-  <div class="container-usuarios shadow p-4">
-    <h2>Adicionar Novo Usuário</h2>
-    <div class="ativo-adicionar">
-      <inputtext class="estilomeu" [label]="'Usuario'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.login"
-        [validacao]="true" (valueChange)="usuarioNovo.login = $event"></inputtext>
-    </div>
-    <div class="ativo-adicionar">
-      <inputtext class="estilomeu" [label]="'Senha'" [placeholder]="'ex: *****'" [value]="usuarioNovo.password"
-        [validacao]="true" (valueChange)="usuarioNovo.password = $event"></inputtext>
-    </div>
-    <div class="ativo-adicionar">
-      <app-inputselect [atributoExibido]="'role'" [lista]="roles" [label]="'Selecione uma Role'"
-            [atributoValor]="'role'" [(value)]="usuarioNovo.role">
-          </app-inputselect>
-    </div>
-    <div class="ativo-adicionar">
-      <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro Augusto'" [value]="usuarioNovo.nome"
-        [validacao]="true" (valueChange)="usuarioNovo.nome = $event"></inputtext>
-    </div>
-    <app-button class="teste" [label]="'Adicionar'" [color]="'success'" (buttonClick)="adicionarUsuario()"></app-button>
-  </div>
-  <div class="container-update shadow p-4">
-    <h2>Editar Usuarios</h2>
-    <div class="d-flex">
-      <div>
-        <div>
-          <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioUpdate.login"
-            (valueChange)="usuarioUpdate.login = $event"></inputtext>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <div class="container-usuarios shadow p-4">
+        <h2>Adicionar Novo Usuário</h2>
+        <div class="ativo-adicionar">
+          <inputtext class="estilomeu" [label]="'Usuario'" [placeholder]="'ex: Pedro'" [value]="usuarioNovo.login"
+            [validacao]="true" (valueChange)="usuarioNovo.login = $event"></inputtext>
         </div>
-        <div>
+        <div class="ativo-adicionar">
+          <inputtext class="estilomeu" [label]="'Senha'" [placeholder]="'ex: *****'" [value]="usuarioNovo.password"
+            [validacao]="true" (valueChange)="usuarioNovo.password = $event"></inputtext>
+        </div>
+        <div class="ativo-adicionar">
           <app-inputselect [atributoExibido]="'role'" [lista]="roles" [label]="'Selecione uma Role'"
-            [atributoValor]="'role'" [(value)]="usuarioUpdate.role">
+            [atributoValor]="'role'" [(value)]="usuarioNovo.role">
           </app-inputselect>
         </div>
         <div class="ativo-adicionar">
-          <checkbox [label]="'Ativo'" [(value)]="usuarioUpdate.active"></checkbox>
+          <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro Augusto'" [value]="usuarioNovo.nome"
+            [validacao]="true" (valueChange)="usuarioNovo.nome = $event"></inputtext>
+        </div>
+        <app-button class="teste" [label]="'Adicionar'" [color]="'success'" (buttonClick)="adicionarUsuario()"></app-button>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="container-update shadow p-4">
+        <h2>Editar Usuarios</h2>
+        <div>
+          <div>
+            <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro'" [value]="usuarioUpdate.login"
+              (valueChange)="usuarioUpdate.login = $event"></inputtext>
+          </div>
+          <div>
+            <app-inputselect [atributoExibido]="'role'" [lista]="roles" [label]="'Selecione uma Role'"
+              [atributoValor]="'role'" [(value)]="usuarioUpdate.role">
+            </app-inputselect>
+          </div>
+          <div class="ativo-adicionar">
+            <checkbox [label]="'Ativo'" [(value)]="usuarioUpdate.active"></checkbox>
+          </div>
+        </div>
+        <div class="operacoes mt-3" *ngIf="usuarios_update.length > 0">
+          <app-button [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarUsuario()"></app-button>
+          <app-button [label]="'Limpar'" [color]="'clear'" (buttonClick)="refresh()"></app-button>
+          <app-button [label]="'Excluir'" [color]="'warn'" (buttonClick)="deletarUsuario(usuarioUpdate.id)"></app-button>
+        </div>
+        <div cdkDropList #edicao="cdkDropList" [cdkDropListData]="usuarios_update" [cdkDropListConnectedTo]="[usuarios]"
+          class="example-list" (cdkDropListDropped)="dropUpdate($event)">
+          <div *ngFor="let usuario of usuarios_update; trackBy: trackByFn" class="example-box" cdkDrag>{{usuario.login}}</div>
         </div>
       </div>
-      <div class="operacoes" *ngIf="usuarios_update.length > 0">
-        <div><app-button [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarUsuario()"></app-button></div>
-        <div><app-button [label]="'Limpar'" [color]="'clear'" (buttonClick)="refresh()"></app-button></div>
-        <div><app-button [label]="'Excluir'" [color]="'warn'" (buttonClick)="deletarUsuario(usuarioUpdate.id)"></app-button></div>
-      </div>
     </div>
-
-    <div cdkDropList #edicao="cdkDropList" [cdkDropListData]="usuarios_update" [cdkDropListConnectedTo]="[usuarios]"
-      class="example-list" (cdkDropListDropped)="dropUpdate($event)">
-      <div *ngFor="let usuario of usuarios_update; trackBy: trackByFn" class="example-box" cdkDrag>{{usuario.login}}
+    <div class="col-md-4 mb-4" *ngIf="usuarios_update.length > 0">
+      <div class="container-editar shadow p-4">
+        <!-- Conteúdo adicional sobre o usuário sendo editado -->
       </div>
     </div>
   </div>
-  <div class="container-editar shadow p-4" *ngIf="usuarios_update.length > 0">
-
-  </div>
-</div>
-<div class="container-tabela shadow p-4">
-  <h2>Lista de Usuarios</h2>
-  <div cdkDropList #usuarios="cdkDropList" [cdkDropListData]="usuarios_lista" [cdkDropListConnectedTo]="[edicao]"
-    class="example-list" (cdkDropListDropped)="drop($event)">
-    <div *ngFor="let usuario of usuarios_lista; trackBy: trackByFn" class="example-box" cdkDrag>
-      <div>{{ usuario.login }}</div>
-      <div>{{ usuario.role }}</div>
-      <div>{{ usuario.email }}</div>
-      <div>{{ usuario.age }}</div>
+  <div class="row">
+    <div class="col-12">
+      <div class="container-tabela shadow p-4">
+        <h2>Lista de Usuarios</h2>
+        <div cdkDropList #usuarios="cdkDropList" [cdkDropListData]="usuarios_lista" [cdkDropListConnectedTo]="[edicao]"
+          class="example-list" (cdkDropListDropped)="drop($event)">
+          <div *ngFor="let usuario of usuarios_lista; trackBy: trackByFn" class="example-box" cdkDrag>
+            <div>{{ usuario.login }}</div>
+            <div>{{ usuario.role }}</div>
+            <div>{{ usuario.email }}</div>
+            <div>{{ usuario.age }}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

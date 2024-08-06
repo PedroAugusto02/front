@@ -3,7 +3,7 @@
   <h1 class="titulo">Login</h1>
 </mat-toolbar>
 <div class="login-container">
-  <div class="shadow p-4 menu-login">
+  <div class="shadow p-4 menu-login" (keyup.enter)="loginMethod()">
     <inputtext class="input-custom-width" [label]="'Login'" [placeholder]="'ex: Pedro'" [value]="login" [validacao]="true"
       (valueChange)="login = $event"></inputtext>
     <input-password class="estilomeu" [label]="'Senha'" [placeholder]="'ex: *****'" [value]="password" [validacao]="true"

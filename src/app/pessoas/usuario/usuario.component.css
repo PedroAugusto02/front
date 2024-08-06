@@ -1,28 +1,16 @@
-.container-usuarios {
-  max-width: 28%;
-}
-
-.container-tabela {
-  margin-top: 10px;
-}
-
-.container-editar {
+.container-usuarios, .container-update, .container-editar, .container-tabela {
+  border-radius: 5px;
   margin-left: 10px;
-  width: 100%;
+}
+
+.container-usuarios, .container-update, .container-editar {
+  height: 100%;
 }
 
 .ativo-adicionar {
   display: flex;
   justify-content: space-between;
-  width: 18%;
-}
-
-.example-container {
-  width: 400px;
-  max-width: 100%;
-  margin: 0 25px 25px 0;
-  display: inline-block;
-  vertical-align: top;
+  width: 100%;
 }
 
 .example-list {
@@ -31,6 +19,7 @@
   border-radius: 4px;
   overflow: hidden;
   display: block;
+  margin-top: 20px;
 }
 
 .example-box {
@@ -67,12 +56,11 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.operacoes{
-  margin-left: 50px;
-  display: inline-flex;
+.operacoes {
+  display: flex;
   gap: 15px;
 }
 
-.teste button{
-  width: 200px;
+.teste button {
+  width: 100%;
 }

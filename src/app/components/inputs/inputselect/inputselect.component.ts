@@ -25,6 +25,9 @@ export class InputselectComponent implements OnChanges {
     if (changes['value']) {
       this.campoFormControl.setValue(this.value, { emitEvent: false });
     }
+    if (changes['lista']) {
+      this.campoFormControl.setValue(this.value, { emitEvent: false });
+    }
   }
 
   onSelectionChange(event: any) {

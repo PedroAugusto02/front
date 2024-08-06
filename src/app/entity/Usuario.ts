@@ -6,6 +6,7 @@ export class Usuario {
     id!: number;
     login: string = "";
     password: string = "";
+    nome: string = "";
     email: string = "";
     role: UserRoles = new UserRoles();
     age: number = 0;

@@ -29,4 +29,8 @@ export class LoginComponent  {
     this.loader.show();
     this.authService.login(this.login, this.password);
   }
+
+  cadastrar() {
+    
+  }
 }

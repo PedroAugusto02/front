@@ -63,7 +63,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   userRole: UserRoles = new UserRoles();
   adminRole: UserRoles = new UserRoles();
   donoRole: UserRoles = new UserRoles();
-  roles: UserRoles[] = [this.userRole,this.adminRole,this.donoRole];
+  roles: UserRoles[] = [this.userRole, this.adminRole, this.donoRole];
 
   constructor(
     private usuarioService: UsuarioService,
@@ -171,8 +171,6 @@ export class UsuarioComponent implements OnInit, OnDestroy {
         event.currentIndex
       );
       this.usuarioUpdate = this.usuarios_update[0];
-
-
     }
   }
 
@@ -233,23 +231,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       this.usuarioUpdate = state.usuarioUpdate;
       this.usuarioNovo = state.usuarioNovo;
       this.roles = state.roles;
-      // Adicione esta linha para garantir que o valor da role esteja correto
-      this.selecionarRole(state.usuarioNovo.role);
     }
-  }
-
-  getMinimizeState(): any {
-    return {
-      usuarios_lista: this.usuarios_lista,
-      usuarios_update: this.usuarios_update,
-      usuarioUpdate: this.usuarioUpdate,
-      usuarioNovo: this.usuarioNovo,
-      roles: this.roles,
-    };
-  }
-
-  selecionarRole(role: UserRoles): void {
-    this.usuarioNovo.role = role;
   }
 
   carregarRoles(): void {
@@ -259,4 +241,3 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   }
 
 }
-

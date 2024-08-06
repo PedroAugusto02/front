@@ -27,3 +27,7 @@
 .full-width-button {
   width: 100%;
 }
+
+.botoes{
+  justify-content: space-between;
+}

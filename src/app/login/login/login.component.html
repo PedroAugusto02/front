@@ -8,6 +8,9 @@
       (valueChange)="login = $event"></inputtext>
     <input-password class="estilomeu" [label]="'Senha'" [placeholder]="'ex: *****'" [value]="password" [validacao]="true"
       (valueChange)="password = $event"></input-password>
-    <app-button [label]="'Login'" [color]="'primary'" class="full-width-button" (buttonClick)="loginMethod()"></app-button>
+    <div class="d-flex botoes">
+      <div><app-button [label]="'Login'" [color]="'primary'" class="full-width-button" (buttonClick)="loginMethod()"></app-button></div>
+      <div><app-button [label]="'Cadastro'" [color]="'incluir-reserva'" class="full-width-button" (buttonClick)="cadastrar()"></app-button></div>
+    </div>
   </div>
 </div>

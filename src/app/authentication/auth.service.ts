@@ -42,6 +42,8 @@ export class AuthService {
         let errorMessage = "";
         if (error.status == 401)
           errorMessage = error.error;
+        else if(error.status == 404)
+            errorMessage = error.error;
         else
           errorMessage = 'Erro desconhecido ao fazer login';
         this.modalService.showError(errorMessage);

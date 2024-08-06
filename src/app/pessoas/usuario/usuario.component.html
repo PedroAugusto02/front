@@ -14,6 +14,10 @@
             [atributoValor]="'role'" [(value)]="usuarioNovo.role">
           </app-inputselect>
     </div>
+    <div class="ativo-adicionar">
+      <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Pedro Augusto'" [value]="usuarioNovo.nome"
+        [validacao]="true" (valueChange)="usuarioNovo.nome = $event"></inputtext>
+    </div>
     <app-button class="teste" [label]="'Adicionar'" [color]="'success'" (buttonClick)="adicionarUsuario()"></app-button>
   </div>
   <div class="container-update shadow p-4">
@@ -29,7 +33,6 @@
             [atributoValor]="'role'" [(value)]="usuarioUpdate.role">
           </app-inputselect>
         </div>
-
         <div class="ativo-adicionar">
           <checkbox [label]="'Ativo'" [(value)]="usuarioUpdate.active"></checkbox>
         </div>
@@ -47,8 +50,10 @@
       </div>
     </div>
   </div>
-</div>
+  <div class="container-editar shadow p-4" *ngIf="usuarios_update.length > 0">
 
+  </div>
+</div>
 <div class="container-tabela shadow p-4">
   <h2>Lista de Usuarios</h2>
   <div cdkDropList #usuarios="cdkDropList" [cdkDropListData]="usuarios_lista" [cdkDropListConnectedTo]="[edicao]"

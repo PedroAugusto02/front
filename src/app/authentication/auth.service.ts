@@ -16,6 +16,8 @@ export class AuthService {
 
   private apiUrl = `${environment.apiUrl}/auth/login`;
   private registerUrl = `${environment.apiUrl}/auth/register`;
+  private userUrl = `${environment.apiUrl}/auth/user`;
+  private usuarioLogado!: Usuario;
 
   constructor(
     private http: HttpClient,
@@ -36,6 +38,7 @@ export class AuthService {
         if (isPlatformBrowser(this.platformId)) {
           localStorage.setItem('authToken', response.token);
         }
+        this.fetchLoggedInUser();
         this.router.navigate(['/']);
       },
       error: (error: HttpErrorResponse) => {
@@ -74,4 +77,24 @@ export class AuthService {
     }
     return false;
   }
+
+  fetchLoggedInUser() {
+    this.http.get<Usuario>(this.userUrl).subscribe({
+      next: (user) => {
+        this.usuarioLogado = user;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log('Erro ao buscar dados do usuário:', error);
+      }
+    });
+  }
+
+  getLoggedInUser(): Usuario | null {
+    return this.usuarioLogado;
+  }
+
+  getUserRole(): String {
+    return this.usuarioLogado.role.role;
+  }
+
 }

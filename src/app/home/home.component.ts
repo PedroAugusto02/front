@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TitleService } from '../service/title.service';
 import { CardComponent } from '../components/card/card.component';
 import { IconComponent } from '../components/icon/icon.component';
@@ -6,6 +6,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MinimizeService } from '../service/minimize.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../authentication/auth.service';
 
 interface SubMenu {
   link: string;
@@ -30,20 +31,35 @@ interface MinimizedPage {
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
 
   minimizedPages: MinimizedPage[] = [];
   menus: Menu[] = []; // Adicione esta linha para inicializar menus
+  usuario: any;
+  estacionamentos: any[] = [];
 
   constructor(
     private router: Router,
     private minimizeService: MinimizeService,
     private title: TitleService,
+    private authService: AuthService,
   ) {
     title.setPageTitle("Home");
     const navigation = this.router.getCurrentNavigation();
     this.minimizedPages = this.minimizeService.getMinimizedPages();
   }
+
+  ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.authService.fetchLoggedInUser();
+      this.usuario = this.authService.getLoggedInUser();
+      if (this.usuario && this.usuario.role === 'DONO') {
+
+      }
+    }
+  }
+
+
 
   restorePage(page: MinimizedPage): void {
     const restoredPage = this.minimizeService.restorePage(page.route);

@@ -1,63 +1,72 @@
-import { Component, OnInit } from '@angular/core';
-import { EstacionamentoService } from '../service/estacionamento.service';
-import { Vaga } from '../../entity/Vaga';
-import { Estacionamento } from '../../entity/Estacionamento';
-import { VagaService } from '../service/vaga.service';
-import { ButtonComponent } from '../../components/buttons/button/button.component';
-import { InputtextComponent } from '../../components/inputs/inputtext/inputtext.component';
-import { CheckboxComponent } from '../../components/inputs/checkbox/checkbox.component';
 import { CdkDrag, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { InputselectComponent } from '../../components/inputs/inputselect/inputselect.component';
-import { TitleService } from '../../service/title.service';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoaderService } from '../../service/loader.service';
 import { finalize } from 'rxjs';
+import { ButtonComponent } from '../../components/buttons/button/button.component';
+import { CheckboxComponent } from '../../components/inputs/checkbox/checkbox.component';
+import { InputselectComponent } from '../../components/inputs/inputselect/inputselect.component';
+import { InputtextComponent } from '../../components/inputs/inputtext/inputtext.component';
+import { Estacionamento } from '../../entity/Estacionamento';
+import { Vaga } from '../../entity/Vaga';
+import { LoaderService } from '../../service/loader.service';
+import { TitleService } from '../../service/title.service';
+import { EstacionamentoService } from '../service/estacionamento.service';
+import { VagaService } from '../service/vaga.service';
 
 
 @Component({
   selector: 'app-vaga',
   templateUrl: './vaga.component.html',
   standalone: true,
-  imports: [InputtextComponent, ButtonComponent, CheckboxComponent, CdkDropListGroup, CdkDropList, CdkDrag, CommonModule, InputselectComponent],
+  imports: [InputtextComponent, ButtonComponent, CheckboxComponent, CdkDropListGroup, CdkDropList, CdkDrag, CommonModule, InputselectComponent, FormsModule],
   styleUrls: ['./vaga.component.css']
 })
+
 export class VagaComponent implements OnInit {
   estacionamentos: Estacionamento[] = [];
-  selectedEstacionamento: Estacionamento | null = null;
+  selectedEstacionamentoId: number | null = null;
   cardsVagas: Vaga[] = [];
 
   constructor(
-      private vagaService: VagaService,
-      private estacionamentoService: EstacionamentoService,
-      private router: Router,
-      private titleService: TitleService,
-      private loader: LoaderService,
+    private vagaService: VagaService,
+    private estacionamentoService: EstacionamentoService,
+    private router: Router,
+    private titleService: TitleService,
+    private loader: LoaderService,
   ) {
     this.titleService.setPageTitle("Vagas");
   }
 
   ngOnInit(): void {
-      this.carregarEstacionamentos();
+    this.carregarEstacionamentos();
   }
 
   carregarEstacionamentos(): void {
     this.loader.show();
-      this.estacionamentoService.listarEstacionamentos().pipe(finalize(() => {
-        this.loader.hide();
-      })).subscribe({
-        next: (estacionamentos) => {
-            this.estacionamentos = estacionamentos;
-        },
-        error: (error) => {
-            console.log('Erro ao carregar estacionamentos:', error);
-        },
-      });
+    this.estacionamentoService.listarEstacionamentos().pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
+      next: (estacionamentos) => {
+        this.estacionamentos = estacionamentos;
+        // Se você deseja selecionar automaticamente o primeiro estacionamento
+        if (this.estacionamentos.length > 0) {
+          this.selectedEstacionamentoId = this.estacionamentos[0].id;
+          this.carregarVagas(this.selectedEstacionamentoId);
+        }
+      },
+      error: (error) => {
+        console.log('Erro ao carregar estacionamentos:', error);
+      },
+    });
   }
 
-  selecionarEstacionamento(id: number): void {
-    this.carregarVagas(id);
-  }
+  // Método alterado para capturar a mudança do estacionamento
+selecionarEstacionamento(id: number): void {
+  this.selectedEstacionamentoId = id;
+  this.carregarVagas(id);
+}
 
   carregarVagas(estacionamentoId: number): void {
     this.loader.show();
@@ -74,10 +83,7 @@ export class VagaComponent implements OnInit {
     });
   }
 
-
   abrirDetalhesReserva(vaga: Vaga): void {
-    // Navega para a página de detalhes da reserva, passando a vaga completa como parâmetro
     this.router.navigate([`/reserva-detalhes`], { state: { vaga } });
   }
-
 }

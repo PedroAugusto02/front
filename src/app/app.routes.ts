@@ -18,11 +18,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'home', component: HomeComponent },
-      { path: 'usuarios', component: UsuarioComponent},
+      { path: 'usuarios', component: UsuarioComponent },
       { path: 'atividades', component: AtividadesComponent },
       { path: 'trabalhos', component: JobsComponent },
       { path: 'estacionamento', component: EstacionamentoComponent },
-      { path: 'vagas', component: VagaComponent },
+      { path: 'vagas', component: VagaComponent },  // Aqui está a rota para o VagaComponent
       { path: 'reserva-detalhes', component: ReservaDetalhesComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]

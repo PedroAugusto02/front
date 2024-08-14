@@ -3,13 +3,15 @@
     <h2>Estacionamento</h2>
     <div class="ativo-adicionar">
       <div>
-        <app-inputselect 
-          [atributoExibido]="'nome'" 
-          [lista]="estacionamentos" 
-          [label]="'Selecione um Estacionamento'" 
-          [atributoValor]="'id'" 
-          (valueChange)="selecionarEstacionamento($event)">
-        </app-inputselect>
+        <app-inputselect
+        [atributoExibido]="'nome'"
+        [lista]="estacionamentos"
+        [label]="'Selecione um Estacionamento'"
+        [atributoValor]="'id'"
+        [(value)]="selectedEstacionamentoId"
+        (valueChange)="selecionarEstacionamento($event)">
+      </app-inputselect>
+      
       </div>
     </div>
   </div>
@@ -17,14 +19,13 @@
   <div class="container-vagas shadow p-4">
     <h2>Vagas</h2>
     <div class="grid-vagas">
-      <div *ngFor="let vaga of cardsVagas" 
-           class="cartao" 
-           (click)="abrirDetalhesReserva(vaga)"
-           [style.background]="vaga.cor">
+      <div *ngFor="let vaga of cardsVagas" class="cartao" (click)="abrirDetalhesReserva(vaga)"
+        [style.background]="vaga.cor">
         <h1>Vaga {{ vaga.numeroDaVaga }}</h1>
         <p>
-          Status: 
-          <span class="status-texto" [ngClass]="{'texto-disponivel': vaga.disponivel, 'texto-indisponivel': !vaga.disponivel}">
+          Status:
+          <span class="status-texto"
+            [ngClass]="{'texto-disponivel': vaga.disponivel, 'texto-indisponivel': !vaga.disponivel}">
             {{ vaga.disponivel ? 'Disponível' : 'Indisponível' }}
           </span>
         </p>

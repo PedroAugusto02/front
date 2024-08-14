@@ -1,4 +1,6 @@
-
-export class UserRoles {
-    role: String = "";
-  }
+export enum UserRoles {
+  ADMIN = 'admin',
+  USER = 'user',
+  DONO = 'dono',
+  VENDEDOR = 'vendedor'
+}

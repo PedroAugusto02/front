@@ -1,33 +1,6 @@
-
-<div class="minimized-tabs-container">
-    <div *ngFor="let page of minimizedPages" class="minimized-tab" (click)="restorePage(page)">
-        <mat-icon>{{ page.icon }}</mat-icon>
-        <span>{{ page.name }}</span>
-    </div>
-</div>
 <div class="d-flex grid">
-    <card class="cartao" [routerLink]="['/usuarios']">
-        <icon [icon]="'person'"></icon>
-        <h1>Usuario</h1>
-    </card>
-    <card class="cartao" [routerLink]="['/trabalhos']">
-        <icon [icon]="'work'"></icon>
-        <h1>Trabalhos</h1>
-    </card>
-    <card class="cartao" [routerLink]="['/atividades']">
-        <icon [icon]="'extension'"></icon>
-        <h1>Atividades</h1>
-    </card>
-    <card class="cartao" [routerLink]="['/estacionamento']">
-        <icon [icon]="'directions_car'"></icon>
-        <h1>Estacionamento</h1>
-    </card>
-    <card class="cartao" [routerLink]="['/vagas']">
-        <icon [icon]="'local_parking'"></icon>
-        <h1>Vagas</h1>
-    </card>
-    <card class="cartao" [routerLink]="['/vendedores']">
-        <icon [icon]="'person_pin_circle'"></icon>
-        <h1>Vendedores</h1>
-    </card>
+  <card *ngFor="let card of cards" class="cartao" [routerLink]="[card.routerLink]">
+    <icon [icon]="card.icon"></icon>
+    <h1>{{ card.name }}</h1>
+  </card>
 </div>

@@ -7,6 +7,7 @@ import { finalize } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ModalService } from '../service/modal.service';
 import { Usuario } from '../entity/Usuario';
+import { Estacionamento } from '../entity/Estacionamento';
 
 @Injectable({
   providedIn: 'root'
@@ -89,12 +90,16 @@ export class AuthService {
     });
   }
 
-  getLoggedInUser(): Usuario | null {
+  getLoggedInUser(): Usuario {
     return this.usuarioLogado;
   }
 
   getUserRole(): String {
-    return this.usuarioLogado.role.role;
+    return this.usuarioLogado.role;
   }
+
+  getEstacionamentosByUsuarioId(usuarioId: number) {
+    return this.http.get<Estacionamento[]>(`${environment.apiUrl}/usuarios/${usuarioId}/estacionamentos`);
+}
 
 }

@@ -136,7 +136,6 @@ export class SideNavComponent {
 
     document.body.classList.add('minimized');
     this.router.navigate(['/home']);
-
   }
 
   getCurrentPageState(): any {

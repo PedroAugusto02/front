@@ -60,9 +60,9 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   usuarioUpdate: Usuario = new Usuario();
   usuarioNovo: Usuario = new Usuario();
 
-  userRole: UserRoles = new UserRoles();
-  adminRole: UserRoles = new UserRoles();
-  donoRole: UserRoles = new UserRoles();
+  userRole: UserRoles = UserRoles.USER;
+  adminRole: UserRoles = UserRoles.ADMIN;
+  donoRole: UserRoles = UserRoles.DONO;
   roles: UserRoles[] = [this.userRole, this.adminRole, this.donoRole];
 
   constructor(
@@ -78,7 +78,6 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.carregarUsuarios();
     this.restoreStateIfNeeded();
-    this.carregarRoles();
 
     // Inscrever-se no evento de minimização
     this.minimizeSubscription = this.minimizableStateService.getMinimizeEvent()
@@ -232,12 +231,6 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       this.usuarioNovo = state.usuarioNovo;
       this.roles = state.roles;
     }
-  }
-
-  carregarRoles(): void {
-    this.userRole.role = "USER";
-    this.adminRole.role = "ADMIN";
-    this.donoRole.role = "DONO";
   }
 
 }

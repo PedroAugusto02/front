@@ -1,3 +1,9 @@
+<div class="minimized-tabs-container">
+  <div *ngFor="let page of minimizedPages" class="minimized-tab" (click)="restorePage(page)">
+      <mat-icon>{{ page.icon }}</mat-icon>
+      <span>{{ page.name }}</span>
+  </div>
+</div>
 <div class="d-flex grid">
   <card *ngFor="let card of cards" class="cartao" [routerLink]="[card.routerLink]">
     <icon [icon]="card.icon"></icon>

@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoaderService } from '../service/loader.service';
-import { finalize } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ModalService } from '../service/modal.service';
 import { Usuario } from '../entity/Usuario';
@@ -35,11 +35,11 @@ export class AuthService {
         this.loader.hide();
       })
     ).subscribe({
-      next: (response) => {
+      next: async (response) => {
         if (isPlatformBrowser(this.platformId)) {
           localStorage.setItem('authToken', response.token);
         }
-        this.fetchLoggedInUser();
+        await this.fetchLoggedInUser();
         this.router.navigate(['/']);
       },
       error: (error: HttpErrorResponse) => {
@@ -79,15 +79,19 @@ export class AuthService {
     return false;
   }
 
-  fetchLoggedInUser() {
-    this.http.get<Usuario>(this.userUrl).subscribe({
-      next: (user) => {
-        this.usuarioLogado = user;
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log('Erro ao buscar dados do usuário:', error);
-      }
-    });
+  fetchLoggedInUser(): Promise<void> {
+    return new Promise((resolve,reject) => {
+      this.http.get<Usuario>(this.userUrl).subscribe({
+        next: (user) => {
+          this.usuarioLogado = user;
+          resolve();
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log('Erro ao buscar dados do usuário:', error);
+          reject();
+        }
+      });
+    })
   }
 
   getLoggedInUser(): Usuario {

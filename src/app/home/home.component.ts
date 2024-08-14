@@ -12,6 +12,8 @@ import { Card } from '../entity/Card';
 import { HomeService } from './service/home.service';
 import { Usuario } from '../entity/Usuario';
 import { UserRoles } from '../entity/UserRoles';
+import { LoaderService } from '../service/loader.service';
+import { finalize } from 'rxjs';
 
 interface SubMenu {
   link: string;
@@ -50,6 +52,7 @@ export class HomeComponent implements OnInit{
     private title: TitleService,
     private authService: AuthService,
     private homeService: HomeService,
+    private loader: LoaderService,
   ) {
     title.setPageTitle("Home");
     const navigation = this.router.getCurrentNavigation();
@@ -58,9 +61,9 @@ export class HomeComponent implements OnInit{
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
-      this.authService.fetchLoggedInUser();
       this.usuario = this.authService.getLoggedInUser();
   
+      console.log(this.usuario);
       if (this.usuario) {
         this.loadCards(this.usuario.role, this.usuario.id);
       }
@@ -78,16 +81,17 @@ export class HomeComponent implements OnInit{
     });
   }
 
-  loadCards(role: UserRoles, userId: number) {
-    if (!role) {
-      console.error('Role is undefined');
-      return;
-    }
-  
-    this.homeService.getCardsByRole(role, userId).subscribe(cards => {
-      this.cards = cards;
-    }, error => {
-      console.error('Error fetching cards:', error);
+  loadCards(role: UserRoles, userId: number) { 
+    this.loader.show();
+    this.homeService.getCardsByRole(role, userId).pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
+      next: (cards) => {
+        this.cards = cards;
+      },
+      error: (error) => {
+        console.error('Error fetching cards:', error);
+      }
     });
   }
 

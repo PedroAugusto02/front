@@ -9,6 +9,13 @@
   align-items: center;
 }
 
+.topo-login {
+  background-color: #1A3647;
+}
+
+.mat-toolbar {
+  background-color: #1A3647;
+} 
 
 .menu-login {
   display: grid;

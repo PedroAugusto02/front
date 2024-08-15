@@ -75,7 +75,10 @@ export class ReservaDetalhesComponent {
   }
 
   salvarVaga(): void {
-    this.vagaService.atualizarVaga(this.vaga).subscribe({
+    this.loader.show();
+    this.vagaService.atualizarVaga(this.vaga).pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
       next: () => {
         this.router.navigate(['/vagas'], { state: { reload: true } });
       },

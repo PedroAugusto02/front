@@ -1,19 +1,18 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./out-tsc/app",
-    "types": [
-      "node"
-    ]
+    "outDir": "./dist/out-tsc/app"
   },
   "files": [
     "src/main.ts",
-    "src/main.server.ts",
-    "src/polyfills.ts",
-    "server.ts"
+    "src/polyfills.ts"
   ],
   "include": [
     "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "src/main.server.ts",
+    "src/app/app.config.server.ts",
+    "server.ts"
   ]
 }

@@ -1,21 +1,21 @@
 @use '@angular/material' as mat;
 
 // Definindo a paleta de cores roxa
-$purple-palette: mat.define-palette((
-  50: #f3e5f5,
-  100: #e1bee7,
-  200: #ce93d8,
-  300: #ba68c8,
-  400: #ab47bc,
-  500: #673ab7,
-  600: #8e24aa,
-  700: #7b1fa2,
-  800: #6a1b9a,
-  900: #4a148c,
-  A100: #ea80fc,
-  A200: #e040fb,
-  A400: #d500f9,
-  A700: #aa00ff,
+$my-custom-palette: mat.define-palette((
+  50: #e8eaf6,
+  100: #c5cae9,
+  200: #9fa8da,
+  300: #7986cb,
+  400: #5c6bc0,
+  500: #1A3647, // Cor base
+  600: #1A2a4a,
+  700: #1a2330,
+  800: #1a1f2d,
+  900: #102027,
+  A100: #8c9eff,
+  A200: #536dfe,
+  A400: #3d5afe,
+  A700: #303f9f,
   contrast: (
     50: #000000,
     100: #000000,
@@ -40,7 +40,7 @@ $warn: mat.define-palette(mat.$red-palette);
 
 $theme-light: mat.define-light-theme((
   color: (
-    primary: $purple-palette,
+    primary: $my-custom-palette,
     accent: $accent,
     warn: $warn,
   )
@@ -48,7 +48,7 @@ $theme-light: mat.define-light-theme((
 
 $theme-dark: mat.define-dark-theme((
   color: (
-    primary: $purple-palette,
+    primary: $my-custom-palette,
     accent: $accent,
     warn: $warn,
   )
@@ -79,7 +79,7 @@ $theme-dark: mat.define-dark-theme((
   justify-content: center;
   width: 100px;
   height: 50px; 
-  background-color: #673ab7; 
+  background-color: #1A3647; 
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   color: white;

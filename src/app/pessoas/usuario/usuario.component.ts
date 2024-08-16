@@ -1,29 +1,27 @@
-import { UserRoles } from './../../entity/UserRoles';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-
-import { UsuarioService } from './service/usuario.service';
-import { InputtextComponent } from '../../components/inputs/inputtext/inputtext.component';
-import { ButtonComponent } from '../../components/buttons/button/button.component';
-import { CheckboxComponent } from '../../components/inputs/checkbox/checkbox.component';
-import { MinibuttonComponent } from '../../components/buttons/minibutton/minibutton.component';
-import { Usuario } from '../../entity/Usuario';
-import { TitleService } from '../../service/title.service';
-import { InputEmailComponent } from '../../components/inputs/input-email/input-email.component';
-import { MinimizableStateService } from '../../service/minimizable-state.service';
 import { finalize, Subscription } from 'rxjs';
+import { AuthService } from '../../authentication/auth.service';
+import { ButtonComponent } from '../../components/buttons/button/button.component';
+import { MinibuttonComponent } from '../../components/buttons/minibutton/minibutton.component';
+import { CheckboxComponent } from '../../components/inputs/checkbox/checkbox.component';
+import { InputEmailComponent } from '../../components/inputs/input-email/input-email.component';
 import { InputPasswordComponent } from '../../components/inputs/input-password/input-password.component';
 import { InputselectComponent } from '../../components/inputs/inputselect/inputselect.component';
-import { Estacionamento } from '../../entity/Estacionamento';
+import { InputtextComponent } from '../../components/inputs/inputtext/inputtext.component';
+import { Usuario } from '../../entity/Usuario';
 import { LoaderService } from '../../service/loader.service';
-import { AuthService } from '../../authentication/auth.service';
+import { MinimizableStateService } from '../../service/minimizable-state.service';
+import { TitleService } from '../../service/title.service';
+import { UserRoles } from './../../entity/UserRoles';
+import { UsuarioService } from './service/usuario.service';
 
 @Component({
   selector: 'app-usuario',
@@ -63,7 +61,13 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   userRole: UserRoles = UserRoles.USER;
   adminRole: UserRoles = UserRoles.ADMIN;
   donoRole: UserRoles = UserRoles.DONO;
-  roles: UserRoles[] = [this.userRole, this.adminRole, this.donoRole];
+
+  roles = [
+    { role: UserRoles.ADMIN, displayName: 'ADMIN' },
+    { role: UserRoles.USER, displayName: 'USER' },
+    { role: UserRoles.DONO, displayName: 'DONO' },
+    { role: UserRoles.VENDEDOR, displayName: 'VENDEDOR' }
+  ];
 
   constructor(
     private usuarioService: UsuarioService,
@@ -137,28 +141,28 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   }
 
   toggleAtivo(id: number): void {
-    this.usuarioService.toggleUsuario(id).subscribe(
-      usuario => {
+    this.usuarioService.toggleUsuario(id).subscribe({
+      next: (usuario) => {
         const index = this.usuarios_lista.findIndex(u => u.id === usuario.id);
         if (index !== -1) {
           this.usuarios_lista[index] = usuario;
         }
       },
-      error => {
+      error: (error) => {
         console.log('Erro ao alternar estado do usuário:', error);
       }
-    );
+    });
   }
 
   deletarUsuario(id: number): void {
-    this.usuarioService.deleteUsuario(id).subscribe(
-      () => {
+    this.usuarioService.deleteUsuario(id).subscribe({
+      next: () => {
         this.refresh();
       },
-      error => {
+      error: (error) => {
         console.log('Erro ao excluir usuário:', error);
       }
-    );
+    });
   }
 
   dropUpdate(event: CdkDragDrop<Usuario[]>): void {
@@ -190,14 +194,14 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   }
 
   salvarUsuario(): void {
-    this.usuarioService.atualizarUsuario(this.usuarioUpdate.id, this.usuarioUpdate).subscribe(
-      () => {
+    this.usuarioService.atualizarUsuario(this.usuarioUpdate.id, this.usuarioUpdate).subscribe({
+      next: () => {
         this.refresh();
       },
-      error => {
+      error: (error) => {
         console.log('Erro ao salvar usuário:', error);
-      }
-    );
+      }    
+    });
   }
 
   trackByFn(index: number, usuario: Usuario): number {

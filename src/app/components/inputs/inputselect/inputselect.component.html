@@ -2,7 +2,7 @@
   <mat-label>{{ label }}</mat-label>
   <mat-select [formControl]="campoFormControl" (selectionChange)="onSelectionChange($event)">
     <mat-option *ngFor="let item of lista" [value]="item[atributoValor]">
-      {{ item[atributoExibido] }}
+      {{ item.displayName }}
     </mat-option>
   </mat-select>
 </mat-form-field>

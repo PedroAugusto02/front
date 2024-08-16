@@ -62,11 +62,12 @@ export class InputselectComponent implements ControlValueAccessor, OnChanges {
   }
 
   onSelectionChange(event: any) {
-    const value = event.value;
+    const value = event.value.toUpperCase(); // Garante que o valor seja em maiúsculas
     this.value = value;
     this.onChange(value);
     this.onTouched();
     this.valueChange.emit(value); // Emite o evento para o parent component
   }
+  
   
 }

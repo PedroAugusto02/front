@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../authentication/auth.service';
+import { TitleService } from '../../service/title.service';
 
 @Component({
   selector: 'app-vendedores',
@@ -9,4 +11,10 @@ import { Component } from '@angular/core';
 })
 export class VendedoresComponent {
 
+  constructor(
+    private titleService : TitleService,
+  )
+  {
+    this.titleService.setPageTitle("Vendedores");
+  }
 }

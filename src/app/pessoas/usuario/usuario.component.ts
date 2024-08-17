@@ -1,7 +1,7 @@
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -22,6 +22,7 @@ import { MinimizableStateService } from '../../service/minimizable-state.service
 import { TitleService } from '../../service/title.service';
 import { UserRoles } from './../../entity/UserRoles';
 import { UsuarioService } from './service/usuario.service';
+import { ModalService } from '../../service/modal.service';
 
 @Component({
   selector: 'app-usuario',
@@ -48,7 +49,7 @@ import { UsuarioService } from './service/usuario.service';
   templateUrl: './usuario.component.html',
   styleUrls: ['./usuario.component.css']
 })
-export class UsuarioComponent implements OnInit, OnDestroy {
+export class UsuarioComponent implements AfterViewInit, OnDestroy {
 
   private minimizeSubscription!: Subscription;
   private isMinimizing: boolean = false;
@@ -57,10 +58,6 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   usuarios_update: Usuario[] = [];
   usuarioUpdate: Usuario = new Usuario();
   usuarioNovo: Usuario = new Usuario();
-
-  userRole: UserRoles = UserRoles.USER;
-  adminRole: UserRoles = UserRoles.ADMIN;
-  donoRole: UserRoles = UserRoles.DONO;
 
   roles = [
     { role: UserRoles.ADMIN, displayName: 'ADMIN' },
@@ -75,11 +72,12 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     private minimizableStateService: MinimizableStateService,
     private authService: AuthService,
     private loader: LoaderService,
+    private modalService: ModalService,
   ) {
     this.titleService.setPageTitle("Usuarios");
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.carregarUsuarios();
     this.restoreStateIfNeeded();
 
@@ -132,6 +130,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     })).subscribe({
       next: (result) => {
         this.usuarioNovo = new Usuario();
+        this.modalService.showSuccess("Usuario cadastrado com Sucesso!");
         this.refresh();
       },
       error: (error) => {
@@ -139,23 +138,13 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  toggleAtivo(id: number): void {
-    this.usuarioService.toggleUsuario(id).subscribe({
-      next: (usuario) => {
-        const index = this.usuarios_lista.findIndex(u => u.id === usuario.id);
-        if (index !== -1) {
-          this.usuarios_lista[index] = usuario;
-        }
-      },
-      error: (error) => {
-        console.log('Erro ao alternar estado do usuário:', error);
-      }
-    });
-  }
+  
 
   deletarUsuario(id: number): void {
-    this.usuarioService.deleteUsuario(id).subscribe({
+    this.loader.show();
+    this.usuarioService.deleteUsuario(id).pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
       next: () => {
         this.refresh();
       },
@@ -200,12 +189,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.log('Erro ao salvar usuário:', error);
-      }    
+      }
     });
-  }
-
-  trackByFn(index: number, usuario: Usuario): number {
-    return usuario.id;
   }
 
   saveStateBeforeMinimize(): void {

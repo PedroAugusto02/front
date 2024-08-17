@@ -47,7 +47,7 @@
         </div>
         <div cdkDropList #edicao="cdkDropList" [cdkDropListData]="usuarios_update" [cdkDropListConnectedTo]="[usuarios]"
           class="example-list" (cdkDropListDropped)="dropUpdate($event)">
-          <div *ngFor="let usuario of usuarios_update; trackBy: trackByFn" class="example-box" cdkDrag>{{usuario.login}}</div>
+          <div *ngFor="let usuario of usuarios_update" class="example-box" cdkDrag>{{usuario.login}}</div>
         </div>
       </div>
     </div>
@@ -63,7 +63,7 @@
         <h2>Lista de Usuarios</h2>
         <div cdkDropList #usuarios="cdkDropList" [cdkDropListData]="usuarios_lista" [cdkDropListConnectedTo]="[edicao]"
           class="example-list" (cdkDropListDropped)="drop($event)">
-          <div *ngFor="let usuario of usuarios_lista; trackBy: trackByFn" class="example-box" cdkDrag>
+          <div *ngFor="let usuario of usuarios_lista" class="example-box" cdkDrag>
             <div>{{ usuario.login }}</div>
             <div>{{ usuario.role }}</div>
             <div>{{ usuario.email }}</div>

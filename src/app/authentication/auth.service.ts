@@ -30,7 +30,7 @@ export class AuthService {
 
   login(login: string, password: string) {
     this.loader.show();
-    return this.http.post<{ token: string }>(`${this.apiUrl}`, { login, password }).pipe(
+    return this.http.post<{ token: string, userId: number }>(`${this.apiUrl}`, { login, password }).pipe(
       finalize(() => {
         this.loader.hide();
       })
@@ -38,16 +38,17 @@ export class AuthService {
       next: async (response) => {
         if (isPlatformBrowser(this.platformId)) {
           localStorage.setItem('authToken', response.token);
+          localStorage.setItem('userId', response.userId.toString());
         }
         await this.fetchLoggedInUser();
         this.router.navigate(['/']);
       },
       error: (error: HttpErrorResponse) => {
         let errorMessage = "";
-        if (error.status == 401)
+        if (error.status === 401)
           errorMessage = error.error;
-        else if(error.status == 404)
-            errorMessage = error.error;
+        else if (error.status === 404)
+          errorMessage = error.error;
         else
           errorMessage = 'Erro desconhecido ao fazer login';
         this.modalService.showError(errorMessage);
@@ -55,6 +56,7 @@ export class AuthService {
       }
     });
   }
+  
 
   register(usuario: Usuario) {
     this.loader.show();
@@ -68,6 +70,7 @@ export class AuthService {
   logout() {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('authToken');
+      localStorage.removeItem('userId');
     }
     this.router.navigate(['/login']);
   }
@@ -80,8 +83,15 @@ export class AuthService {
   }
 
   fetchLoggedInUser(): Promise<void> {
-    return new Promise((resolve,reject) => {
-      this.http.get<Usuario>(this.userUrl).subscribe({
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      return Promise.reject('Token não encontrado no armazenamento');
+    }
+  
+    const headers = { 'Authorization': `Bearer ${token}` };
+  
+    return new Promise((resolve, reject) => {
+      this.http.get<Usuario>(this.userUrl, { headers }).subscribe({
         next: (user) => {
           this.usuarioLogado = user;
           resolve();
@@ -91,7 +101,7 @@ export class AuthService {
           reject();
         }
       });
-    })
+    });
   }
 
   getLoggedInUser(): Usuario {

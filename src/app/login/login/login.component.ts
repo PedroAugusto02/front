@@ -26,7 +26,6 @@ export class LoginComponent  {
   ) { }
 
   loginMethod() {
-    this.loader.show();
     this.authService.login(this.login, this.password);
   }
 

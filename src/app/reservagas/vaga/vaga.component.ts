@@ -24,7 +24,7 @@ import { VagaService } from '../service/vaga.service';
   styleUrls: ['./vaga.component.css']
 })
 
-export class VagaComponent implements OnInit {
+export class VagaComponent implements AfterViewInit {
   estacionamentos: Estacionamento[] = [];
   selectedEstacionamentoId: number | null = null;
   cardsVagas: Vaga[] = [];
@@ -39,7 +39,7 @@ export class VagaComponent implements OnInit {
     this.titleService.setPageTitle("Vagas");
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.carregarEstacionamentos();
   }
 
@@ -50,11 +50,7 @@ export class VagaComponent implements OnInit {
     })).subscribe({
       next: (estacionamentos) => {
         this.estacionamentos = estacionamentos;
-        // Se você deseja selecionar automaticamente o primeiro estacionamento
-        if (this.estacionamentos.length > 0) {
-          this.selectedEstacionamentoId = this.estacionamentos[0].id;
-          this.carregarVagas(this.selectedEstacionamentoId);
-        }
+        // Evitar carregamento automático de vagas
       },
       error: (error) => {
         console.log('Erro ao carregar estacionamentos:', error);
@@ -63,10 +59,10 @@ export class VagaComponent implements OnInit {
   }
 
   // Método alterado para capturar a mudança do estacionamento
-selecionarEstacionamento(id: number): void {
-  this.selectedEstacionamentoId = id;
-  this.carregarVagas(id);
-}
+  selecionarEstacionamento(id: number): void {
+    this.selectedEstacionamentoId = id;
+    this.carregarVagas(id);
+  }
 
   carregarVagas(estacionamentoId: number): void {
     this.loader.show();

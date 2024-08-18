@@ -10,11 +10,13 @@ import { VagaComponent } from './screens/reservagas/vaga/vaga.component';
 import { VendedoresComponent } from './screens/reservagas/vendedores/vendedores.component';
 import { ReservaDetalhesComponent } from './screens/reservagas/vaga/reserva-detalhes/reserva-detalhes.component';
 import { TabelaDePrecosComponent } from './screens/reservagas/tabela-de-precos/tabela-de-precos.component';
+import { PrimeiroEstacionamentoComponent } from './screens/primeiro-estacionamento/primeiro-estacionamento.component';
 
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'primeiro-estacionamento', component: PrimeiroEstacionamentoComponent},
   { 
     path: '', 
     component: SideNavComponent, 

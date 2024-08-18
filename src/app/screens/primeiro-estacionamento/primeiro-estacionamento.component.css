@@ -1,0 +1,39 @@
+/* Centraliza o toolbar e o conteúdo dentro dele */
+.mat-toolbar {
+    background-color: #1A3647;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 16px; /* Adicione padding se necessário */
+}
+
+/* Centraliza o título */
+.titulo {
+    margin: 0;
+    font-size: 25px;
+    color: white;
+    text-align: center;
+}
+
+/* Centraliza o container de estacionamento e o conteúdo dentro dele */
+.container-estacionamentos {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente */
+    margin: 20px auto; /* Adiciona espaço em torno do container */
+    width: 100%;
+    max-width: 800px; /* Ajuste conforme necessário */
+}
+
+/* Centraliza os itens dentro de .ativo-adicionar */
+.ativo-adicionar {
+    display: flex;
+    justify-content: center; /* Alinha os itens horizontalmente no centro */
+    gap: 20px;
+    width: 100%;
+}
+
+.botao-adicionar{
+    margin-left: 110px;
+    align-content: space-evenly;
+}

@@ -43,7 +43,7 @@ export class ResetPasswordComponent {
       next: () => {
         this.loader.hide();
         if (this.authService.isFirstLogin()) {
-          this.router.navigate(['/estacionamento/criar']);
+          this.router.navigate(['/primeiro-estacionamento']);
         } else {
           this.router.navigate(['/home']);
         }

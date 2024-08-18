@@ -1,0 +1,28 @@
+<mat-toolbar color="topo-login">
+    <loader-circular></loader-circular>
+    <h1 class="titulo">Criar Estacionamento</h1>
+</mat-toolbar>
+<div class="container-estacionamentos shadow p-4">
+    <div class="ativo-adicionar">
+        <div>
+            <h2>Nome</h2>
+            <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Estacionamento ABC'"
+                [value]="estacionamentoNovo.nome" (valueChange)="estacionamentoNovo.nome = $event"></inputtext>
+        </div>
+        <div>
+            <h2>Número de Vagas</h2>
+            <inputtext [label]="'Número de Vagas'" [value]="estacionamentoNovo.quantidadeVagas"
+                (valueChange)="estacionamentoNovo.quantidadeVagas = $event"></inputtext>
+        </div>
+    </div>
+    <div class="ativo-adicionar">
+        <div>
+            <h2>Endereço</h2>
+            <inputtext [label]="'Endereço'" [value]="estacionamentoNovo.endereco"
+                (valueChange)="estacionamentoNovo.endereco = $event"></inputtext>
+        </div>
+        <div class="botao-adicionar">
+            <app-button [label]="'Adicionar'" (buttonClick)="adicionarEstacionamento()"></app-button>
+        </div>
+    </div>
+</div>

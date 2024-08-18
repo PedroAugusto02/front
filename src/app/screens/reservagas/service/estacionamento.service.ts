@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Estacionamento } from '../../../entity/Estacionamento';
+import { Vendedor } from '../../../entity/Vendedor';
 
 
 @Injectable({
@@ -20,6 +21,14 @@ export class EstacionamentoService {
 
   criarEstacionamento(estacionamento: Estacionamento): Observable<Estacionamento> {
     return this.http.post<Estacionamento>(`${this.baseUrl}`, estacionamento);
+  }
+
+  criarEstacionamentoPorUsuario(estacionamento: Estacionamento, usuarioId: number): Observable<Estacionamento> {
+    return this.http.post<Estacionamento>(`${this.baseUrl}/criar-por-usuario`, estacionamento, {
+      headers: new HttpHeaders({
+        'usuario-id': usuarioId.toString()
+      })
+    });
   }
 
   atualizarEstacionamento(id: number, estacionamento: Estacionamento): Observable<void> {

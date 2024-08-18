@@ -1,24 +1,27 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login/login.component';
-import { UsuarioComponent } from './pessoas/usuario/usuario.component';
-import { EstacionamentoComponent } from './reservagas/estacionamento/estacionamento.component';
-import { ReservaDetalhesComponent } from './reservagas/vaga/reserva-detalhes/reserva-detalhes.component';
-import { VagaComponent } from './reservagas/vaga/vaga.component';
-import { SideNavComponent } from './side-nav/side-nav.component';
-import { VendedoresComponent } from './reservagas/vendedores/vendedores.component';
-import { TabelaDePrecosComponent } from './reservagas/tabela-de-precos/tabela-de-precos.component';
+import { LoginComponent } from './screens/login/login/login.component';
+import { ResetPasswordComponent } from './screens/reset-password/reset-password.component';
+import { SideNavComponent } from './screens/side-nav/side-nav.component';
+import { HomeComponent } from './screens/home/home.component';
+import { UsuariosComponent } from './screens/pessoas/usuario/usuarios.component';
+import { EstacionamentoComponent } from './screens/reservagas/estacionamento/estacionamento.component';
+import { VagaComponent } from './screens/reservagas/vaga/vaga.component';
+import { VendedoresComponent } from './screens/reservagas/vendedores/vendedores.component';
+import { ReservaDetalhesComponent } from './screens/reservagas/vaga/reserva-detalhes/reserva-detalhes.component';
+import { TabelaDePrecosComponent } from './screens/reservagas/tabela-de-precos/tabela-de-precos.component';
+
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { 
     path: '', 
     component: SideNavComponent, 
     canActivate: [AuthGuard],
     children: [
       { path: 'home', component: HomeComponent },
-      { path: 'usuarios', component: UsuarioComponent },
+      { path: 'usuarios', component: UsuariosComponent },
       { path: 'estacionamento', component: EstacionamentoComponent },
       { path: 'vagas', component: VagaComponent },
       { path: 'vendedores', component: VendedoresComponent},

@@ -1,0 +1,41 @@
+.titulo {
+  margin: auto;
+  font-size: 25px;
+  color: white;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topo-login {
+  background-color: #1A3647;
+}
+
+.mat-toolbar {
+  background-color: #1A3647;
+} 
+
+.menu-login {
+  display: grid;
+  margin: 16px;
+  width: 300px; /* Ajuste conforme necessário */
+}
+
+.input-custom-width {
+  width: 240px; /* Largura personalizada do input */
+}
+
+.estilomeu {
+  width: 100%;
+}
+
+.full-width-button {
+  width: 100%;
+}
+
+.botoes{
+  justify-content: space-between;
+}

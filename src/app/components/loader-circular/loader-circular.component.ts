@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { LoaderService } from '../../service/loader.service';
+
 import { CommonModule } from '@angular/common';
+import { LoaderService } from '../../service/loader.service';
 
 @Component({
   selector: 'loader-circular',

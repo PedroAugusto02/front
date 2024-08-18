@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Menu } from '../side-nav/interfaces/model';
+
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Menu } from '../screens/side-nav/interfaces/model';
 
 @Injectable({
   providedIn: 'root'

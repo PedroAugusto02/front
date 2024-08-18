@@ -18,6 +18,7 @@ export class AuthService {
   private apiUrl = `${environment.apiUrl}/auth/login`;
   private registerUrl = `${environment.apiUrl}/auth/register`;
   private userUrl = `${environment.apiUrl}/auth/user`;
+  private userPasswordChangeUrl = `${environment.apiUrl}/auth/reset-password`;
   private usuarioLogado!: Usuario;
 
   constructor(
@@ -30,7 +31,7 @@ export class AuthService {
 
   login(login: string, password: string) {
     this.loader.show();
-    return this.http.post<{ token: string, userId: number }>(`${this.apiUrl}`, { login, password }).pipe(
+    return this.http.post<{ token: string, userId: number, resetPassword: boolean }>(`${this.apiUrl}`, { login, password }).pipe(
       finalize(() => {
         this.loader.hide();
       })
@@ -41,22 +42,26 @@ export class AuthService {
           localStorage.setItem('userId', response.userId.toString());
         }
         await this.fetchLoggedInUser();
-        this.router.navigate(['/']);
+        if (response.resetPassword) {
+          this.router.navigate(['/reset-password']);
+        } else {
+          this.router.navigate(['/']);
+        }
       },
       error: (error: HttpErrorResponse) => {
-        let errorMessage = "";
-        if (error.status === 401)
-          errorMessage = error.error;
-        else if (error.status === 404)
-          errorMessage = error.error;
-        else
-          errorMessage = 'Erro desconhecido ao fazer login';
-        this.modalService.showError(errorMessage);
-        console.log('Erro ao fazer login:', error);
+        this.handleLoginError(error);
       }
     });
   }
-  
+
+  handleLoginError(error: HttpErrorResponse) {
+    let errorMessage = "";
+    if (error.status === 401) errorMessage = error.error;
+    else if (error.status === 404) errorMessage = error.error;
+    else errorMessage = 'Erro desconhecido ao fazer login';
+    this.modalService.showError(errorMessage);
+    console.log('Erro ao fazer login:', error);
+  }
 
   register(usuario: Usuario) {
     this.loader.show();
@@ -87,9 +92,9 @@ export class AuthService {
     if (!token) {
       return Promise.reject('Token não encontrado no armazenamento');
     }
-  
+
     const headers = { 'Authorization': `Bearer ${token}` };
-  
+
     return new Promise((resolve, reject) => {
       this.http.get<Usuario>(this.userUrl, { headers }).subscribe({
         next: (user) => {
@@ -104,6 +109,15 @@ export class AuthService {
     });
   }
 
+  resetPassword(userId: number, newPassword: string): Observable<any> {
+    return this.http.put(`${this.userPasswordChangeUrl}`, { userId, newPassword });
+  }
+
+  isFirstLogin(): boolean {
+    const passwordResetRequired = this.usuarioLogado.passwordResetRequired;
+    return passwordResetRequired === true;
+  }
+  
   getLoggedInUser(): Usuario {
     return this.usuarioLogado;
   }
@@ -114,6 +128,6 @@ export class AuthService {
 
   getEstacionamentosByUsuarioId(usuarioId: number) {
     return this.http.get<Estacionamento[]>(`${environment.apiUrl}/usuarios/${usuarioId}/estacionamentos`);
-}
+  }
 
 }

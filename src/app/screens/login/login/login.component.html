@@ -3,17 +3,18 @@
   <h1 class="titulo">Login</h1>
   <app-toggle-dark-theme></app-toggle-dark-theme>
 </mat-toolbar>
-<div class="login-container">
-  <div class="shadow p-4 menu-login" (keyup.enter)="loginMethod()">
-    <inputtext class="input-custom-width" [label]="'Login'" [placeholder]="'ex: Pedro'" [value]="login"
-      [validacao]="true" (valueChange)="login = $event"></inputtext>
-    <input-password class="estilomeu" [label]="'Senha'" [placeholder]="'ex: *****'" [value]="password"
-      [validacao]="true" (valueChange)="password = $event"></input-password>
-    <div class="d-flex botoes">
-      <div>
-        <app-button [label]="'Login'"  class="full-width-button"
-          (buttonClick)="loginMethod()"></app-button>
+<div class="login-page">
+  <div class="login-container">
+    <div class="shadow p-4 menu-login" (keyup.enter)="loginMethod()">
+      <inputtext class="input-custom-width" [label]="'Login'" [placeholder]="'ex: Pedro'" [value]="login"
+        [validacao]="true" (valueChange)="login = $event"></inputtext>
+      <input-password class="estilomeu" [label]="'Senha'" [placeholder]="'ex: *****'" [value]="password"
+        [validacao]="true" (valueChange)="password = $event"></input-password>
+      <div class="d-flex botoes">
+        <div>
+          <app-button [label]="'Login'" class="full-width-button" (buttonClick)="loginMethod()"></app-button>
         </div>
+      </div>
     </div>
   </div>
 </div>

@@ -12,11 +12,11 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
   styleUrls: ['./inputselect.component.css'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => InputselectComponent),
+    useExisting: forwardRef(() => InputSelectComponent),
     multi: true
   }]
 })
-export class InputselectComponent implements ControlValueAccessor, OnChanges {
+export class InputSelectComponent implements ControlValueAccessor, OnChanges {
   @Input() lista!: any[];
   @Input() atributoExibido!: string;
   @Input() atributoValor!: string;

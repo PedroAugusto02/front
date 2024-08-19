@@ -43,7 +43,7 @@ interface MinimizedPage {
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
 
   minimizedPages: MinimizedPage[] = [];
   menus: Menu[] = []; // Adicione esta linha para inicializar menus
@@ -65,13 +65,14 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.iniciaHome();
+  }
+
+  async iniciaHome() {
     if (this.authService.isLoggedIn()) {
+      await this.authService.fetchLoggedInUser();
       this.usuario = this.authService.getLoggedInUser();
-  
-      console.log(this.usuario);
-      if (this.usuario) {
-        this.loadCards(this.usuario.role, this.usuario.id);
-      }
+      this.loadCards(this.usuario.role, this.usuario.id);
     }
   }
 
@@ -86,7 +87,7 @@ export class HomeComponent implements OnInit{
     });
   }
 
-  loadCards(role: UserRoles, userId: number) { 
+  loadCards(role: UserRoles, userId: number) {
     this.loader.show();
     this.homeService.getCardsByRole(role, userId).pipe(finalize(() => {
       this.loader.hide();
@@ -106,7 +107,7 @@ export class HomeComponent implements OnInit{
       this.router.navigate([restoredPage.route], { state: { data: restoredPage.state } });
     }
   }
-  
+
   getMinimizedPages(): any[] {
     return this.minimizeService.getMinimizedPages();
   }

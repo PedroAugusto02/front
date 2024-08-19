@@ -8,6 +8,7 @@ import { InputtextComponent } from '../../../components/inputs/inputtext/inputte
 import { ButtonComponent } from '../../../components/buttons/button/button.component';
 import { InputPasswordComponent } from '../../../components/inputs/input-password/input-password.component';
 import { LoaderCircularComponent } from '../../../components/loader-circular/loader-circular.component';
+import { TitleService } from '../../../service/title.service';
 
 @Component({
   selector: 'app-login',
@@ -23,8 +24,11 @@ export class LoginComponent  {
 
   constructor(
     private authService: AuthService,
+    private titleService: TitleService,
     private loader: LoaderService,
-  ) { }
+  ) { 
+    this.titleService.setPageTitle("Login");
+  }
 
   loginMethod() {
     this.authService.login(this.login, this.password);

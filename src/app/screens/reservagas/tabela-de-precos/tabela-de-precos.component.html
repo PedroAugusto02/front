@@ -1,1 +1,7 @@
-<p>tabela-de-precos works!</p>
+<app-inputselect [atributoExibido]="'nome'" [lista]="estacionamentos" [label]="'Selecione um Estacionamento'"
+    [atributoValor]="'id'" [(value)]="selectedEstacionamentoId" (valueChange)="selecionarEstacionamento($event)">
+</app-inputselect>
+
+<app-dynamic-table [dataSource]="precos"></app-dynamic-table>
+
+<button (click)="adicionarPreco()">Adicionar Preço</button>

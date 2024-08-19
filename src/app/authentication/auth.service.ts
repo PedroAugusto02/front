@@ -88,15 +88,17 @@ export class AuthService {
   }
 
   fetchLoggedInUser(): Promise<void> {
+    this.loader.show();
     const token = localStorage.getItem('authToken');
     if (!token) {
+      this.router.navigate(['/login']);
       return Promise.reject('Token não encontrado no armazenamento');
     }
-
     const headers = { 'Authorization': `Bearer ${token}` };
-
     return new Promise((resolve, reject) => {
-      this.http.get<Usuario>(this.userUrl, { headers }).subscribe({
+      this.http.get<Usuario>(this.userUrl, { headers }).pipe(finalize(() => {
+        this.loader.hide();
+      })).subscribe({
         next: (user) => {
           this.usuarioLogado = user;
           resolve();

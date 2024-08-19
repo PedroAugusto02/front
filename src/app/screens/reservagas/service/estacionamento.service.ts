@@ -19,6 +19,11 @@ export class EstacionamentoService {
     return this.http.get<Estacionamento[]>(`${this.baseUrl}`);
   }
 
+  listarEstacionamentosPorUsuario(usuarioId: number): Observable<Estacionamento[]> {
+    const headers = new HttpHeaders().set('usuario-id', usuarioId.toString());
+    return this.http.get<Estacionamento[]>(`${this.baseUrl}/usuario`, { headers });
+  }
+
   criarEstacionamento(estacionamento: Estacionamento): Observable<Estacionamento> {
     return this.http.post<Estacionamento>(`${this.baseUrl}`, estacionamento);
   }

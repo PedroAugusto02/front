@@ -14,7 +14,7 @@ import { CheckboxComponent } from '../../../components/inputs/checkbox/checkbox.
 import { MinibuttonComponent } from '../../../components/buttons/minibutton/minibutton.component';
 import { InputEmailComponent } from '../../../components/inputs/input-email/input-email.component';
 import { InputPasswordComponent } from '../../../components/inputs/input-password/input-password.component';
-import { InputselectComponent } from '../../../components/inputs/inputselect/inputselect.component';
+import { InputSelectComponent } from '../../../components/inputs/inputselect/inputselect.component';
 import { Usuario } from '../../../entity/Usuario';
 import { UserRoles } from '../../../entity/UserRoles';
 import { UsuarioService } from './service/usuario.service';
@@ -45,7 +45,7 @@ import { ModalService } from '../../../service/modal.service';
     MatIconModule,
     InputEmailComponent,
     InputPasswordComponent,
-    InputselectComponent,
+    InputSelectComponent,
   ],
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.css']

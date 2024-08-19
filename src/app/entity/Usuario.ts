@@ -1,4 +1,5 @@
 import { Carro } from "./Carro";
+import { Estacionamento } from "./Estacionamento";
 import { Reserva } from "./Reserva";
 import { UserRoles } from "./UserRoles";
 
@@ -16,4 +17,5 @@ export class Usuario {
   updated_at: Date = new Date();
   carros: Carro[] = [];
   reservas: Reserva[] = [];
+  estacionamentos: Estacionamento[] = [];
 }

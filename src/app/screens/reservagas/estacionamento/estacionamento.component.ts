@@ -21,6 +21,7 @@ import { ButtonComponent } from '../../../components/buttons/button/button.compo
 import { CheckboxComponent } from '../../../components/inputs/checkbox/checkbox.component';
 import { MinibuttonComponent } from '../../../components/buttons/minibutton/minibutton.component';
 import { Estacionamento } from '../../../entity/Estacionamento';
+import { AuthService } from '../../../authentication/auth.service';
 
 
 @Component({
@@ -38,10 +39,11 @@ export class EstacionamentoComponent implements OnInit {
   vagas: Vaga[] = [];
 
   constructor(
+    private authService: AuthService,
     private estacionamentoService: EstacionamentoService,
     private titleService: TitleService,
     private loader: LoaderService,
-  ) { 
+  ) {
     this.titleService.setPageTitle("Estacionamentos");
   }
 
@@ -58,17 +60,35 @@ export class EstacionamentoComponent implements OnInit {
 
   carregarEstacionamentos(): void {
     this.loader.show();
-    this.estacionamentoService.listarEstacionamentos().pipe(finalize(() => {
-      this.loader.hide();
-    })).subscribe({
-      next: (estacionamentos) => {
-        this.estacionamentos_lista = estacionamentos;
-      },
-      error: (error) => {
-        console.log('Erro ao carregar estacionamentos:', error);
-      }}
-    );
+    const usuario = this.authService.getLoggedInUser();
+    if (usuario.role == "DONO") {
+      this.estacionamentoService.listarEstacionamentosPorUsuario(usuario.id).pipe(
+        finalize(() => {
+          this.loader.hide();
+        })
+      ).subscribe({
+        next: (estacionamentos) => {
+          this.estacionamentos_lista = estacionamentos;
+        },
+        error: (error) => {
+          console.log('Erro ao carregar estacionamentos:', error);
+        },
+      });
+    } else if (usuario.role == "ADMIN") {
+      this.estacionamentoService.listarEstacionamentos().pipe(finalize(() => {
+        this.loader.hide();
+      })).subscribe({
+        next: (estacionamentos) => {
+          this.estacionamentos_lista = estacionamentos;
+        },
+        error: (error) => {
+          console.log('Erro ao carregar estacionamentos:', error);
+        }
+      }
+      );
+    }
   }
+
 
   adicionarEstacionamento(): void {
     this.loader.show();
@@ -81,7 +101,7 @@ export class EstacionamentoComponent implements OnInit {
       },
       error: (error) => {
         console.log('Erro ao adicionar estacionamento:', error);
-      }  
+      }
     });
   }
 

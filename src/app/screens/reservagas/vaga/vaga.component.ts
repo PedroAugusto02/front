@@ -15,15 +15,16 @@ import { Vaga } from '../../../entity/Vaga';
 import { InputtextComponent } from '../../../components/inputs/inputtext/inputtext.component';
 import { ButtonComponent } from '../../../components/buttons/button/button.component';
 import { CheckboxComponent } from '../../../components/inputs/checkbox/checkbox.component';
-import { InputselectComponent } from '../../../components/inputs/inputselect/inputselect.component';
+import { InputSelectComponent } from '../../../components/inputs/inputselect/inputselect.component';
 import { Estacionamento } from '../../../entity/Estacionamento';
+import { AuthService } from '../../../authentication/auth.service';
 
 
 @Component({
   selector: 'app-vaga',
   templateUrl: './vaga.component.html',
   standalone: true,
-  imports: [InputtextComponent, ButtonComponent, CheckboxComponent, CdkDropListGroup, CdkDropList, CdkDrag, CommonModule, InputselectComponent, FormsModule],
+  imports: [InputtextComponent, ButtonComponent, CheckboxComponent, CdkDropListGroup, CdkDropList, CdkDrag, CommonModule, InputSelectComponent, FormsModule],
   styleUrls: ['./vaga.component.css']
 })
 
@@ -33,6 +34,7 @@ export class VagaComponent implements AfterViewInit {
   cardsVagas: Vaga[] = [];
 
   constructor(
+    private authService: AuthService,
     private vagaService: VagaService,
     private estacionamentoService: EstacionamentoService,
     private router: Router,
@@ -46,19 +48,36 @@ export class VagaComponent implements AfterViewInit {
     this.carregarEstacionamentos();
   }
 
-  carregarEstacionamentos(): void {
+  async carregarEstacionamentos(): Promise<void> {
     this.loader.show();
-    this.estacionamentoService.listarEstacionamentos().pipe(finalize(() => {
-      this.loader.hide();
-    })).subscribe({
-      next: (estacionamentos) => {
-        this.estacionamentos = estacionamentos;
-        // Evitar carregamento automático de vagas
-      },
-      error: (error) => {
-        console.log('Erro ao carregar estacionamentos:', error);
-      },
-    });
+    await this.authService.fetchLoggedInUser();
+    const usuario = this.authService.getLoggedInUser();
+    if (usuario.role == "DONO") {
+      this.estacionamentoService.listarEstacionamentosPorUsuario(usuario.id).pipe(
+        finalize(() => {
+          this.loader.hide();
+        })
+      ).subscribe({
+        next: (estacionamentos) => {
+          this.estacionamentos = estacionamentos;
+        },
+        error: (error) => {
+          console.log('Erro ao carregar estacionamentos:', error);
+        },
+      });
+    } else if (usuario.role == "ADMIN") {
+      this.estacionamentoService.listarEstacionamentos().pipe(finalize(() => {
+        this.loader.hide();
+      })).subscribe({
+        next: (estacionamentos) => {
+          this.estacionamentos = estacionamentos;
+        },
+        error: (error) => {
+          console.log('Erro ao carregar estacionamentos:', error);
+        }
+      }
+      );
+    }
   }
 
   // Método alterado para capturar a mudança do estacionamento

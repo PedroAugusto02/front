@@ -39,8 +39,16 @@
         {{ element.valor | currency:'BRL' }}
       </ng-container>
       <ng-container *ngIf="editandoElemento?.id === element.id">
-        <input-number class="input-custom-width mt-3" [label]="'Valor'" [placeholder]="'ex: 15,00'" [value]="editandoElemento.valor"
-        [validacao]="true" (valueChange)="editandoElemento.valor = $event"></input-number>
+        <input-number 
+        class="input-custom-width mt-3" 
+        [label]="'Valor'" 
+        [placeholder]="'ex: 15,00'" 
+        [value]="editandoElemento.valor"
+        [validacao]="true" 
+        (valueChange)="handleValueChange($event)">
+      </input-number>
+      
+      
       </ng-container>
     </td>
   </ng-container>

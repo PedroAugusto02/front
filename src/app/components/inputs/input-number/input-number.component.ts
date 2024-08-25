@@ -25,22 +25,27 @@ export class InputNumberComponent implements OnInit, OnChanges {
   campoFormControl!: FormControl;
 
   ngOnInit(): void {
-    this.campoFormControl = new FormControl({ value: this.formatValue(this.value), disabled: this.disabled });
-
+    this.campoFormControl = new FormControl({
+      value: this.formatValue(this.value),
+      disabled: this.disabled
+    });
+  
     if (this.validacao) {
       this.campoFormControl.setValidators([Validators.required]);
     }
-
+  
     this.campoFormControl.valueChanges.subscribe(newValue => {
+      console.log('Campo ValueChanges:', newValue);
       this.valueChange.emit(this.parseValue(newValue));
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['value'] && !changes['value'].firstChange) {
+      console.log('Campo ngOnChanges Value:', this.value);
       this.campoFormControl.setValue(this.formatValue(this.value), { emitEvent: false });
     }
-
+  
     if (changes['disabled']) {
       if (this.disabled) {
         this.campoFormControl.disable();
@@ -51,14 +56,24 @@ export class InputNumberComponent implements OnInit, OnChanges {
   }
 
   onBlur(): void {
-    this.campoFormControl.setValue(this.formatValue(this.parseValue(this.campoFormControl.value)), { emitEvent: false });
+    const rawValue = this.campoFormControl.value;
+    // Certifique-se de que o valor seja convertido corretamente
+    const parsedValue = this.parseValue(rawValue);
+    this.campoFormControl.setValue(this.formatValue(parsedValue), { emitEvent: false });
   }
+  
 
   private formatValue(value: number): string {
-    return value.toFixed(2); // Formata o valor com duas casas decimais
+    // Retorna o valor formatado com ponto como separador decimal
+    return value.toFixed(2);
+  }
+  
+  private parseValue(value: any): number {
+    if (typeof value === 'string') {
+      // Substitui vírgula por ponto e converte para número
+      return parseFloat(value.replace(',', '.').trim());
+    }
+    return value; // Se já for um número, retorna diretamente
   }
 
-  private parseValue(value: string): number {
-    return parseFloat(value.replace('R$', '').replace(',', '.').trim());
-  }
 }

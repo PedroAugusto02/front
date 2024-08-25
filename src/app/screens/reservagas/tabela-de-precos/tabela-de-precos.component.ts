@@ -187,5 +187,12 @@ export class TabelaDePrecosComponent implements AfterViewInit {
   cancelarEdicao(): void {
     this.editandoElemento = new Preco();
   }
+  
+  handleValueChange(newValue: number): void {
+    console.log('Componente Pai Handle ValueChange:', newValue); // Verifica o valor recebido
+    this.editandoElemento.valor = newValue;
+    console.log('Editando Elemento Atualizado:', this.editandoElemento); // Verifica o valor atualizado
+  }
+  
 
 }

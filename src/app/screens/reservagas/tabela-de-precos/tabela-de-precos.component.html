@@ -4,4 +4,4 @@
 
 <app-dynamic-table [dataSource]="precos"></app-dynamic-table>
 
-<button (click)="adicionarPreco()">Adicionar Preço</button>
+<app-button class="disponivel" [label]="'Adicionar Preço'" [color]="'primary'" (buttonClick)="adicionarPreco()"></app-button>

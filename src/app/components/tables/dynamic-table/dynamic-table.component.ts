@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './dynamic-table.component.html',
   styleUrls: ['./dynamic-table.component.css'],
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, MatIconModule,CommonModule],
+  imports: [MatTableModule, MatButtonModule, MatIconModule, CommonModule],
   animations: [
     trigger('detailExpand', [
       state('collapsed, void', style({ height: '0px', minHeight: '0' })),
@@ -19,25 +19,21 @@ import { CommonModule } from '@angular/common';
     ]),
   ],
 })
-export class DynamicTableComponent {
-  // Lista de dados passada para o componente via Input
+export class DynamicTableComponent implements OnChanges {
   @Input() dataSource: any[] = [];
-
-  // Colunas a serem exibidas, geradas dinamicamente
   columnsToDisplay: string[] = [];
   columnsToDisplayWithExpand: string[] = [];
   expandedElement: any | null = null;
 
   ngOnChanges() {
     if (this.dataSource && this.dataSource.length > 0) {
+      // Pega as chaves do primeiro elemento e as usa como colunas
       this.columnsToDisplay = Object.keys(this.dataSource[0]);
       this.columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
     }
   }
 
-  // Função para editar a linha
   editRow(element: any) {
-    // Lógica de edição da linha
     console.log("Editando", element);
   }
 }

@@ -11,6 +11,7 @@ import { DynamicTableComponent } from "../../../components/tables/dynamic-table/
 import { TabelaDePrecos } from '../../../entity/TabelaDePrecos';
 import { Preco } from '../../../entity/Preco';
 import { PrecosService } from '../service/precos.service';
+import { ButtonComponent } from '../../../components/buttons/button/button.component';
 
 @Component({
   selector: 'app-tabela-de-precos',
@@ -18,12 +19,13 @@ import { PrecosService } from '../service/precos.service';
   imports: [
     InputSelectComponent,
     TableExpandableRowsExample,
-    DynamicTableComponent
-],
+    DynamicTableComponent,
+    ButtonComponent,
+  ],
   templateUrl: './tabela-de-precos.component.html',
   styleUrl: './tabela-de-precos.component.css'
 })
-export class TabelaDePrecosComponent implements AfterViewInit{
+export class TabelaDePrecosComponent implements AfterViewInit {
 
   constructor(
     private loader: LoaderService,
@@ -31,7 +33,7 @@ export class TabelaDePrecosComponent implements AfterViewInit{
     private estacionamentoService: EstacionamentoService,
     private authService: AuthService,
     private precosService: PrecosService,
-  ){
+  ) {
     this.titleService.setPageTitle("Preços");
   }
 
@@ -48,7 +50,7 @@ export class TabelaDePrecosComponent implements AfterViewInit{
     this.loader.show();
     await this.authService.fetchLoggedInUser();
     const usuario = this.authService.getLoggedInUser();
-    if(usuario.role == "DONO") {
+    if (usuario.role == "DONO") {
       this.estacionamentoService.listarEstacionamentosPorUsuario(usuario.id).pipe(
         finalize(() => {
           this.loader.hide();
@@ -61,7 +63,7 @@ export class TabelaDePrecosComponent implements AfterViewInit{
           console.log('Erro ao carregar estacionamentos:', error);
         },
       });
-    }else if(usuario.role == "ADMIN") {
+    } else if (usuario.role == "ADMIN") {
       this.estacionamentoService.listarEstacionamentos().pipe(finalize(() => {
         this.loader.hide();
       })).subscribe({
@@ -70,43 +72,51 @@ export class TabelaDePrecosComponent implements AfterViewInit{
         },
         error: (error) => {
           console.log('Erro ao carregar estacionamentos:', error);
-        }}
+        }
+      }
       );
     }
   }
 
   selecionarEstacionamento(id: number): void {
     this.selectedEstacionamentoId = id;
-    this.carregarPrecos(id);
+    this.carregarTabelaDePreco(id);
   }
 
-  carregarPrecos(id: number): void {
-    this.precosService.carregarPrecos(id)
-      .subscribe(
-        (data: Preco[]) => this.precos = data,
-        (error) => console.error('Erro ao carregar preços', error)
-      );
+  carregarTabelaDePreco(estacionamentoId: number): void {
+    this.estacionamentoService.carregarTabelaDePrecoPorEstacionamento(estacionamentoId).subscribe({
+      next: (tabela) => {
+        this.tabelaDePreco = tabela;
+        this.precos = tabela.precos ? tabela.precos : [];
+      },
+      error: (error) => {
+        console.error('Erro ao carregar a tabela de preço', error);
+      }
+    });
   }
+  
 
   adicionarPreco(): void {
-    if (this.selectedEstacionamentoId !== null) {
-      // Cria o objeto Preco com o ID da tabela de preços
+    if (this.selectedEstacionamentoId !== null && this.tabelaDePreco) {
+      // Cria o objeto Preco com a tabela de preços associada
       const novoPreco: Preco = {
         id: 0,
-        tempoMinimo: 0,
+        tempoMinimo: 0, // Assumindo que os valores são obtidos de algum lugar
         tempoMaximo: 0,
         valor: 0,
-        tabelaDePrecosId: this.selectedEstacionamentoId // Utiliza o ID da tabela de preços
+        tabelaDePrecos: { id: this.tabelaDePreco.id } // Somente o ID é necessário
       };
-  
-      this.precosService.adicionarPreco(novoPreco)
-        .subscribe(
-          (precoCriado: Preco) => this.precos = [...this.precos, precoCriado],
-          (error) => console.error('Erro ao adicionar preço', error)
-        );
+ 
+      this.precosService.adicionarPreco(novoPreco).subscribe({
+        next: (result) => {
+          this.precos.push(result); // Adiciona o resultado ao array
+        },
+        error: (error) => {
+          console.error('Erro ao adicionar preço', error);
+        }
+      });
     }
-  }
-  
-  
+ }
+ 
 
 }

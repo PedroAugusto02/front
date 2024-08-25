@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Estacionamento } from '../../../entity/Estacionamento';
 import { Vendedor } from '../../../entity/Vendedor';
+import { TabelaDePrecos } from '../../../entity/TabelaDePrecos';
 
 
 @Injectable({
@@ -46,6 +47,10 @@ export class EstacionamentoService {
 
   buscarEstacionamentoPorId(id: number): Observable<Estacionamento> {
     return this.http.get<Estacionamento>(`${this.baseUrl}/${id}`);
+  }
+
+  carregarTabelaDePrecoPorEstacionamento(estacionamentoId: number): Observable<TabelaDePrecos> {
+    return this.http.get<TabelaDePrecos>(`${this.baseUrl}/${estacionamentoId}/tabela-de-preco`);
   }
 
 }

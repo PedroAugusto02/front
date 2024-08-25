@@ -7,13 +7,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'input-number',
+  selector: 'input-number-valor',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './input-number.component.html',
-  styleUrls: ['./input-number.component.css'] // Corrigido de styleUrl para styleUrls
+  templateUrl: './input-number-valor.component.html',
+  styleUrls: ['./input-number-valor.component.css'] // Corrigido de styleUrl para styleUrls
 })
-export class InputNumberComponent implements OnInit, OnChanges {
+export class InputNumberValorComponent implements OnInit, OnChanges {
   @Input() label!: string;
   @Input() value: number = 0;
   @Input() placeholder!: string;

@@ -14,14 +14,15 @@ import { InputtextComponent } from '../../../components/inputs/inputtext/inputte
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { InputNumberComponent } from '../../../components/inputs/input-number/input-number.component';
+import { InputNumberValorComponent } from '../../../components/inputs/input-number/input-number-valor.component';
+import { Usuario } from '../../../entity/Usuario';
 
 @Component({
   selector: 'app-tabela-de-precos',
   standalone: true,
   imports: [
     InputSelectComponent,
-    InputNumberComponent,
+    InputNumberValorComponent,
     ButtonComponent,
     CommonModule,
     InputtextComponent,
@@ -41,6 +42,7 @@ export class TabelaDePrecosComponent implements AfterViewInit {
   selectedEstacionamentoId: number = 0;
   columnsToDisplay = ['tempoMinimo', 'tempoMaximo', 'valor', 'actions']; // Personalize os nomes das colunas
   editandoElemento: Preco = new Preco(); // Para rastrear o elemento em edição
+  usuarioLogado: Usuario = new Usuario();
 
   constructor(
     private loader: LoaderService,
@@ -57,17 +59,19 @@ export class TabelaDePrecosComponent implements AfterViewInit {
   }
 
   async carregarEstacionamentosETabelaPreco() {
+    await this.authService.fetchLoggedInUser();
+    this.usuarioLogado = this.authService.getLoggedInUser();
     await this.carregarEstacionamentos();
-    this.selecionarEstacionamento(this.estacionamentos[0].id);
+
+    if(this.usuarioLogado.role == "DONO")
+      this.selecionarEstacionamento(this.estacionamentos[0].id);
   }
 
   async carregarEstacionamentos(): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
       this.loader.show();
-      await this.authService.fetchLoggedInUser();
-      const usuario = this.authService.getLoggedInUser();
-      if (usuario.role == "DONO") {
-        this.estacionamentoService.listarEstacionamentosPorUsuario(usuario.id).pipe(
+      if (this.usuarioLogado.role == "DONO") {
+        this.estacionamentoService.listarEstacionamentosPorUsuario(this.usuarioLogado.id).pipe(
           finalize(() => {
             this.loader.hide();
           })
@@ -81,7 +85,7 @@ export class TabelaDePrecosComponent implements AfterViewInit {
             reject();
           },
         });
-      } else if (usuario.role == "ADMIN") {
+      } else if (this.usuarioLogado.role == "ADMIN") {
         this.estacionamentoService.listarEstacionamentos().pipe(finalize(() => {
           this.loader.hide();
         })).subscribe({
@@ -187,7 +191,7 @@ export class TabelaDePrecosComponent implements AfterViewInit {
   cancelarEdicao(): void {
     this.editandoElemento = new Preco();
   }
-  
+
   handleValueChange(newValue: number): void {
     console.log('Componente Pai Handle ValueChange:', newValue); // Verifica o valor recebido
     this.editandoElemento.valor = newValue;

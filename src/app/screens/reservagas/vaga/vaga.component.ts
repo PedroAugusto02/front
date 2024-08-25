@@ -45,39 +45,50 @@ export class VagaComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.carregarEstacionamentos();
+    this.carregarEstacionamentosEVagas();
+  }
+
+  async carregarEstacionamentosEVagas() {
+    await this.carregarEstacionamentos();
+    this.selecionarEstacionamento(this.estacionamentos[0].id);
   }
 
   async carregarEstacionamentos(): Promise<void> {
-    this.loader.show();
-    await this.authService.fetchLoggedInUser();
-    const usuario = this.authService.getLoggedInUser();
-    if (usuario.role == "DONO") {
-      this.estacionamentoService.listarEstacionamentosPorUsuario(usuario.id).pipe(
-        finalize(() => {
+    return new Promise<void>(async (resolve, reject) => {
+      this.loader.show();
+      await this.authService.fetchLoggedInUser();
+      const usuario = this.authService.getLoggedInUser();
+      if (usuario.role == "DONO") {
+        this.estacionamentoService.listarEstacionamentosPorUsuario(usuario.id).pipe(
+          finalize(() => {
+            this.loader.hide();
+          })
+        ).subscribe({
+          next: (estacionamentos) => {
+            this.estacionamentos = estacionamentos;
+            resolve();
+          },
+          error: (error) => {
+            console.log('Erro ao carregar estacionamentos:', error);
+            reject();
+          },
+        });
+      } else if (usuario.role == "ADMIN") {
+        this.estacionamentoService.listarEstacionamentos().pipe(finalize(() => {
           this.loader.hide();
-        })
-      ).subscribe({
-        next: (estacionamentos) => {
-          this.estacionamentos = estacionamentos;
-        },
-        error: (error) => {
-          console.log('Erro ao carregar estacionamentos:', error);
-        },
-      });
-    } else if (usuario.role == "ADMIN") {
-      this.estacionamentoService.listarEstacionamentos().pipe(finalize(() => {
-        this.loader.hide();
-      })).subscribe({
-        next: (estacionamentos) => {
-          this.estacionamentos = estacionamentos;
-        },
-        error: (error) => {
-          console.log('Erro ao carregar estacionamentos:', error);
+        })).subscribe({
+          next: (estacionamentos) => {
+            this.estacionamentos = estacionamentos;
+            resolve();
+          },
+          error: (error) => {
+            console.log('Erro ao carregar estacionamentos:', error);
+            reject();
+          }
         }
+        );
       }
-      );
-    }
+    })
   }
 
   // Método alterado para capturar a mudança do estacionamento

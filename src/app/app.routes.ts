@@ -18,8 +18,7 @@ export const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'primeiro-estacionamento', component: PrimeiroEstacionamentoComponent},
   { 
-    path: '', 
-    component: SideNavComponent, 
+    path: '', component: SideNavComponent, 
     canActivate: [AuthGuard],
     children: [
       { path: 'home', component: HomeComponent },

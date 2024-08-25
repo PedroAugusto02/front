@@ -21,5 +21,13 @@ export class PrecosService {
   carregarPrecos(estacionamentoId: number): Observable<Preco[]> {
     return this.http.get<Preco[]>(`${this.apiUrl}/estacionamento/${estacionamentoId}`);
   }
+
+  atualizarPreco(preco: Preco): Observable<Preco> {
+    return this.http.put<Preco>(`${this.apiUrl}/${preco.id}`, preco);
+  }
+
+  deletarPreco(preco: Preco): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${preco.id}`);
+  }
   
 }

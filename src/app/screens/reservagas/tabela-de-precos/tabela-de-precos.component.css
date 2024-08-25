@@ -1,0 +1,36 @@
+/* Garantir que os inputs não quebrem a tabela */
+.input-custom-width {
+    width: 100%;
+    max-width: 100%; /* Evita que o input ultrapasse a largura da célula */
+    box-sizing: border-box; /* Inclui padding e border no cálculo da largura */
+}
+
+/* Altura fixa para as células da tabela */
+td {
+    height: 100px;
+}
+
+/* Largura fixa para cada coluna */
+.tempoMinimo-width {
+    width: 464.969px;
+}
+
+.tempoMaximo-width {
+    width: 421.719px;
+}
+
+.valor-width {
+    width: 464.969px;
+}
+
+.acoes-width {
+    width: 391.344px;
+    text-align: center; /* Alinha o texto centralmente */
+}
+
+/* Estilo para os botões na coluna de ações */
+.acoes-button-container {
+    display: flex;
+    gap: 10px; /* Espaçamento entre os botões */
+    justify-content: center; /* Centraliza os botões horizontalmente */
+}

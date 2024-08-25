@@ -1,4 +1,3 @@
-import { TabelaDePrecos } from "./TabelaDePrecos";
 
 export class Preco {
   id!: number;

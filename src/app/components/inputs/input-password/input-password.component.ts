@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -8,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'input-password',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule, MatIconModule],
+  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule,CommonModule, ReactiveFormsModule],
   templateUrl: './input-password.component.html',
   styleUrl: './input-password.component.css'
 })

@@ -2,6 +2,70 @@
     [atributoValor]="'id'" [(value)]="selectedEstacionamentoId" (valueChange)="selecionarEstacionamento($event)">
 </app-inputselect>
 
-<app-dynamic-table [dataSource]="precos"></app-dynamic-table>
+<table mat-table [dataSource]="precos" class="mat-elevation-z8">
+  <!-- Tempo Mínimo Column -->
+  <ng-container matColumnDef="tempoMinimo">
+    <th mat-header-cell *matHeaderCellDef class="tempoMinimo-width"> Tempo Mínimo (min) </th>
+    <td mat-cell *matCellDef="let element" class="tempoMinimo-width">
+      <ng-container *ngIf="editandoElemento?.id !== element.id">
+        {{ element.tempoMinimo }} min
+      </ng-container>
+      <ng-container *ngIf="editandoElemento?.id === element.id">
+        <inputtext class="input-custom-width mt-3" [label]="'Tempo Mínimo'" [placeholder]="'ex: 30 minutos'" [value]="editandoElemento.tempoMinimo"
+        [validacao]="false" (valueChange)="editandoElemento.tempoMinimo = $event"></inputtext>
+      </ng-container>
+    </td>
+  </ng-container>
 
-<app-button class="disponivel" [label]="'Adicionar Preço'" [color]="'primary'" (buttonClick)="adicionarPreco()"></app-button>
+  <!-- Tempo Máximo Column -->
+  <ng-container matColumnDef="tempoMaximo">
+    <th mat-header-cell *matHeaderCellDef class="tempoMaximo-width"> Tempo Máximo (min) </th>
+    <td mat-cell *matCellDef="let element" class="tempoMaximo-width">
+      <ng-container *ngIf="editandoElemento?.id !== element.id">
+        {{ element.tempoMaximo }} min
+      </ng-container>
+      <ng-container *ngIf="editandoElemento?.id === element.id">
+        <inputtext class="input-custom-width mt-3" [label]="'Tempo Máximo'" [placeholder]="'ex: 120 minutos'" [value]="editandoElemento.tempoMaximo"
+        [validacao]="false" (valueChange)="editandoElemento.tempoMaximo = $event"></inputtext>
+      </ng-container>
+    </td>
+  </ng-container>
+
+  <!-- Valor Column -->
+  <ng-container matColumnDef="valor">
+    <th mat-header-cell *matHeaderCellDef class="valor-width"> Valor (R$) </th>
+    <td mat-cell *matCellDef="let element" class="valor-width">
+      <ng-container *ngIf="editandoElemento?.id !== element.id">
+        {{ element.valor | currency:'BRL' }}
+      </ng-container>
+      <ng-container *ngIf="editandoElemento?.id === element.id">
+        <input-number class="input-custom-width mt-3" [label]="'Valor'" [placeholder]="'ex: 15,00'" [value]="editandoElemento.valor"
+        [validacao]="true" (valueChange)="editandoElemento.valor = $event"></input-number>
+      </ng-container>
+    </td>
+  </ng-container>
+
+  <!-- Ações Column -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef class="acoes-width"> Ações </th>
+    <td mat-cell *matCellDef="let element" class="acoes-width">
+      <ng-container *ngIf="editandoElemento?.id !== element.id">
+        <div class="acoes-button-container">
+          <app-button [label]="'Editar'" [color]="'primary'" (buttonClick)="editarElemento(element)"></app-button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="editandoElemento?.id === element.id">
+        <div class="acoes-button-container">
+          <app-button [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarEdicao(editandoElemento)"></app-button>
+          <app-button [label]="'Cancelar'" [color]="'secundary'" (buttonClick)="cancelarEdicao()"></app-button>
+          <app-button [label]="'Excluir'" [color]="'warn'" (buttonClick)="deletarPreco(editandoElemento)"></app-button>
+        </div>
+      </ng-container>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+</table>
+
+<app-button class="disponivel mt-3" [label]="'Adicionar Preço'" [color]="'primary'" (buttonClick)="adicionarPreco()"></app-button>

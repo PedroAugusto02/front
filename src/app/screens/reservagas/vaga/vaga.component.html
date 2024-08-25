@@ -13,17 +13,20 @@
   <div class="container-vagas shadow p-4">
     <h2>Vagas</h2>
     <div class="grid-vagas">
-      <div *ngFor="let vaga of cardsVagas" class="cartao" (click)="abrirDetalhesReserva(vaga)"
+      <div *ngFor="let vaga of cardsVagas" class="cartao" (click)="incluirReserva()"
         [style.background]="vaga.cor">
         <h1>Vaga {{ vaga.numeroDaVaga }}</h1>
-        <p>
-          Status:
-          <span class="status-texto"
-            [ngClass]="{'texto-disponivel': vaga.disponivel, 'texto-indisponivel': !vaga.disponivel}">
-            {{ vaga.disponivel ? 'Disponível' : 'Indisponível' }}
-          </span>
-        </p>
+        <div class="d-flex">
+          <p>
+            Status:
+            <span class="status-texto"
+              [ngClass]="{'texto-disponivel': vaga.disponivel, 'texto-indisponivel': !vaga.disponivel}">
+              {{ vaga.disponivel ? 'Disponível' : 'Indisponível' }}
+            </span>
+          </p>
+        </div>
       </div>
     </div>
+    <minibutton [icon]="'add_location'" class="disponivel" [label]="'Incluir Reserva'" [color]="'primary'" (buttonClick)="incluirReserva()"></minibutton>
   </div>
 </div>

@@ -18,13 +18,23 @@ import { CheckboxComponent } from '../../../components/inputs/checkbox/checkbox.
 import { InputSelectComponent } from '../../../components/inputs/inputselect/inputselect.component';
 import { Estacionamento } from '../../../entity/Estacionamento';
 import { AuthService } from '../../../authentication/auth.service';
+import { MinibuttonComponent } from "../../../components/buttons/minibutton/minibutton.component";
+import { ToastService } from '../../../service/toast.service';
 
 
 @Component({
   selector: 'app-vaga',
   templateUrl: './vaga.component.html',
   standalone: true,
-  imports: [InputtextComponent, ButtonComponent, CheckboxComponent, CdkDropListGroup, CdkDropList, CdkDrag, CommonModule, InputSelectComponent, FormsModule],
+  imports: [
+    InputtextComponent, 
+    ButtonComponent, 
+    CheckboxComponent, 
+    CdkDropListGroup, 
+    CdkDropList, 
+    CdkDrag, 
+    CommonModule, 
+    InputSelectComponent, FormsModule, MinibuttonComponent],
   styleUrls: ['./vaga.component.css']
 })
 
@@ -40,6 +50,7 @@ export class VagaComponent implements AfterViewInit {
     private router: Router,
     private titleService: TitleService,
     private loader: LoaderService,
+    private toast: ToastService,
   ) {
     this.titleService.setPageTitle("Vagas");
   }
@@ -115,4 +126,9 @@ export class VagaComponent implements AfterViewInit {
   abrirDetalhesReserva(vaga: Vaga): void {
     this.router.navigate([`/reserva-detalhes`], { state: { vaga } });
   }
+
+  incluirReserva() {
+    this.toast.success('This is a success message!', 'Success');
+  }
+
 }

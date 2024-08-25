@@ -11,6 +11,7 @@
 }
 
 .cartao {
+  position: relative; /* Define o contêiner como relativo para posicionar o botão absolutamente */
   flex: 0 0 calc(33.33% - 20px); /* 33.33% para 3 cartões por linha com margens de 10px */
   margin: 10px; /* Margem entre os cartões */
   width: 200px; /* Largura fixa dos cartões */
@@ -42,7 +43,7 @@
 }
 
 .status-texto {
-  font-weight: bold;
+  font-weight: 100;
 }
 
 .texto-disponivel {
@@ -51,4 +52,28 @@
 
 .texto-indisponivel {
   color: #f44336; /* Cor vermelha para indisponível */
+}
+
+
+.vaga-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vaga-status {
+  width: 100%;
+  text-align: center; /* Centraliza o conteúdo dentro do container */
+}
+
+.horario {
+  font-size: 35px; /* Ajuste o tamanho do texto conforme necessário */
+  margin-top: 10px;
+}
+
+.botao-modal {
+  position: absolute;
+  right: 10px; /* Posiciona o botão no canto direito */
+  bottom: 10px; /* Ajuste a posição conforme necessário */
+  margin: 10px; /* Margem para afastar o botão das bordas do cartão */
 }

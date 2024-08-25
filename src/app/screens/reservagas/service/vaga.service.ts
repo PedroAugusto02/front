@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Vaga } from '../../../entity/Vaga';
 import { environment } from '../../../../environments/environment';
+import { ClienteAvulso } from '../../../entity/ClienteAvulso';
+import { Reserva } from '../../../entity/Reserva';
 
 
 @Injectable({
@@ -32,6 +34,14 @@ export class VagaService {
 
   listarVagasPorEstacionamento(estacionamentoId: number): Observable<Vaga[]> {
     return this.http.get<Vaga[]>(`${this.baseUrl}/estacionamento/${estacionamentoId}`);
+  }
+
+  criarReserva(vagaId: number, cliente: ClienteAvulso): Observable<any> {
+    return this.http.post(`${this.baseUrl}/${vagaId}/reservar`, cliente);
+  }
+
+  listarReservaPorVaga(vagaId: number): Observable<Reserva> {
+    return this.http.get<Reserva>(`/api/vagas/${vagaId}/reservas`);
   }
 
 }

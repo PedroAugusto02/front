@@ -1,6 +1,6 @@
 import { CdkDrag, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -20,6 +20,8 @@ import { Estacionamento } from '../../../entity/Estacionamento';
 import { AuthService } from '../../../authentication/auth.service';
 import { MinibuttonComponent } from "../../../components/buttons/minibutton/minibutton.component";
 import { ToastService } from '../../../service/toast.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalReservaComponent } from '../../../components/dialogs/modal-reserva/modal-reserva.component';
 
 
 @Component({
@@ -129,6 +131,14 @@ export class VagaComponent implements AfterViewInit {
 
   incluirReserva() {
     this.toast.success('This is a success message!', 'Success');
+  }
+
+  readonly dialog = inject(MatDialog);
+
+  openModal(vaga: Vaga): void {
+    this.dialog.open(ModalReservaComponent, {
+      data: { vaga: vaga }
+    });
   }
 
 }

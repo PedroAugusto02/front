@@ -175,7 +175,7 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
 
   readonly dialog = inject(MatDialog);
 
-  openModal(vaga: Vaga): void {
+  incluirReservaModal(vaga: Vaga): void {
     const dialogRef = this.dialog.open(ModalReservaComponent, {
       data: { vaga: vaga }
     });
@@ -186,4 +186,9 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
       }
     });
   }
+
+  fecharReservaModal(vaga: Vaga) {
+    
+  }
+
 }

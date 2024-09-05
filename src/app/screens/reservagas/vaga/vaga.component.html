@@ -28,9 +28,11 @@
           </p>
         </div>
         <div class="d-flex">
+          <minibutton *ngIf="!vaga.disponivel && vaga.tempoDecorrido" [icon]="'check'" class="botao-fechar-reserva" [title]="'Fechar Reserva'" [color]="'primary'"
+          (click)="fecharReservaModal(vaga); $event.stopPropagation()"></minibutton>
           <p *ngIf="!vaga.disponivel && vaga.tempoDecorrido" class="horario text-center">{{ vaga.tempoDecorrido }}</p>
-          <minibutton [icon]="'add_location'" class=" botao-modal" [label]="'Incluir Reserva'" [color]="'primary'"
-            (click)="openModal(vaga); $event.stopPropagation()"></minibutton>
+          <minibutton [icon]="'add_location'" class="botao-incluir-reserva" [title]="'Incluir Reserva'" [color]="'primary'"
+            (click)="incluirReservaModal(vaga); $event.stopPropagation()"></minibutton>
         </div>        
       </div>
     </div>

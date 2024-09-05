@@ -1,20 +1,20 @@
 .container-vagas {
   margin-left: 10px;
   width: 100%;
-  overflow-y: auto; /* Adiciona uma barra de rolagem vertical se necessário */
+  overflow-y: auto; 
 }
 
 .grid-vagas {
   display: flex;
   flex-wrap: wrap;
-  overflow: hidden; /* Para esconder qualquer overflow horizontal */
+  overflow: hidden; 
 }
 
 .cartao {
-  position: relative; /* Define o contêiner como relativo para posicionar o botão absolutamente */
-  flex: 0 0 calc(33.33% - 20px); /* 33.33% para 3 cartões por linha com margens de 10px */
-  margin: 10px; /* Margem entre os cartões */
-  width: 200px; /* Largura fixa dos cartões */
+  position: relative; 
+  flex: 0 0 calc(33.33% - 20px); 
+  margin: 10px; 
+  width: 200px; 
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
@@ -48,11 +48,11 @@
 }
 
 .texto-disponivel {
-  color: #10bb0a; /* Cor verde para disponível */
+  color: #10bb0a; 
 }
 
 .texto-indisponivel {
-  color: #f44336; /* Cor vermelha para indisponível */
+  color: #f44336; 
 }
 
 
@@ -64,17 +64,24 @@
 
 .vaga-status {
   width: 100%;
-  text-align: center; /* Centraliza o conteúdo dentro do container */
+  text-align: center; 
 }
 
 .horario {
-  font-size: 35px; /* Ajuste o tamanho do texto conforme necessário */
+  font-size: 35px; 
   margin-top: 10px;
 }
 
-.botao-modal {
+.botao-incluir-reserva {
   position: absolute;
-  right: 10px; /* Posiciona o botão no canto direito */
-  bottom: 10px; /* Ajuste a posição conforme necessário */
-  margin: 10px; /* Margem para afastar o botão das bordas do cartão */
+  right: 10px; 
+  bottom: 10px; 
+  margin: 10px; 
+}
+
+.botao-fechar-reserva {
+  position: absolute;
+  left: 10px; 
+  bottom: 10px; 
+  margin: 10px; 
 }

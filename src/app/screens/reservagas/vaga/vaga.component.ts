@@ -1,28 +1,24 @@
 import { CdkDrag, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-
-
-
-import { TitleService } from '../../../service/title.service';
-import { EstacionamentoService } from '../service/estacionamento.service';
-import { VagaService } from '../service/vaga.service';
-import { LoaderService } from '../../../service/loader.service';
-import { Vaga } from '../../../entity/Vaga';
-import { InputtextComponent } from '../../../components/inputs/inputtext/inputtext.component';
+import { AuthService } from '../../../authentication/auth.service';
 import { ButtonComponent } from '../../../components/buttons/button/button.component';
+import { MinibuttonComponent } from "../../../components/buttons/minibutton/minibutton.component";
+import { ModalReservaComponent } from '../../../components/dialogs/modal-reserva/modal-reserva.component';
 import { CheckboxComponent } from '../../../components/inputs/checkbox/checkbox.component';
 import { InputSelectComponent } from '../../../components/inputs/inputselect/inputselect.component';
+import { InputtextComponent } from '../../../components/inputs/inputtext/inputtext.component';
 import { Estacionamento } from '../../../entity/Estacionamento';
-import { AuthService } from '../../../authentication/auth.service';
-import { MinibuttonComponent } from "../../../components/buttons/minibutton/minibutton.component";
+import { Vaga } from '../../../entity/Vaga';
+import { LoaderService } from '../../../service/loader.service';
+import { TitleService } from '../../../service/title.service';
 import { ToastService } from '../../../service/toast.service';
-import { MatDialog } from '@angular/material/dialog';
-import { ModalReservaComponent } from '../../../components/dialogs/modal-reserva/modal-reserva.component';
-
+import { EstacionamentoService } from '../service/estacionamento.service';
+import { VagaService } from '../service/vaga.service';
 
 @Component({
   selector: 'app-vaga',
@@ -40,10 +36,11 @@ import { ModalReservaComponent } from '../../../components/dialogs/modal-reserva
   styleUrls: ['./vaga.component.css']
 })
 
-export class VagaComponent implements AfterViewInit {
+export class VagaComponent implements AfterViewInit, OnDestroy {
   estacionamentos: Estacionamento[] = [];
-  selectedEstacionamentoId: number | null = null;
+  selectedEstacionamentoId: number = 0;
   cardsVagas: Vaga[] = [];
+  intervalId: any;
 
   constructor(
     private authService: AuthService,
@@ -59,6 +56,49 @@ export class VagaComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.carregarEstacionamentosEVagas();
+    this.startCronometro();
+  }
+
+  ngOnDestroy(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
+  startCronometro(): void {
+    this.intervalId = setInterval(() => {
+      this.atualizarTempoDecorrido();
+    }, 1000);
+  }
+
+  atualizarTempoDecorrido(): void {
+    const agora = new Date().getTime();
+    this.cardsVagas.forEach(vaga => {
+      if (!vaga.disponivel && vaga.reservas && vaga.reservas.length > 0) {
+        const ultimaReserva = vaga.reservas.reduce((prev, current) => {
+          return new Date(prev.dataHoraReserva).getTime() > new Date(current.dataHoraReserva).getTime() ? prev : current;
+        });
+
+        const tempoEntrada = new Date(ultimaReserva.dataHoraReserva).getTime();
+        const diferenca = agora - tempoEntrada;
+
+        vaga.tempoDecorrido = this.formatarTempo(diferenca);
+      }
+    });
+  }
+  
+
+  formatarTempo(ms: number): string {
+    const totalSegundos = Math.floor(ms / 1000);
+    const horas = Math.floor(totalSegundos / 3600);
+    const minutos = Math.floor((totalSegundos % 3600) / 60);
+    const segundos = totalSegundos % 60;
+
+    return `${this.pad(horas)}:${this.pad(minutos)}:${this.pad(segundos)}`;
+  }
+
+  pad(num: number): string {
+    return num.toString().padStart(2, '0');
   }
 
   async carregarEstacionamentosEVagas() {
@@ -136,9 +176,14 @@ export class VagaComponent implements AfterViewInit {
   readonly dialog = inject(MatDialog);
 
   openModal(vaga: Vaga): void {
-    this.dialog.open(ModalReservaComponent, {
+    const dialogRef = this.dialog.open(ModalReservaComponent, {
       data: { vaga: vaga }
     });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.reservaCriada) {
+        this.carregarVagas(this.selectedEstacionamentoId);
+      }
+    });
   }
-
 }

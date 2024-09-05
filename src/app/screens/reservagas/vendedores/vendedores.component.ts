@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { TitleService } from '../../../service/title.service';
 
-
 @Component({
   selector: 'app-vendedores',
   standalone: true,
@@ -13,8 +12,7 @@ export class VendedoresComponent {
 
   constructor(
     private titleService : TitleService,
-  )
-  {
+  ){
     this.titleService.setPageTitle("Vendedores");
   }
 }

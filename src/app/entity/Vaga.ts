@@ -7,5 +7,6 @@ export class Vaga {
   disponivel: boolean = true;
   numeroDaVaga!: number;
   cor!: string;
+  tempoDecorrido?: string;  // Campo para exibição no front-end
   reservas!: Reserva[];
 }

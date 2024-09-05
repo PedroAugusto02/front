@@ -1,19 +1,17 @@
 <h2 mat-dialog-title>Adicionar Cliente Avulso</h2>
 <h1 mat-dialog-title>Vaga {{ vaga.numeroDaVaga }}</h1>
 <mat-dialog-content class="mat-typography">
-  <!-- Utilizando o componente inputtext para os campos -->
   <inputtext class="input-custom-width mt-3" [label]="'Nome'" [placeholder]="'Digite o nome do cliente'" [value]="clienteAvulso.nome"
-      [validacao]="true" (valueChange)="clienteAvulso.nome = $event"></inputtext>
+    [validacao]="true" (valueChange)="clienteAvulso.nome = $event"/>
 
   <inputtext class="input-custom-width mt-3" [label]="'Placa do Veículo'" [placeholder]="'Digite a placa do veículo'" [value]="clienteAvulso.placaVeiculo"
-      [validacao]="false" (valueChange)="clienteAvulso.placaVeiculo = $event"></inputtext>
+      [validacao]="false" (valueChange)="clienteAvulso.placaVeiculo = $event"/>
 
   <inputtext class="input-custom-width mt-3" [label]="'Documento de Identidade'" [placeholder]="'Digite o documento de identidade'" [value]="clienteAvulso.documentoIdentidade"
-      [validacao]="false" (valueChange)="clienteAvulso.documentoIdentidade = $event"></inputtext>
+      [validacao]="false" (valueChange)="clienteAvulso.documentoIdentidade = $event"/>
 
-  <!-- Adicionando botão personalizado -->
   <div>
-    <app-button class="disponível float-left" [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"></app-button>
-    <app-button class="disponivel float-right" [label]="'Incluir Reserva'" [color]="'success'" (buttonClick)="salvarClienteAvulso()"></app-button>
+    <app-button class="disponível float-left" [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"/>
+    <app-button class="disponivel float-right" [label]="'Incluir Reserva'" [color]="'success'" (buttonClick)="salvarClienteAvulso()"/>
   </div>
 </mat-dialog-content>

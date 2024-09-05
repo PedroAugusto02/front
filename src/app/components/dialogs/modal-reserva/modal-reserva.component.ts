@@ -25,25 +25,31 @@ export class ModalReservaComponent {
     public dialogRef: MatDialogRef<ModalReservaComponent>,
     private vagaService: VagaService, 
     @Inject(MAT_DIALOG_DATA) public data: any // Recebe dados passados para o diálogo, se necessário
-  ) { 
+  ){ 
     this.vaga = data.vaga;
   }
 
   salvarClienteAvulso() {
-    this.vagaService.criarReserva(this.vaga.id, this.clienteAvulso).subscribe(response => {
-      console.log('Reserva criada com sucesso:', response);
-
-      // Atualizar a vaga para torná-la indisponível
-      this.vaga.disponivel = false;
-      this.vagaService.atualizarVaga(this.vaga).subscribe(() => {
-        console.log('Vaga atualizada com sucesso');
-        this.dialogRef.close(this.clienteAvulso); // Fecha o diálogo e retorna o cliente avulso salvo
-      }, error => {
+    this.vagaService.criarReserva(this.vaga.id, this.clienteAvulso).subscribe({
+      next: () => {
+        this.vaga.disponivel = false;
+        this.atualizarVaga();
+      },
+      error: (error) => {
+        console.error('Erro ao criar reserva:', error);
+      } 
+    });
+  }
+  
+  atualizarVaga() {
+    this.vagaService.atualizarVaga(this.vaga).subscribe({
+      next: () => {
+        // Passa um sinal para o componente principal quando a reserva é criada
+        this.dialogRef.close({ reservaCriada: true });
+      },
+      error: (error) => {
         console.error('Erro ao atualizar a vaga:', error);
-      });
-      
-    }, error => {
-      console.error('Erro ao criar reserva:', error);
+      }
     });
   }
 

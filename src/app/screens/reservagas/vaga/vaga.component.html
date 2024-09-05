@@ -28,12 +28,10 @@
           </p>
         </div>
         <div class="d-flex">
-          @if(!vaga.disponivel) {
-            <p class="horario text-center">00:00:00</p>
-          }
+          <p *ngIf="!vaga.disponivel && vaga.tempoDecorrido" class="horario text-center">{{ vaga.tempoDecorrido }}</p>
           <minibutton [icon]="'add_location'" class=" botao-modal" [label]="'Incluir Reserva'" [color]="'primary'"
             (click)="openModal(vaga); $event.stopPropagation()"></minibutton>
-        </div>
+        </div>        
       </div>
     </div>
   </div>

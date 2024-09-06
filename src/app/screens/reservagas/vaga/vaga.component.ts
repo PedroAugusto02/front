@@ -19,6 +19,8 @@ import { TitleService } from '../../../service/title.service';
 import { ToastService } from '../../../service/toast.service';
 import { EstacionamentoService } from '../service/estacionamento.service';
 import { VagaService } from '../service/vaga.service';
+import { ModalFecharReservaComponent } from '../../../components/dialogs/modal-fechar-reserva/modal-fechar-reserva.component';
+import { ModalConfirmaComponent } from '../../../components/dialogs/modal-confirma/modal-confirma.component';
 
 @Component({
   selector: 'app-vaga',
@@ -188,7 +190,16 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
   }
 
   fecharReservaModal(vaga: Vaga) {
-    
+    const dialogRef = this.dialog.open(ModalConfirmaComponent, {
+      data: { pergunta: 'Deseja realmente fechar a reserva?' }
+    });
+    dialogRef.afterClosed().subscribe((confirmado: boolean) => {
+      if (confirmado) {
+        this.dialog.open(ModalFecharReservaComponent, {
+          data: { vaga: vaga }
+        });
+      }
+    });
   }
-
+  
 }

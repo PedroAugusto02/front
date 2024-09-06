@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Confirmar</h1>
+<mat-dialog-content class="mat-typography">
+  <h4>{{data.pergunta}}</h4>
+  <div class="button-container">
+    <app-button class="disponível" [label]="'Confirmar'" [color]="'success'" (buttonClick)="confirmar()"/>
+    <app-button class="disponível" [label]="'Cancelar'" [color]="'warn'" (buttonClick)="cancelar()"/>
+  </div>
+</mat-dialog-content>

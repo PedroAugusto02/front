@@ -24,7 +24,7 @@ export class ModalReservaComponent {
   constructor(
     public dialogRef: MatDialogRef<ModalReservaComponent>,
     private vagaService: VagaService, 
-    @Inject(MAT_DIALOG_DATA) public data: any // Recebe dados passados para o diálogo, se necessário
+    @Inject(MAT_DIALOG_DATA) public data: any
   ){ 
     this.vaga = data.vaga;
   }

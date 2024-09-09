@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class InputtextComponent implements OnInit, OnChanges {
   @Input() label!: string;
-  @Input() value: any = '';  // Inicialize com uma string vazia para evitar 'undefined'
+  @Input() value: any = '';  
   @Input() placeholder!: string;
   @Input() disabled: boolean = false;
   @Input() validacao: boolean = false;
@@ -25,30 +25,29 @@ export class InputtextComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     // Inicialize o FormControl com o valor e o status de desabilitado
     this.campoFormControl = new FormControl({ value: this.value, disabled: this.disabled });
-
+  
     if (this.validacao) {
       this.campoFormControl.setValidators([Validators.required]);
     }
-
+  
     // Emite a mudança de valor quando o FormControl muda
     this.campoFormControl.valueChanges.subscribe(newValue => {
       this.valueChange.emit(newValue);
     });
   }
-
+  
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['value'] && !changes['value'].firstChange) {
-      // Atualize o valor do FormControl se a entrada mudar
       this.campoFormControl.setValue(this.value, { emitEvent: false });
     }
-
+  
     if (changes['disabled']) {
-      // Atualize o status de desabilitado do FormControl
       if (this.disabled) {
-        this.campoFormControl.disable();
+        this.campoFormControl.disable({ emitEvent: false });
       } else {
-        this.campoFormControl.enable();
+        this.campoFormControl.enable({ emitEvent: false });
       }
     }
   }
+  
 }

@@ -16,8 +16,10 @@ export class MenuService {
   constructor(private http: HttpClient) {}
 
   loadUserMenus(): void {
-    this.http.get<Menu[]>(this.baseUrl).subscribe(menus => {
-      this.menusSubject.next(menus);
+    this.http.get<Menu[]>(this.baseUrl).subscribe({
+      next: (result) => {
+        this.menusSubject.next(result);
+      }
     });
   }
 

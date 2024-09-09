@@ -45,7 +45,7 @@ export class AuthService {
         if (response.resetPassword) {
           this.router.navigate(['/reset-password']);
         } else {
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
         }
       },
       error: (error: HttpErrorResponse) => {
@@ -104,6 +104,9 @@ export class AuthService {
           resolve();
         },
         error: (error: HttpErrorResponse) => {
+          if (error.status === 401 || error.status === 0) {
+            this.logout();
+          }
           console.log('Erro ao buscar dados do usuário:', error);
           reject();
         }

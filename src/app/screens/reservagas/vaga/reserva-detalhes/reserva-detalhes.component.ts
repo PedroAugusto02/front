@@ -28,7 +28,6 @@ export class ReservaDetalhesComponent {
   estacionamento: Estacionamento;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private estacionamentoService: EstacionamentoService,
     private vagaService: VagaService,
@@ -39,13 +38,8 @@ export class ReservaDetalhesComponent {
   }
 
   ngOnInit(): void {
-    if (history.state && history.state.vaga) {
-      this.vaga = history.state.vaga;
-      this.buscaEstacionamento(this.vaga.estacionamento.id);
-      console.log('Vaga detalhada:', this.vaga);
-    } else {
-      // Lógica de tratamento caso não haja state.vaga definido
-    }
+    this.vaga = history.state.vaga;
+    this.buscaEstacionamento(this.vaga.estacionamento.id);
   }
   
 

@@ -1,26 +1,26 @@
-import { Component, ComponentFactoryResolver, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ChangeDetectorRef, Component, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatMenuModule } from '@angular/material/menu';
-import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router, RouterLink, RouterModule, RouterStateSnapshot } from '@angular/router';
-import { LoaderCircularComponent } from '../../components/loader-circular/loader-circular.component';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ToggleDarkThemeComponent } from '../../components/inputs/toggle-dark-theme/toggle-dark-theme.component';
-import { AuthService } from '../../authentication/auth.service';
-import { MenuService } from '../../service/menu.service';
-import { MinimizeService } from '../../service/minimize.service';
-import { MinimizableStateService } from '../../service/minimizable-state.service';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { Menu } from './interfaces/model';
-import { UsuariosComponent } from '../pessoas/usuario/usuarios.component';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
-import { TitleService } from '../../service/title.service';
+import { AuthService } from '../../authentication/auth.service';
+import { ToggleDarkThemeComponent } from '../../components/inputs/toggle-dark-theme/toggle-dark-theme.component';
+import { LoaderCircularComponent } from '../../components/loader-circular/loader-circular.component';
 import { LoaderService } from '../../service/loader.service';
+import { MenuService } from '../../service/menu.service';
+import { MinimizableStateService } from '../../service/minimizable-state.service';
+import { MinimizeService } from '../../service/minimize.service';
+import { TitleService } from '../../service/title.service';
+import { UsuariosComponent } from '../pessoas/usuario/usuarios.component';
+import { Menu } from './interfaces/model';
 
 @Component({
   selector: 'app-side-nav',
@@ -67,7 +67,7 @@ export class SideNavComponent {
     private activatedRoute: ActivatedRoute,
     private minimizeService: MinimizeService,
     private minimizableStateService: MinimizableStateService,
-    private componentFactoryResolver: ComponentFactoryResolver,
+    private changeDetectorRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
@@ -85,10 +85,10 @@ export class SideNavComponent {
 
     this.titleService.getPageTitle().subscribe((title: string) => {
       this.pageTitle = title;
+      this.changeDetectorRef.detectChanges();
     });
 
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.loader.reset();
       this.isHomePage = this.router.url === '/home';
@@ -113,11 +113,7 @@ export class SideNavComponent {
   }
 
   minimizePage(): void {
-    // Disparar evento para salvar o estado do componente antes de minimizar
     this.minimizableStateService.triggerMinimizeEvent('UsuarioComponent');
-
-    // Aguardar um pequeno atraso para garantir que o estado foi salvo
-
     const currentState = this.getCurrentPageState();
     console.log('Estado atual:', currentState);
 

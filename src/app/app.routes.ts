@@ -12,12 +12,12 @@ import { ReservaDetalhesComponent } from './screens/reservagas/vaga/reserva-deta
 import { TabelaDePrecosComponent } from './screens/reservagas/tabela-de-precos/tabela-de-precos.component';
 import { PrimeiroEstacionamentoComponent } from './screens/primeiro-estacionamento/primeiro-estacionamento.component';
 
-
 export const routes: Routes = [
+
   { path: 'login', component: LoginComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'primeiro-estacionamento', component: PrimeiroEstacionamentoComponent},
-  { 
+  { path: 'primeiro-estacionamento', component: PrimeiroEstacionamentoComponent },
+  {
     path: '', component: SideNavComponent, 
     canActivate: [AuthGuard],
     children: [
@@ -25,11 +25,12 @@ export const routes: Routes = [
       { path: 'usuarios', component: UsuariosComponent },
       { path: 'estacionamento', component: EstacionamentoComponent },
       { path: 'vagas', component: VagaComponent },
-      { path: 'vendedores', component: VendedoresComponent},
+      { path: 'vendedores', component: VendedoresComponent },
       { path: 'reserva-detalhes', component: ReservaDetalhesComponent },
-      { path: 'tabela-de-precos', component: TabelaDePrecosComponent},
+      { path: 'tabela-de-precos', component: TabelaDePrecosComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];

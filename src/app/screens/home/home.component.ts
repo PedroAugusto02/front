@@ -1,24 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-
-import { MatIcon } from '@angular/material/icon';
-
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
-
-import { UsuarioService } from '../pessoas/usuario/service/usuario.service';
-
-import { HomeService } from './service/home.service';
-
 import { finalize } from 'rxjs';
+import { AuthService } from '../../authentication/auth.service';
 import { CardComponent } from '../../components/card/card.component';
 import { IconComponent } from '../../components/icon/icon.component';
 import { Card } from '../../entity/Card';
+import { UserRoles } from '../../entity/UserRoles';
 import { Usuario } from '../../entity/Usuario';
+import { LoaderService } from '../../service/loader.service';
 import { MinimizeService } from '../../service/minimize.service';
 import { TitleService } from '../../service/title.service';
-import { AuthService } from '../../authentication/auth.service';
-import { LoaderService } from '../../service/loader.service';
-import { UserRoles } from '../../entity/UserRoles';
+import { HomeService } from './service/home.service';
 
 interface SubMenu {
   link: string;
@@ -46,7 +40,7 @@ interface MinimizedPage {
 export class HomeComponent implements OnInit {
 
   minimizedPages: MinimizedPage[] = [];
-  menus: Menu[] = []; // Adicione esta linha para inicializar menus
+  menus: Menu[] = [];
   cards: Card[] = [];
   usuario!: Usuario;
   estacionamentos: any[] = [];

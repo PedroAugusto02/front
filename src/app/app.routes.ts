@@ -1,16 +1,16 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { HomeComponent } from './screens/home/home.component';
 import { LoginComponent } from './screens/login/login/login.component';
+import { UsuariosComponent } from './screens/pessoas/usuario/usuarios.component';
+import { PrimeiroEstacionamentoComponent } from './screens/primeiro-estacionamento/primeiro-estacionamento.component';
+import { EstacionamentoComponent } from './screens/reservagas/screens/estacionamento/estacionamento.component';
+import { TabelaDePrecosComponent } from './screens/reservagas/screens/tabela-de-precos/tabela-de-precos.component';
+import { ReservaDetalhesComponent } from './screens/reservagas/screens/vaga/reserva-detalhes/reserva-detalhes.component';
+import { VagaComponent } from './screens/reservagas/screens/vaga/vaga.component';
+import { VendedoresComponent } from './screens/reservagas/screens/vendedores/vendedores.component';
 import { ResetPasswordComponent } from './screens/reset-password/reset-password.component';
 import { SideNavComponent } from './screens/side-nav/side-nav.component';
-import { HomeComponent } from './screens/home/home.component';
-import { UsuariosComponent } from './screens/pessoas/usuario/usuarios.component';
-import { EstacionamentoComponent } from './screens/reservagas/estacionamento/estacionamento.component';
-import { VagaComponent } from './screens/reservagas/vaga/vaga.component';
-import { VendedoresComponent } from './screens/reservagas/vendedores/vendedores.component';
-import { ReservaDetalhesComponent } from './screens/reservagas/vaga/reserva-detalhes/reserva-detalhes.component';
-import { TabelaDePrecosComponent } from './screens/reservagas/tabela-de-precos/tabela-de-precos.component';
-import { PrimeiroEstacionamentoComponent } from './screens/primeiro-estacionamento/primeiro-estacionamento.component';
 
 export const routes: Routes = [
 

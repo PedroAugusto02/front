@@ -1,21 +1,21 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { TitleService } from '../../../service/title.service';
-import { InputSelectComponent } from '../../../components/inputs/inputselect/inputselect.component';
-import { Estacionamento } from '../../../entity/Estacionamento';
-import { LoaderService } from '../../../service/loader.service';
-import { EstacionamentoService } from '../service/estacionamento.service';
+import { TitleService } from '../../../../service/title.service';
+import { InputSelectComponent } from '../../../../components/inputs/inputselect/inputselect.component';
+import { Estacionamento } from '../../../../model/Estacionamento';
+import { LoaderService } from '../../../../service/loader.service';
+import { EstacionamentoService } from '../../service/estacionamento.service';
 import { finalize } from 'rxjs';
-import { AuthService } from '../../../authentication/auth.service';
-import { Preco } from '../../../entity/Preco';
-import { PrecosService } from '../service/precos.service';
-import { ButtonComponent } from '../../../components/buttons/button/button.component';
+import { AuthService } from '../../../../authentication/auth.service';
+import { Preco } from '../../../../model/Preco';
+import { PrecosService } from '../../service/precos.service';
+import { ButtonComponent } from '../../../../components/buttons/button/button.component';
 import { CommonModule } from '@angular/common';
-import { InputtextComponent } from '../../../components/inputs/inputtext/inputtext.component';
+import { InputtextComponent } from '../../../../components/inputs/inputtext/inputtext.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { InputNumberValorComponent } from '../../../components/inputs/input-number/input-number-valor.component';
-import { Usuario } from '../../../entity/Usuario';
+import { InputNumberValorComponent } from '../../../../components/inputs/input-number/input-number-valor.component';
+import { Usuario } from '../../../../model/Usuario';
 
 @Component({
   selector: 'app-tabela-de-precos',

@@ -6,8 +6,8 @@ import { LoaderService } from '../service/loader.service';
 import { finalize, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ModalService } from '../service/modal.service';
-import { Usuario } from '../entity/Usuario';
-import { Estacionamento } from '../entity/Estacionamento';
+import { Usuario } from '../model/Usuario';
+import { Estacionamento } from '../model/Estacionamento';
 
 @Injectable({
   providedIn: 'root'

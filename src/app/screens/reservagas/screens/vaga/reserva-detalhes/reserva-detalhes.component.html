@@ -1,0 +1,81 @@
+<div class="d-flex">
+  <div class="container-vaga shadow p-4">
+    <h2>Detalhes da Vaga</h2>
+    <div class="ativo-adicionar">
+      <div>
+        <div class="d-flex">
+          <h4>Estacionamento:</h4>
+          <h4 class="estacionamentoNome">{{ estacionamento.nome }}</h4>
+        </div>
+        <div class="d-flex">
+          <h4>Número da Vaga:</h4>
+          <inputtext class="disponivel" [label]="'Número'" [value]="vaga.numeroDaVaga"
+            (valueChange)="vaga.numeroDaVaga = $event"></inputtext>
+        </div>
+        <div class="d-flex">
+          <h4>Disponibilidade:</h4>
+          <toggle class="disponivel" [label]="'Disponível'" [checked]="vaga.disponivel"
+            (checkedChange)="onDisponivelChange($event)" />
+        </div>
+        <div class="d-flex">
+          <h4>Cor:</h4>
+          <color-picker class="disponivel" (colorChange)="onColorPickerChange($event)" [color]="vaga.cor"></color-picker>
+        </div>
+        <div class="marginTopo">
+          <app-button [label]="'Voltar'" [color]="'primary'" (buttonClick)="voltar()"></app-button>
+          <app-button class="disponivel" [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarVaga()"></app-button>
+          <app-button class="disponivel" [label]="'Incluir Reserva'" [color]="'incluir-reserva'" (buttonClick)="incluirReservaModal()"></app-button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-vaga-listagem shadow p-4" *ngIf="reservas && reservas.length > 0">
+    <h2>Reservas</h2>
+    <table mat-table [dataSource]="reservas" multiTemplateDataRows class="mat-elevation-z8">
+      <ng-container matColumnDef="cliente">
+        <th mat-header-cell *matHeaderCellDef> Cliente </th>
+        <!-- <td mat-cell *matCellDef="let element"> {{element.cliente.nome}} </td> -->
+      </ng-container>
+      
+      <ng-container matColumnDef="dataHoraReserva">
+        <th mat-header-cell *matHeaderCellDef> Data/Hora Reserva </th>
+        <td mat-cell *matCellDef="let element"> {{element.dataHoraReserva | date:'short'}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="dataHoraTermino">
+        <th mat-header-cell *matHeaderCellDef> Data/Hora Término </th>
+        <td mat-cell *matCellDef="let element"> {{element.dataHoraTermino | date:'short'}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="valor">
+        <th mat-header-cell *matHeaderCellDef> Valor </th>
+        <td mat-cell *matCellDef="let element"> R$ {{element.valor | number:'1.2-2'}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="expandedElement = expandedElement === element ? null : element">
+            <mat-icon>{{expandedElement === element ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      
+      <!-- Detalhes expandíveis -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+          <div [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <p><strong>Observações:</strong> {{element.observacoes}}</p>
+          </div>
+        </td>
+      </ng-container>
+      
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand"
+          (click)="expandedElement = expandedElement === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"></tr>
+    </table>
+  </div>
+</div>

@@ -5,22 +5,22 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { AuthService } from '../../../authentication/auth.service';
-import { ButtonComponent } from '../../../components/buttons/button/button.component';
-import { MinibuttonComponent } from "../../../components/buttons/minibutton/minibutton.component";
-import { ModalReservaComponent } from '../../../components/dialogs/modal-reserva/modal-reserva.component';
-import { CheckboxComponent } from '../../../components/inputs/checkbox/checkbox.component';
-import { InputSelectComponent } from '../../../components/inputs/inputselect/inputselect.component';
-import { InputtextComponent } from '../../../components/inputs/inputtext/inputtext.component';
-import { Estacionamento } from '../../../entity/Estacionamento';
-import { Vaga } from '../../../entity/Vaga';
-import { LoaderService } from '../../../service/loader.service';
-import { TitleService } from '../../../service/title.service';
-import { ToastService } from '../../../service/toast.service';
-import { EstacionamentoService } from '../service/estacionamento.service';
-import { VagaService } from '../service/vaga.service';
-import { ModalFecharReservaComponent } from '../../../components/dialogs/modal-fechar-reserva/modal-fechar-reserva.component';
-import { ModalConfirmaComponent } from '../../../components/dialogs/modal-confirma/modal-confirma.component';
+import { InputtextComponent } from '../../../../components/inputs/inputtext/inputtext.component';
+import { ButtonComponent } from '../../../../components/buttons/button/button.component';
+import { InputSelectComponent } from '../../../../components/inputs/inputselect/inputselect.component';
+import { CheckboxComponent } from '../../../../components/inputs/checkbox/checkbox.component';
+import { MinibuttonComponent } from '../../../../components/buttons/minibutton/minibutton.component';
+import { Estacionamento } from '../../../../model/Estacionamento';
+import { Vaga } from '../../../../model/Vaga';
+import { AuthService } from '../../../../authentication/auth.service';
+import { VagaService } from '../../service/vaga.service';
+import { EstacionamentoService } from '../../service/estacionamento.service';
+import { TitleService } from '../../../../service/title.service';
+import { LoaderService } from '../../../../service/loader.service';
+import { ToastService } from '../../../../service/toast.service';
+import { ModalConfirmaComponent } from '../../../../components/dialogs/modal-confirma/modal-confirma.component';
+import { ModalFecharReservaComponent } from '../../../../components/dialogs/modal-fechar-reserva/modal-fechar-reserva.component';
+import { ModalReservaComponent } from '../../../../components/dialogs/modal-reserva/modal-reserva.component';
 
 @Component({
   selector: 'app-vaga',

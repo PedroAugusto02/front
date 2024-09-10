@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Vaga } from '../../../entity/Vaga';
+import { Vaga } from '../../../model/Vaga';
 import { environment } from '../../../../environments/environment';
-import { ClienteAvulso } from '../../../entity/ClienteAvulso';
-import { Reserva } from '../../../entity/Reserva';
+import { ClienteAvulso } from '../../../model/ClienteAvulso';
+import { Reserva } from '../../../model/Reserva';
 
 
 @Injectable({

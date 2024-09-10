@@ -1,28 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Vaga } from '../../../entity/Vaga';
-
-import { TitleService } from '../../../service/title.service';
-import { EstacionamentoService } from '../service/estacionamento.service';
-
-import { CommonModule } from '@angular/common';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { LoaderService } from '../../../service/loader.service';
 import { finalize } from 'rxjs';
-import { InputtextComponent } from '../../../components/inputs/inputtext/inputtext.component';
-import { ButtonComponent } from '../../../components/buttons/button/button.component';
-import { CheckboxComponent } from '../../../components/inputs/checkbox/checkbox.component';
-import { MinibuttonComponent } from '../../../components/buttons/minibutton/minibutton.component';
-import { Estacionamento } from '../../../entity/Estacionamento';
-import { AuthService } from '../../../authentication/auth.service';
-
+import { AuthService } from '../../../../authentication/auth.service';
+import { ButtonComponent } from '../../../../components/buttons/button/button.component';
+import { MinibuttonComponent } from '../../../../components/buttons/minibutton/minibutton.component';
+import { CheckboxComponent } from '../../../../components/inputs/checkbox/checkbox.component';
+import { InputtextComponent } from '../../../../components/inputs/inputtext/inputtext.component';
+import { Estacionamento } from '../../../../model/Estacionamento';
+import { Vaga } from '../../../../model/Vaga';
+import { LoaderService } from '../../../../service/loader.service';
+import { TitleService } from '../../../../service/title.service';
+import { EstacionamentoService } from '../../service/estacionamento.service';
 
 @Component({
   selector: 'app-estacionamento',

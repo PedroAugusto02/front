@@ -1,26 +1,28 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { finalize } from 'rxjs';
-import { Vaga } from '../../../../entity/Vaga';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../../../../components/buttons/button/button.component';
-import { InputtextComponent } from '../../../../components/inputs/inputtext/inputtext.component';
-import { ToggleComponent } from '../../../../components/inputs/toggle/toggle.component';
-
-import { Estacionamento } from '../../../../entity/Estacionamento';
-import { EstacionamentoService } from '../../service/estacionamento.service';
-import { VagaService } from '../../service/vaga.service';
-import { LoaderService } from '../../../../service/loader.service';
-import { ColorPickerComponent } from '../../../../components/inputs/color-picker/color-picker.component';
-import { ModalReservaComponent } from '../../../../components/dialogs/modal-reserva/modal-reserva.component';
+import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
+import { ButtonComponent } from '../../../../../components/buttons/button/button.component';
+import { ModalReservaComponent } from '../../../../../components/dialogs/modal-reserva/modal-reserva.component';
+import { ColorPickerComponent } from '../../../../../components/inputs/color-picker/color-picker.component';
+import { InputtextComponent } from '../../../../../components/inputs/inputtext/inputtext.component';
+import { ToggleComponent } from '../../../../../components/inputs/toggle/toggle.component';
+import { Estacionamento } from '../../../../../model/Estacionamento';
+import { Reserva } from '../../../../../model/Reserva';
+import { Vaga } from '../../../../../model/Vaga';
+import { LoaderService } from '../../../../../service/loader.service';
+import { EstacionamentoService } from '../../../service/estacionamento.service';
+import { ReservaService } from '../../../service/reserva.service';
+import { VagaService } from '../../../service/vaga.service';
 
 @Component({
   selector: 'app-reserva-detalhes',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, InputtextComponent, ToggleComponent, ColorPickerComponent],
+  imports: [CommonModule, ButtonComponent, InputtextComponent, ToggleComponent, ColorPickerComponent, MatTableModule, MatButtonModule, MatIconModule],
   templateUrl: './reserva-detalhes.component.html',
   styleUrl: './reserva-detalhes.component.css'
 })
@@ -28,12 +30,16 @@ export class ReservaDetalhesComponent {
 
   vaga: Vaga;
   estacionamento: Estacionamento;
+  reservas: Reserva[] = []; // Lista de reservas
+  expandedElement!: Reserva | null;
+  columnsToDisplayWithExpand = ['cliente', 'dataHoraReserva', 'dataHoraTermino', 'valor', 'expand'];
   readonly dialog = inject(MatDialog);
 
   constructor(
     private router: Router,
     private estacionamentoService: EstacionamentoService,
     private vagaService: VagaService,
+    private reservaService: ReservaService,
     private loader: LoaderService,
   ) {
     this.vaga = new Vaga();
@@ -43,6 +49,7 @@ export class ReservaDetalhesComponent {
   ngOnInit(): void {
     this.vaga = history.state.vaga;
     this.buscaEstacionamento(this.vaga.estacionamento.id);
+    this.buscaReservasPorVaga(this.vaga.id); // Buscar as reservas associadas à vaga
   }
   
   buscaEstacionamento(estacionamentoId: number): void {
@@ -55,6 +62,20 @@ export class ReservaDetalhesComponent {
       },
       error: (error) => {
         console.log('Erro ao buscar estacionamento:', error);
+      }
+    });
+  }
+
+  buscaReservasPorVaga(vagaId: number): void {
+    this.loader.show();
+    this.reservaService.obterReservasPorVaga(vagaId).pipe(finalize(() => {
+      this.loader.hide();
+    })).subscribe({
+      next: (reservas: Reserva[]) => {
+        this.reservas = reservas;
+      },
+      error: (error) => {
+        console.log('Erro ao buscar reservas:', error);
       }
     });
   }

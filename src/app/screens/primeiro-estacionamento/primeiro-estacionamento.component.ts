@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { InputtextComponent } from '../../components/inputs/inputtext/inputtext.component';
-import { Estacionamento } from '../../entity/Estacionamento';
+import { Estacionamento } from '../../model/Estacionamento';
 import { TitleService } from '../../service/title.service';
 import { LoaderService } from '../../service/loader.service';
 import { EstacionamentoService } from '../reservagas/service/estacionamento.service';
@@ -9,7 +9,7 @@ import { ButtonComponent } from '../../components/buttons/button/button.componen
 import { MatToolbar } from '@angular/material/toolbar';
 import { LoaderCircularComponent } from '../../components/loader-circular/loader-circular.component';
 import { AuthService } from '../../authentication/auth.service';
-import { Usuario } from '../../entity/Usuario';
+import { Usuario } from '../../model/Usuario';
 import { Router } from '@angular/router';
 
 @Component({

@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { UserRoles } from '../../../entity/UserRoles';
-import { Card } from '../../../entity/Card';
+import { UserRoles } from '../../../model/UserRoles';
+import { Card } from '../../../model/Card';
 
 
 

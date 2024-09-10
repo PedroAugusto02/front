@@ -15,8 +15,8 @@ import { MinibuttonComponent } from '../../../components/buttons/minibutton/mini
 import { InputEmailComponent } from '../../../components/inputs/input-email/input-email.component';
 import { InputPasswordComponent } from '../../../components/inputs/input-password/input-password.component';
 import { InputSelectComponent } from '../../../components/inputs/inputselect/inputselect.component';
-import { Usuario } from '../../../entity/Usuario';
-import { UserRoles } from '../../../entity/UserRoles';
+import { Usuario } from '../../../model/Usuario';
+import { UserRoles } from '../../../model/UserRoles';
 import { UsuarioService } from './service/usuario.service';
 import { TitleService } from '../../../service/title.service';
 import { MinimizableStateService } from '../../../service/minimizable-state.service';

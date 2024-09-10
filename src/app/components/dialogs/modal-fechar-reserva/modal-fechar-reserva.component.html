@@ -1,14 +1,17 @@
 <h1 mat-dialog-title>Fechar Reserva</h1>
+<h1 mat-dialog-title>Vaga {{ vaga.numeroDaVaga }}</h1>
 <mat-dialog-content class="mat-typography">
   <div>
-    <h2 >Vaga {{ vaga.numeroDaVaga }}</h2>
-    <h2>Entrada {{ vaga.tempoDecorrido }}</h2>
-    <h2>Saída {{ vaga.reservas[0].dataHoraTermino }}</h2>
+    <h2>Entrada: {{ formatarData(vaga.reservas[0].dataHoraReserva) }}</h2>
+    <h2>Saída: {{ dataHoraTerminoFormatada }}</h2>
+    <h2>Valor Calculado: 
+      <span class="valor-destaque">R$ {{ valorCalculado | number: '1.2-2' }}</span>
+    </h2> 
     <h2 *ngIf="vaga.reservas[0].dataHoraTermino">
       <toggle class="disponivel" [label]="'Disponível'" [checked]="vaga.disponivel"
-            (checkedChange)="onDisponivelChange($event)" />
+              (checkedChange)="onDisponivelChange($event)" />
     </h2>
   </div>
   <app-button class="disponível float-left" [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"/>
-  <app-button class="disponível float-left" [label]="'Parar/Calcular'" [color]="'primary'" (buttonClick)="cancelar()"/>
+  <app-button class="disponível float-right" [label]="'Fechar Reserva'" [color]="'primary'" (buttonClick)="fecharReserva()"/>
 </mat-dialog-content>

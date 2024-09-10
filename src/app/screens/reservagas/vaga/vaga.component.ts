@@ -39,10 +39,12 @@ import { ModalConfirmaComponent } from '../../../components/dialogs/modal-confir
 })
 
 export class VagaComponent implements AfterViewInit, OnDestroy {
+  
   estacionamentos: Estacionamento[] = [];
   selectedEstacionamentoId: number = 0;
   cardsVagas: Vaga[] = [];
   intervalId: any;
+  readonly dialog = inject(MatDialog);
 
   constructor(
     private authService: AuthService,
@@ -173,8 +175,6 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
   incluirReserva() {
     this.toast.success('This is a success message!', 'Success');
   }
-
-  readonly dialog = inject(MatDialog);
 
   incluirReservaModal(vaga: Vaga): void {
     const dialogRef = this.dialog.open(ModalReservaComponent, {

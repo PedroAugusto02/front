@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { finalize } from 'rxjs';
@@ -13,6 +13,8 @@ import { EstacionamentoService } from '../../service/estacionamento.service';
 import { VagaService } from '../../service/vaga.service';
 import { LoaderService } from '../../../../service/loader.service';
 import { ColorPickerComponent } from '../../../../components/inputs/color-picker/color-picker.component';
+import { ModalReservaComponent } from '../../../../components/dialogs/modal-reserva/modal-reserva.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class ReservaDetalhesComponent {
 
   vaga: Vaga;
   estacionamento: Estacionamento;
+  readonly dialog = inject(MatDialog);
 
   constructor(
     private router: Router,
@@ -42,7 +45,6 @@ export class ReservaDetalhesComponent {
     this.buscaEstacionamento(this.vaga.estacionamento.id);
   }
   
-
   buscaEstacionamento(estacionamentoId: number): void {
     this.loader.show();
     this.estacionamentoService.buscarEstacionamentoPorId(estacionamentoId).pipe(finalize(() => {
@@ -79,6 +81,18 @@ export class ReservaDetalhesComponent {
       },
       error: (error) => {
         console.log('Erro ao salvar a vaga:', error);
+      }
+    });
+  }
+
+  incluirReservaModal(): void {
+    const dialogRef = this.dialog.open(ModalReservaComponent, {
+      data: { vaga: this.vaga }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.reservaCriada) {
+        this.buscaEstacionamento(this.vaga.estacionamento.id);
       }
     });
   }

@@ -1,3 +1,9 @@
 h1 {
     align-self: center;
 }
+
+.valor-destaque {
+    color: green;
+    font-weight: bold;
+  }
+  

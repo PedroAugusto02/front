@@ -3,11 +3,11 @@ import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { InputtextComponent } from "../../inputs/inputtext/inputtext.component";
 import { ClienteAvulso } from '../../../entity/ClienteAvulso';
-import { ButtonComponent } from '../../buttons/button/button.component';
 import { Vaga } from '../../../entity/Vaga';
 import { VagaService } from '../../../screens/reservagas/service/vaga.service';
+import { ButtonComponent } from '../../buttons/button/button.component';
+import { InputtextComponent } from "../../inputs/inputtext/inputtext.component";
 
 @Component({
   selector: 'app-modal-reserva',
@@ -44,7 +44,6 @@ export class ModalReservaComponent {
   atualizarVaga() {
     this.vagaService.atualizarVaga(this.vaga).subscribe({
       next: () => {
-        // Passa um sinal para o componente principal quando a reserva é criada
         this.dialogRef.close({ reservaCriada: true });
       },
       error: (error) => {
@@ -54,7 +53,7 @@ export class ModalReservaComponent {
   }
 
   cancelar() {
-    this.dialogRef.close(); // Fecha o diálogo sem retornar dados
+    this.dialogRef.close();
   }
 
 }

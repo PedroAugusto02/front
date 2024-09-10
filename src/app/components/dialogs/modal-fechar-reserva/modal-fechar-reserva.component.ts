@@ -3,10 +3,15 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { Preco } from '../../../entity/Preco';
+import { Reserva } from '../../../entity/Reserva';
+import { TabelaDePrecos } from '../../../entity/TabelaDePrecos';
+import { Vaga } from '../../../entity/Vaga';
+import { EstacionamentoService } from '../../../screens/reservagas/service/estacionamento.service';
+import { ReservaService } from '../../../screens/reservagas/service/reserva.service';
+import { VagaService } from '../../../screens/reservagas/service/vaga.service';
 import { ButtonComponent } from '../../buttons/button/button.component';
 import { InputtextComponent } from "../../inputs/inputtext/inputtext.component";
-import { Vaga } from '../../../entity/Vaga';
-import { VagaService } from '../../../screens/reservagas/service/vaga.service';
 import { ToggleComponent } from '../../inputs/toggle/toggle.component';
 
 @Component({
@@ -20,49 +25,91 @@ import { ToggleComponent } from '../../inputs/toggle/toggle.component';
 export class ModalFecharReservaComponent implements OnInit {
 
   vaga: Vaga = new Vaga();
-  intervalId: any;
+  tabelaPrecos: TabelaDePrecos = new TabelaDePrecos();
+  precos: Preco[] = [];
+  valorCalculado: number = 0;
 
   constructor(
     public dialogRef: MatDialogRef<ModalFecharReservaComponent>,
     private vagaService: VagaService,
+    private reservaService: ReservaService,
+    private estacionamentoService: EstacionamentoService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.vaga = data.vaga;
   }
 
   ngOnInit(): void {
-    this.startCronometro();
+    this.vaga.reservas[0].dataHoraTermino = new Date();
+    this.buscarTabelaDePrecos();
   }
 
-  startCronometro(): void {
-    this.intervalId = setInterval(() => {
-      this.atualizarTempoDecorrido();
-    }, 1000);
-  }
-
-  atualizarTempoDecorrido(): void {
-    const agora = new Date().getTime();
-    const ultimaReserva = this.vaga.reservas.reduce((prev, current) => {
-      return new Date(prev.dataHoraReserva).getTime() > new Date(current.dataHoraReserva).getTime() ? prev : current;
+  buscarTabelaDePrecos(): void {
+    const estacionamentoId = this.vaga.estacionamento.id;
+    this.estacionamentoService.carregarTabelaDePrecoPorEstacionamento(estacionamentoId).subscribe((response: TabelaDePrecos) => {
+      this.tabelaPrecos = response;
+      this.precos = this.tabelaPrecos.precos;
+      this.calcularValorReserva();
     });
-    const tempoEntrada = new Date(ultimaReserva.dataHoraReserva).getTime();
-    const diferenca = agora - tempoEntrada;
-    this.vaga.tempoDecorrido = this.formatarTempo(diferenca);
   }
 
-  formatarTempo(ms: number): string {
-    const totalSegundos = Math.floor(ms / 1000);
-    const horas = Math.floor(totalSegundos / 3600);
-    const minutos = Math.floor((totalSegundos % 3600) / 60);
-    const segundos = totalSegundos % 60;
-    return `${this.pad(horas)}:${this.pad(minutos)}:${this.pad(segundos)}`;
+  calcularValorReserva(): void {
+    const ultimaReserva = this.vaga.reservas[0];
+    const dataHoraReserva = new Date(ultimaReserva.dataHoraReserva).getTime();
+    const dataHoraTermino = new Date(ultimaReserva.dataHoraTermino!).getTime();
+    const tempoTotal = (dataHoraTermino - dataHoraReserva) / 60000;
+
+    const precoCorrespondente = this.encontrarPreco(tempoTotal);
+
+    ultimaReserva.valor = precoCorrespondente;
+    this.valorCalculado = precoCorrespondente;
   }
 
-  pad(num: number): string {
-    return num.toString().padStart(2, '0');
+  encontrarPreco(tempoTotal: number): number {
+    if (tempoTotal < this.precos[0].tempoMinimo) {
+      return this.precos[0].valor;
+    }
+
+    const faixa = this.precos.find(preco => tempoTotal >= preco.tempoMinimo && tempoTotal <= preco.tempoMaximo);
+    return faixa ? faixa.valor : this.precos[this.precos.length - 1].valor; 
   }
 
-  cancelar() {
+  fecharReserva(): void {
+    const ultimaReserva = this.vaga.reservas[0];
+    ultimaReserva.pago = true;
+    ultimaReserva.valor = this.valorCalculado;
+    this.vaga.disponivel = true;
+    this.vagaService.atualizarVaga(this.vaga).subscribe(() => {
+      this.atualizarReserva(ultimaReserva);
+    });
+
+  }
+
+  atualizarReserva(ultimaReserva: Reserva): void {
+    this.reservaService.atualizarReserva(ultimaReserva).subscribe({
+      next: (result) => {
+        this.dialogRef.close();
+      },
+      error: (error) => {
+        
+      }
+    })
+  }
+
+  formatarData(data: Date | null): string {
+    if (!data) return '';
+    const options: Intl.DateTimeFormatOptions = { 
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    };
+    return new Date(data).toLocaleDateString('pt-BR', options);
+  }
+
+  get dataHoraTerminoFormatada(): string {
+    return this.formatarData(this.vaga.reservas[0].dataHoraTermino);
+  }
+
+  cancelar(): void {
     this.dialogRef.close();
   }
 

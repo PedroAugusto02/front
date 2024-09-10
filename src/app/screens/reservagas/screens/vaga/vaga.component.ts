@@ -83,15 +83,15 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
           return new Date(prev.dataHoraReserva).getTime() > new Date(current.dataHoraReserva).getTime() ? prev : current;
         });
 
-        const tempoEntrada = new Date(ultimaReserva.dataHoraReserva).getTime();
-        const diferenca = agora - tempoEntrada;
-
-        vaga.tempoDecorrido = this.formatarTempo(diferenca);
+        if(!ultimaReserva.pago) {
+          const tempoEntrada = new Date(ultimaReserva.dataHoraReserva).getTime();
+          const diferenca = agora - tempoEntrada;
+          vaga.tempoDecorrido = this.formatarTempo(diferenca);
+        }
       }
     });
   }
   
-
   formatarTempo(ms: number): string {
     const totalSegundos = Math.floor(ms / 1000);
     const horas = Math.floor(totalSegundos / 3600);
@@ -148,7 +148,6 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
     })
   }
 
-  // Método alterado para capturar a mudança do estacionamento
   selecionarEstacionamento(id: number): void {
     this.selectedEstacionamentoId = id;
     this.carregarVagas(id);
@@ -172,10 +171,6 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
     this.router.navigate([`/reserva-detalhes`], { state: { vaga } });
   }
 
-  incluirReserva() {
-    this.toast.success('This is a success message!', 'Success');
-  }
-
   incluirReservaModal(vaga: Vaga): void {
     const dialogRef = this.dialog.open(ModalReservaComponent, {
       data: { vaga: vaga }
@@ -183,6 +178,7 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result?.reservaCriada) {
+        this.toast.success('Reserva criada com sucesso!', 'Sucesso');
         this.carregarVagas(this.selectedEstacionamentoId);
       }
     });

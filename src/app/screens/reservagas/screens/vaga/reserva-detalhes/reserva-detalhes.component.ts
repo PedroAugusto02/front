@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ButtonComponent } from '../../../../../components/buttons/button/button.component';
@@ -18,22 +18,34 @@ import { LoaderService } from '../../../../../service/loader.service';
 import { EstacionamentoService } from '../../../service/estacionamento.service';
 import { ReservaService } from '../../../service/reserva.service';
 import { VagaService } from '../../../service/vaga.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-reserva-detalhes',
   standalone: true,
   imports: [CommonModule, ButtonComponent, InputtextComponent, ToggleComponent, ColorPickerComponent, MatTableModule, MatButtonModule, MatIconModule],
   templateUrl: './reserva-detalhes.component.html',
-  styleUrl: './reserva-detalhes.component.css'
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed,void', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
+  styleUrls: ['./reserva-detalhes.component.css']
 })
+
 export class ReservaDetalhesComponent {
 
+  readonly dialog = inject(MatDialog);
   vaga: Vaga;
   estacionamento: Estacionamento;
-  reservas: Reserva[] = []; // Lista de reservas
-  expandedElement!: Reserva | null;
-  columnsToDisplayWithExpand = ['cliente', 'dataHoraReserva', 'dataHoraTermino', 'valor', 'expand'];
-  readonly dialog = inject(MatDialog);
+  reservas: Reserva[] = [];
+  dataSource = new MatTableDataSource<Reserva>();
+  columnsToDisplay = ['cliente', 'dataHoraReserva', 'dataHoraTermino', 'valor'];
+  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand']; // Adiciona a coluna de expandir
+  displayedColumns: string[] = ['dataHoraReserva', 'dataHoraTermino', 'valor', 'pago'];
+  expandedReserva: Reserva | null = null;
 
   constructor(
     private router: Router,
@@ -51,7 +63,7 @@ export class ReservaDetalhesComponent {
     this.buscaEstacionamento(this.vaga.estacionamento.id);
     this.buscaReservasPorVaga(this.vaga.id); // Buscar as reservas associadas à vaga
   }
-  
+
   buscaEstacionamento(estacionamentoId: number): void {
     this.loader.show();
     this.estacionamentoService.buscarEstacionamentoPorId(estacionamentoId).pipe(finalize(() => {
@@ -73,6 +85,8 @@ export class ReservaDetalhesComponent {
     })).subscribe({
       next: (reservas: Reserva[]) => {
         this.reservas = reservas;
+        this.dataSource.data = reservas; // Atualizar dataSource com as reservas recebidas
+        console.log(this.dataSource.data); // Log para verificar os dados recebidos
       },
       error: (error) => {
         console.log('Erro ao buscar reservas:', error);
@@ -87,7 +101,7 @@ export class ReservaDetalhesComponent {
   onColorPickerChange(newColor: string) {
     this.vaga.cor = newColor;
   }
-  
+
   onDisponivelChange(checked: boolean): void {
     this.vaga.disponivel = checked;
   }
@@ -110,12 +124,20 @@ export class ReservaDetalhesComponent {
     const dialogRef = this.dialog.open(ModalReservaComponent, {
       data: { vaga: this.vaga }
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       if (result?.reservaCriada) {
-        this.buscaEstacionamento(this.vaga.estacionamento.id);
+        this.buscaReservasPorVaga(this.vaga.id); // Atualizar reservas após criar uma nova
       }
     });
+  }
+
+  toggleRow(reserva: Reserva) {
+    this.expandedReserva = this.expandedReserva === reserva ? null : reserva;
+  }
+
+  isExpanded(reserva: Reserva): boolean {
+    return this.expandedReserva === reserva;
   }
 
 }

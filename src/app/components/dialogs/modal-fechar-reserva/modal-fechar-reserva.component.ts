@@ -27,6 +27,7 @@ export class ModalFecharReservaComponent implements OnInit {
   vaga: Vaga = new Vaga();
   tabelaPrecos: TabelaDePrecos = new TabelaDePrecos();
   precos: Preco[] = [];
+  reserva: Reserva; // Agora usamos a reserva passada
   valorCalculado: number = 0;
 
   constructor(
@@ -34,13 +35,14 @@ export class ModalFecharReservaComponent implements OnInit {
     private vagaService: VagaService,
     private reservaService: ReservaService,
     private estacionamentoService: EstacionamentoService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: { vaga: Vaga, reserva: Reserva }
   ) {
     this.vaga = data.vaga;
+    this.reserva = data.reserva;
   }
 
   ngOnInit(): void {
-    this.vaga.reservas[0].dataHoraTermino = new Date();
+    this.reserva.dataHoraTermino = new Date();
     this.buscarTabelaDePrecos();
   }
 
@@ -54,7 +56,7 @@ export class ModalFecharReservaComponent implements OnInit {
   }
 
   calcularValorReserva(): void {
-    const ultimaReserva = this.vaga.reservas[0];
+    const ultimaReserva = this.reserva;
     const dataHoraReserva = new Date(ultimaReserva.dataHoraReserva).getTime();
     const dataHoraTermino = new Date(ultimaReserva.dataHoraTermino!).getTime();
     const tempoTotal = (dataHoraTermino - dataHoraReserva) / 60000;
@@ -75,7 +77,7 @@ export class ModalFecharReservaComponent implements OnInit {
   }
 
   fecharReserva(): void {
-    const ultimaReserva = this.vaga.reservas[0];
+    const ultimaReserva = this.reserva;
     ultimaReserva.pago = true;
     ultimaReserva.valor = this.valorCalculado;
     this.vaga.disponivel = true;
@@ -106,7 +108,7 @@ export class ModalFecharReservaComponent implements OnInit {
   }
 
   get dataHoraTerminoFormatada(): string {
-    return this.formatarData(this.vaga.reservas[0].dataHoraTermino);
+    return this.formatarData(this.reserva.dataHoraTermino);
   }
 
   cancelar(): void {
@@ -114,7 +116,7 @@ export class ModalFecharReservaComponent implements OnInit {
   }
 
   onDisponivelChange(checked: boolean): void {
-    this.vaga.reservas[0].pago = checked;
+    this.reserva.pago = checked;
   }
 
 }

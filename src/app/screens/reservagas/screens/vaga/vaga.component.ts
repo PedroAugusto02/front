@@ -27,19 +27,19 @@ import { ModalReservaComponent } from '../../../../components/dialogs/modal-rese
   templateUrl: './vaga.component.html',
   standalone: true,
   imports: [
-    InputtextComponent, 
-    ButtonComponent, 
-    CheckboxComponent, 
-    CdkDropListGroup, 
-    CdkDropList, 
-    CdkDrag, 
-    CommonModule, 
+    InputtextComponent,
+    ButtonComponent,
+    CheckboxComponent,
+    CdkDropListGroup,
+    CdkDropList,
+    CdkDrag,
+    CommonModule,
     InputSelectComponent, FormsModule, MinibuttonComponent],
   styleUrls: ['./vaga.component.css']
 })
 
 export class VagaComponent implements AfterViewInit, OnDestroy {
-  
+
   estacionamentos: Estacionamento[] = [];
   selectedEstacionamentoId: number = 0;
   cardsVagas: Vaga[] = [];
@@ -83,7 +83,7 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
           return new Date(prev.dataHoraReserva).getTime() > new Date(current.dataHoraReserva).getTime() ? prev : current;
         });
 
-        if(!ultimaReserva.pago) {
+        if (!ultimaReserva.pago) {
           const tempoEntrada = new Date(ultimaReserva.dataHoraReserva).getTime();
           const diferenca = agora - tempoEntrada;
           vaga.tempoDecorrido = this.formatarTempo(diferenca);
@@ -91,7 +91,7 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
       }
     });
   }
-  
+
   formatarTempo(ms: number): string {
     const totalSegundos = Math.floor(ms / 1000);
     const horas = Math.floor(totalSegundos / 3600);
@@ -160,12 +160,16 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
     })).subscribe({
       next: (result) => {
         this.cardsVagas = result;
+        this.cardsVagas.forEach(vaga => {
+          console.log(vaga.reservas);  // Verifique aqui se as reservas contêm todos os campos necessários
+        });
       },
       error: (error) => {
         console.log('Erro ao carregar vagas:', error);
       }
     });
   }
+
 
   abrirDetalhesReserva(vaga: Vaga): void {
     this.router.navigate([`/reserva-detalhes`], { state: { vaga } });
@@ -175,10 +179,12 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
     const dialogRef = this.dialog.open(ModalReservaComponent, {
       data: { vaga: vaga }
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       if (result?.reservaCriada) {
         this.toast.success('Reserva criada com sucesso!', 'Sucesso');
+
+        // Recarregar vagas para garantir que as reservas estejam completas
         this.carregarVagas(this.selectedEstacionamentoId);
       }
     });
@@ -188,13 +194,19 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
     const dialogRef = this.dialog.open(ModalConfirmaComponent, {
       data: { pergunta: 'Deseja realmente fechar a reserva?' }
     });
+
     dialogRef.afterClosed().subscribe((confirmado: boolean) => {
       if (confirmado) {
+        const ultimaReserva = vaga.reservas.reduce((prev, current) => {
+          return new Date(prev.dataHoraReserva).getTime() > new Date(current.dataHoraReserva).getTime() ? prev : current;
+        });
+
         this.dialog.open(ModalFecharReservaComponent, {
-          data: { vaga: vaga }
+          data: { vaga: vaga, reserva: ultimaReserva } // Passe a última reserva aqui
         });
       }
     });
   }
-  
+
+
 }

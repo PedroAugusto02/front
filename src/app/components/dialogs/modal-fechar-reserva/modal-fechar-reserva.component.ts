@@ -77,14 +77,24 @@ export class ModalFecharReservaComponent implements OnInit {
   }
 
   fecharReserva(): void {
-    const ultimaReserva = this.reserva;
+    const ultimaReserva: Reserva = { ...this.reserva }; // Cria uma cópia da reserva
     ultimaReserva.pago = true;
     ultimaReserva.valor = this.valorCalculado;
+    ultimaReserva.vaga = { ...this.vaga }; // Cria uma cópia da vaga
+  
+    // Remove a referência circular
+    delete ultimaReserva.vaga.reservas;
+  
     this.vaga.disponivel = true;
-    this.vagaService.atualizarVaga(this.vaga).subscribe(() => {
-      this.atualizarReserva(ultimaReserva);
+  
+    this.vagaService.atualizarVaga(this.vaga).subscribe({
+      next: () => {
+        this.atualizarReserva(ultimaReserva);
+      },
+      error: (error) => {
+        console.log(error);
+      }
     });
-
   }
 
   atualizarReserva(ultimaReserva: Reserva): void {

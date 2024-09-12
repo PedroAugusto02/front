@@ -1,10 +1,11 @@
 import { ClienteAvulso } from "./ClienteAvulso";
 import { Usuario } from "./Usuario";
+import { Vaga } from "./Vaga";
 import { Vendedor } from "./Vendedor";
 
 export class Reserva {
     id!: number;
-    vagaId!: number;  // Para referenciar a Vaga, se necessário
+    vaga!: Vaga;  // Para referenciar a Vaga, se necessário
     usuario!: Usuario;
     vendedor!: Vendedor;
     clienteAvulso!: ClienteAvulso;

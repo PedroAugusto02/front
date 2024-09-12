@@ -197,13 +197,16 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((confirmado: boolean) => {
       if (confirmado) {
-        const ultimaReserva = vaga.reservas.reduce((prev, current) => {
-          return new Date(prev.dataHoraReserva).getTime() > new Date(current.dataHoraReserva).getTime() ? prev : current;
-        });
+        if(vaga.reservas){
 
-        this.dialog.open(ModalFecharReservaComponent, {
-          data: { vaga: vaga, reserva: ultimaReserva } // Passe a última reserva aqui
-        });
+          const ultimaReserva = vaga.reservas.reduce((prev, current) => {
+            return new Date(prev.dataHoraReserva).getTime() > new Date(current.dataHoraReserva).getTime() ? prev : current;
+          });
+       
+          this.dialog.open(ModalFecharReservaComponent, {
+            data: { vaga: vaga, reserva: ultimaReserva } // Passe a última reserva aqui
+          });
+        }
       }
     });
   }

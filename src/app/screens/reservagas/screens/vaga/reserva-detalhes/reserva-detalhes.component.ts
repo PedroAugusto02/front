@@ -21,11 +21,12 @@ import { ReservaService } from '../../../service/reserva.service';
 import { VagaService } from '../../../service/vaga.service';
 import { Usuario } from '../../../../../model/Usuario';
 import { Vendedor } from '../../../../../model/Vendedor';
+import { IconComponent } from '../../../../../components/icon/icon.component';
 
 @Component({
   selector: 'app-reserva-detalhes',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, InputtextComponent, ToggleComponent, ColorPickerComponent, MatTableModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, ButtonComponent, InputtextComponent, ToggleComponent, ColorPickerComponent, MatTableModule, MatButtonModule, MatIconModule, IconComponent],
   templateUrl: './reserva-detalhes.component.html',
   animations: [
     trigger('detailExpand', [
@@ -43,7 +44,7 @@ export class ReservaDetalhesComponent {
   vaga: Vaga;
   estacionamento: Estacionamento;
   reservas: Reserva[] = [];
-  dataSource = ELEMENT_DATA;
+  dataSource = this.reservas;
   columnsToDisplay = ['dataHoraReserva', 'dataHoraTermino', 'valor', 'pago'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: Reserva | null | undefined;
@@ -107,6 +108,18 @@ export class ReservaDetalhesComponent {
     this.vaga.disponivel = checked;
   }
 
+  incluirReservaModal(): void {
+    const dialogRef = this.dialog.open(ModalReservaComponent, {
+      data: { vaga: this.vaga }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.reservaCriada) {
+        this.buscaReservasPorVaga(this.vaga.id); // Atualizar reservas após criar uma nova
+      }
+    });
+  }
+
   salvarVaga(): void {
     this.loader.show();
     this.vagaService.atualizarVaga(this.vaga).pipe(finalize(() => {
@@ -121,37 +134,22 @@ export class ReservaDetalhesComponent {
     });
   }
 
-  // incluirReservaModal(): void {
-  //   const dialogRef = this.dialog.open(ModalReservaComponent, {
-  //     data: { vaga: this.vaga }
-  //   });
+  // Mapeia os nomes das colunas para títulos amigáveis
+  columnHeaders: { [key: string]: string } = {
+    dataHoraReserva: 'Data da Reserva',
+    dataHoraTermino: 'Hora de Término',
+    valor: 'Valor Pago',
+    pago: 'Foi Pago?'
+  };
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (result?.reservaCriada) {
-  //       this.buscaReservasPorVaga(this.vaga.id); // Atualizar reservas após criar uma nova
-  //     }
-  //   });
-  // }
+  // Verifica se a coluna é do tipo data
+  isDateColumn(column: string): boolean {
+    return ['dataHoraReserva', 'dataHoraTermino'].includes(column);
+  }
 
-
+  // Retorna o nome amigável da coluna
+  getColumnHeader(column: string): string {
+    return this.columnHeaders[column] || column;
+  }
 
 }
-
-const ELEMENT_DATA: Reserva[] = [
-  {
-    clienteAvulso: {
-      id: 1,
-      nome: 'João Silva',
-      placaVeiculo: 'ABC-1234',
-      documentoIdentidade: '123456789',
-    },
-    dataHoraReserva: new Date('2024-09-17T10:30:00'),
-    dataHoraTermino: new Date('2024-09-17T11:30:00'),
-    valor: 20.0,
-    pago: true,
-    id: 0,
-    vaga: new Vaga,
-    usuario: new Usuario,
-    vendedor: new Vendedor
-  },
-];

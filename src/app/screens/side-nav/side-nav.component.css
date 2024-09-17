@@ -16,6 +16,11 @@
   flex-direction: column;
 }
 
+.mat-toolbar {
+  max-height: 64px;
+  min-height: 64px;
+}
+
 .mdc-list {
   padding: 0;
 }

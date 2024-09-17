@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +19,8 @@ import { LoaderService } from '../../../../../service/loader.service';
 import { EstacionamentoService } from '../../../service/estacionamento.service';
 import { ReservaService } from '../../../service/reserva.service';
 import { VagaService } from '../../../service/vaga.service';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Usuario } from '../../../../../model/Usuario';
+import { Vendedor } from '../../../../../model/Vendedor';
 
 @Component({
   selector: 'app-reserva-detalhes',
@@ -41,11 +43,10 @@ export class ReservaDetalhesComponent {
   vaga: Vaga;
   estacionamento: Estacionamento;
   reservas: Reserva[] = [];
-  dataSource = new MatTableDataSource<Reserva>();
-  columnsToDisplay = ['cliente', 'dataHoraReserva', 'dataHoraTermino', 'valor'];
-  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand']; // Adiciona a coluna de expandir
-  displayedColumns: string[] = ['dataHoraReserva', 'dataHoraTermino', 'valor', 'pago'];
-  expandedReserva: Reserva | null = null;
+  dataSource = ELEMENT_DATA;
+  columnsToDisplay = ['dataHoraReserva', 'dataHoraTermino', 'valor', 'pago'];
+  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
+  expandedElement: Reserva | null | undefined;
 
   constructor(
     private router: Router,
@@ -80,13 +81,13 @@ export class ReservaDetalhesComponent {
 
   buscaReservasPorVaga(vagaId: number): void {
     this.loader.show();
-    this.reservaService.obterReservasPorVaga(vagaId).pipe(finalize(() => {
+    this.vagaService.buscarReservasPorVaga(vagaId).pipe(finalize(() => {
       this.loader.hide();
     })).subscribe({
       next: (reservas: Reserva[]) => {
         this.reservas = reservas;
-        this.dataSource.data = reservas; // Atualizar dataSource com as reservas recebidas
-        console.log(this.dataSource.data); // Log para verificar os dados recebidos
+        this.dataSource = reservas; // Atualizar dataSource com as reservas recebidas
+        console.log(this.dataSource); // Log para verificar os dados recebidos
       },
       error: (error) => {
         console.log('Erro ao buscar reservas:', error);
@@ -120,24 +121,37 @@ export class ReservaDetalhesComponent {
     });
   }
 
-  incluirReservaModal(): void {
-    const dialogRef = this.dialog.open(ModalReservaComponent, {
-      data: { vaga: this.vaga }
-    });
+  // incluirReservaModal(): void {
+  //   const dialogRef = this.dialog.open(ModalReservaComponent, {
+  //     data: { vaga: this.vaga }
+  //   });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result?.reservaCriada) {
-        this.buscaReservasPorVaga(this.vaga.id); // Atualizar reservas após criar uma nova
-      }
-    });
-  }
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result?.reservaCriada) {
+  //       this.buscaReservasPorVaga(this.vaga.id); // Atualizar reservas após criar uma nova
+  //     }
+  //   });
+  // }
 
-  toggleRow(reserva: Reserva) {
-    this.expandedReserva = this.expandedReserva === reserva ? null : reserva;
-  }
 
-  isExpanded(reserva: Reserva): boolean {
-    return this.expandedReserva === reserva;
-  }
 
 }
+
+const ELEMENT_DATA: Reserva[] = [
+  {
+    clienteAvulso: {
+      id: 1,
+      nome: 'João Silva',
+      placaVeiculo: 'ABC-1234',
+      documentoIdentidade: '123456789',
+    },
+    dataHoraReserva: new Date('2024-09-17T10:30:00'),
+    dataHoraTermino: new Date('2024-09-17T11:30:00'),
+    valor: 20.0,
+    pago: true,
+    id: 0,
+    vaga: new Vaga,
+    usuario: new Usuario,
+    vendedor: new Vendedor
+  },
+];

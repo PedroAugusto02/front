@@ -57,10 +57,26 @@ $theme-dark: mat.define-dark-theme((
 // Aplicando os temas usando os mixins específicos para cores
 .light-theme {
   @include mat.all-component-colors($theme-light);
+
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
 }
 
 .dark-theme {
   @include mat.all-component-colors($theme-dark);
+
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: rgba(124, 124, 124, 0.26);
+  }
+
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #a1a1a133;
+  }
 }
 
 .minimized-tabs-container {

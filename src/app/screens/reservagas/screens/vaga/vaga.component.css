@@ -1,20 +1,20 @@
 .container-vagas {
   margin-left: 10px;
   width: 100%;
-  overflow-y: auto; 
+  overflow-y: auto;
 }
 
 .grid-vagas {
   display: flex;
   flex-wrap: wrap;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .cartao {
-  position: relative; 
-  flex: 0 0 calc(33.33% - 20px); 
-  margin: 10px; 
-  width: 200px; 
+  position: relative;
+  flex: 0 0 calc(33.33% - 20px);
+  margin: 10px;
+  width: 200px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
@@ -28,19 +28,34 @@
   min-height: 132px;
 }
 
-.cartao:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+.cartao-rotatividade {
+  background-color: #f0f8ff;
+  border-left: 5px solid #007BFF;
 }
 
-.cartao:active {
+.cartao-reserva {
+  background-color: #fff8dc;
+  border-left: 5px solid #ffc107;
+}
+
+.cartao-mensalista {
+  background-color: #e0ffe0;
+  border-left: 5px solid #28a745;
+}
+
+.cartao:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .cartao h1 {
   font-size: 20px;
   margin-top: 10px;
+  color: white;
+}
+
+.cartao p {
+  color: white;
 }
 
 .status-texto {
@@ -48,13 +63,12 @@
 }
 
 .texto-disponivel {
-  color: #10bb0a; 
+  color: #10bb0a;
 }
 
 .texto-indisponivel {
-  color: #f44336; 
+  color: #f44336;
 }
-
 
 .vaga-header {
   display: flex;
@@ -64,24 +78,53 @@
 
 .vaga-status {
   width: 100%;
-  text-align: center; 
+  text-align: center;
 }
 
 .horario {
-  font-size: 35px; 
+  font-size: 35px;
   margin-top: 10px;
 }
 
 .botao-incluir-reserva {
   position: absolute;
-  right: 10px; 
-  bottom: 10px; 
-  margin: 10px; 
+  right: 10px;
+  bottom: 10px;
+  margin: 10px;
 }
 
 .botao-fechar-reserva {
   position: absolute;
-  left: 10px; 
-  bottom: 10px; 
-  margin: 10px; 
+  left: 10px;
+  bottom: 10px;
+  margin: 10px;
+}
+
+.legenda-vagas p {
+  align-items: center;
+  margin: 0;
+}
+
+.legenda-vagas span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.legenda-vagas .cor-rot {
+  background-color: #007BFF;
+}
+
+.legenda-vagas .cor-res {
+  background-color: #ffc107;
+}
+
+.legenda-vagas .cor-men {
+  background-color: #28a745;
+}
+
+.legenda-vagas p span+span {
+  line-height: 20px;
 }

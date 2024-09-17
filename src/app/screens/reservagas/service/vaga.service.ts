@@ -40,8 +40,8 @@ export class VagaService {
     return this.http.post(`${this.baseUrl}/${vagaId}/reservar`, cliente);
   }
 
-  listarReservaPorVaga(vagaId: number): Observable<Reserva> {
-    return this.http.get<Reserva>(`/api/vagas/${vagaId}/reservas`);
-  }
+  buscarReservasPorVaga(vagaId: number): Observable<Reserva[]> {
+    return this.http.get<Reserva[]>(`${this.baseUrl}/${vagaId}/reservas`);
+  }  
 
 }

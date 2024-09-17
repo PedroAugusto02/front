@@ -21,6 +21,7 @@ import { ToastService } from '../../../../service/toast.service';
 import { ModalConfirmaComponent } from '../../../../components/dialogs/modal-confirma/modal-confirma.component';
 import { ModalFecharReservaComponent } from '../../../../components/dialogs/modal-fechar-reserva/modal-fechar-reserva.component';
 import { ModalReservaComponent } from '../../../../components/dialogs/modal-reserva/modal-reserva.component';
+import { ModalReservaDetalhadaComponent } from '../../../../components/dialogs/modal-reserva-detalhada/modal-reserva-detalhada.component';
 
 @Component({
   selector: 'app-vaga',
@@ -176,18 +177,35 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
   }
 
   incluirReservaModal(vaga: Vaga): void {
-    const dialogRef = this.dialog.open(ModalReservaComponent, {
-      data: { vaga: vaga }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result?.reservaCriada) {
-        this.toast.success('Reserva criada com sucesso!', 'Sucesso');
-
-        // Recarregar vagas para garantir que as reservas estejam completas
-        this.carregarVagas(this.selectedEstacionamentoId);
-      }
-    });
+    if (vaga.tipoDeVaga.codigo === 'ROT') {
+      // Abre modal para cliente avulso em vaga de rotatividade (ROT)
+      const dialogRef = this.dialog.open(ModalReservaComponent, {
+        data: { vaga: vaga }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result?.reservaCriada) {
+          this.toast.success('Reserva criada com sucesso!', 'Sucesso');
+          // Recarregar vagas para garantir que as reservas estejam completas
+          this.carregarVagas(this.selectedEstacionamentoId);
+        }
+      });
+    } else if (vaga.tipoDeVaga.codigo === 'RES') {
+      // Abre modal para reservas agendadas em vaga reservada (RES)
+      const dialogRef = this.dialog.open(ModalReservaDetalhadaComponent, {
+        data: { vaga: vaga }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result?.reservaCriada) {
+          this.toast.success('Reserva criada com sucesso!', 'Sucesso');
+          // Recarregar vagas
+          this.carregarVagas(this.selectedEstacionamentoId);
+        }
+      });
+    } else if (vaga.tipoDeVaga.codigo === 'MEN') {
+      this.toast.warn('Essa vaga é mensalista e não aceita reservas avulsas.', 'Atenção');
+    }
   }
 
   fecharReservaModal(vaga: Vaga) {
@@ -210,6 +228,4 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
       }
     });
   }
-
-
 }

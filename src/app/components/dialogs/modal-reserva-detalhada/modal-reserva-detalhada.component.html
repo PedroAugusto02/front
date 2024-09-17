@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Detalhes da Vaga Reservada</h2>
+<h1 mat-dialog-title>Vaga {{ vaga.numeroDaVaga }}</h1>
+
+<mat-dialog-content class="mat-typography">
+  <table mat-table [dataSource]="reservas" class="mat-elevation-z8">
+    <!-- Coluna de horário da reserva -->
+    <ng-container matColumnDef="horario">
+      <th mat-header-cell *matHeaderCellDef> Horário </th>
+      <td mat-cell *matCellDef="let reserva">{{ reserva.horarioInicio | date:'shortTime' }} - {{ reserva.horarioFim | date:'shortTime' }}</td>
+    </ng-container>
+
+    <!-- Coluna de cliente -->
+    <ng-container matColumnDef="cliente">
+      <th mat-header-cell *matHeaderCellDef> Cliente </th>
+      <td mat-cell *matCellDef="let reserva">{{ reserva.cliente?.nome || 'Não informado' }}</td>
+    </ng-container>
+
+    <!-- Coluna de ação para incluir nova reserva -->
+    <ng-container matColumnDef="acao">
+      <th mat-header-cell *matHeaderCellDef> Ação </th>
+      <td mat-cell *matCellDef="let reserva">
+        <button mat-button color="primary" (click)="incluirReserva(reserva)">Incluir Reserva</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div>
+    <app-button class="float-left" [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"></app-button>
+  </div>
+</mat-dialog-content>

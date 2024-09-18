@@ -113,8 +113,10 @@ export class SideNavComponent {
   }
 
   minimizePage(): void {
-    this.minimizableStateService.triggerMinimizeEvent('UsuarioComponent');
-    const currentState = this.getCurrentPageState();
+    const componentName = this.router.url; // ou um nome personalizado para o componente atual
+    this.minimizableStateService.triggerMinimizeEvent(componentName);
+
+    const currentState = this.minimizableStateService.getComponentState(componentName);
     console.log('Estado atual:', currentState);
 
     const minimizedPage = {

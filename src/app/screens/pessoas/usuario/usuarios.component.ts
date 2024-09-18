@@ -79,29 +79,24 @@ export class UsuariosComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.carregarUsuarios();
-    this.restoreStateIfNeeded();
-
+    const minimizando = this.restoreStateIfNeeded();
+    if(!minimizando)
+      this.carregarUsuarios();
     // Inscrever-se no evento de minimização
-    this.minimizeSubscription = this.minimizableStateService.getMinimizeEvent()
-      .subscribe((componentName: string | null) => {
-        if (componentName === 'UsuariosComponent') {
-          this.isMinimizing = true;
-          this.saveStateBeforeMinimize();
-        }
-      });
+    this.minimizeSubscription = this.minimizableStateService.getMinimizeEvent().subscribe((componentName: string | null) => {
+      if (componentName === '/usuarios') {
+        this.isMinimizing = true;
+        this.saveStateBeforeMinimize();
+      }
+    });
   }
 
   ngOnDestroy(): void {
     if (!this.isMinimizing) {
       // Limpar o estado do componente apenas se não estiver minimizando
-      this.minimizableStateService.clearComponentState('UsuariosComponent');
+      this.minimizableStateService.clearComponentState('/usuarios');
     }
 
-    // Desinscrever do evento de minimização
-    if (this.minimizeSubscription) {
-      this.minimizeSubscription.unsubscribe();
-    }
   }
 
   refresh() {
@@ -139,7 +134,7 @@ export class UsuariosComponent implements AfterViewInit, OnDestroy {
       }
     });
   }
-  
+
 
   deletarUsuario(id: number): void {
     this.loader.show();
@@ -203,16 +198,11 @@ export class UsuariosComponent implements AfterViewInit, OnDestroy {
       roles: this.roles,
     };
     console.log('Salvando estado:', state);
-    this.minimizableStateService.setComponentState('UsuarioComponent', state);
+    this.minimizableStateService.setComponentState('/usuarios', state);
   }
 
-  // Chamado antes de minimizar o componente
-  onBeforeMinimize(): void {
-    this.saveStateBeforeMinimize();
-  }
-
-  restoreStateIfNeeded(): void {
-    const state = this.minimizableStateService.getComponentState('UsuarioComponent');
+  restoreStateIfNeeded(): boolean {
+    const state = this.minimizableStateService.getComponentState('/usuarios');
     if (state) {
       console.log('Restaurando estado:', state);
       this.usuarios_lista = state.usuarios_lista;
@@ -220,6 +210,9 @@ export class UsuariosComponent implements AfterViewInit, OnDestroy {
       this.usuarioUpdate = state.usuarioUpdate;
       this.usuarioNovo = state.usuarioNovo;
       this.roles = state.roles;
+      return true;
+    }else {
+      return false;
     }
   }
 

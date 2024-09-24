@@ -161,9 +161,6 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
     })).subscribe({
       next: (result) => {
         this.cardsVagas = result;
-        this.cardsVagas.forEach(vaga => {
-          console.log(vaga.reservas);  // Verifique aqui se as reservas contêm todos os campos necessários
-        });
       },
       error: (error) => {
         console.log('Erro ao carregar vagas:', error);

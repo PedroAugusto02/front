@@ -1,3 +1,11 @@
 .mat-typography {
     gap: 20px;
 }
+
+.botoes {
+    justify-content: space-between;
+}
+
+.inputs {
+    gap: 20px;
+}

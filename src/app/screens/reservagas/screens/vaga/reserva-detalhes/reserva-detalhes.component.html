@@ -22,10 +22,36 @@
           <color-picker class="disponivel" (colorChange)="onColorPickerChange($event)"
             [color]="vaga.cor"></color-picker>
         </div>
+        <div>
+          <h4>Tipo de Vaga:</h4>
+          <div class="d-flex">
+            <mat-button-toggle-group name="tipoDeVaga" [(ngModel)]="vaga.tipoDeVaga" appearance="legacy" class="tipo-de-vaga-group">
+              <mat-button-toggle value="rotativa" 
+                [ngClass]="{'rotativa-active': vaga.tipoDeVaga.descricao === 'Rotatividade'}"
+                (click)="onTipoVagaClick('Rotatividade')">
+                <mat-icon>directions_car</mat-icon>
+                Rotativa
+              </mat-button-toggle>
+            
+              <mat-button-toggle value="mensalista" 
+                [ngClass]="{'mensalista-active': vaga.tipoDeVaga.descricao === 'Mensalista'}"
+                (click)="onTipoVagaClick('Mensalista')">
+                <mat-icon>calendar_today</mat-icon>
+                Mensalista
+              </mat-button-toggle>
+            
+              <mat-button-toggle value="reserva" 
+                [ngClass]="{'reserva-active': vaga.tipoDeVaga.descricao === 'Reserva'}"
+                (click)="onTipoVagaClick('Reserva')">
+                <mat-icon>bookmark</mat-icon>
+                Reserva
+              </mat-button-toggle>
+            </mat-button-toggle-group>            
+          </div>
+        </div>
         <div class="marginTopo">
           <app-button [label]="'Voltar'" [color]="'primary'" (buttonClick)="voltar()"></app-button>
-          <app-button class="disponivel" [label]="'Salvar'" [color]="'success'"
-            (buttonClick)="salvarVaga()"></app-button>
+          <app-button class="disponivel" [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarVaga()" />
           <app-button class="disponivel" [label]="'Incluir Reserva'" [color]="'incluir-reserva'"
             (buttonClick)="incluirReservaModal()"></app-button>
         </div>

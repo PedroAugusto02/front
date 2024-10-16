@@ -107,7 +107,7 @@ export class AuthService {
           if (error.status === 403 || error.status === 0) {
             this.logout();
           }
-          console.log('Erro ao buscar dados do usuário:', error);
+          console.log('Erro ao buscar dados do usuário');
           reject();
         }
       });

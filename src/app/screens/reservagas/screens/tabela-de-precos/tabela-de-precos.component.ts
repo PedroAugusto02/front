@@ -108,7 +108,8 @@ export class TabelaDePrecosComponent implements AfterViewInit {
   }
 
   carregarTabelaDePreco(estacionamentoId: number): void {
-    this.estacionamentoService.carregarTabelaDePrecoPorEstacionamento(estacionamentoId).subscribe({
+    this.loader.show();
+    this.estacionamentoService.carregarTabelaDePrecoPorEstacionamento(estacionamentoId).pipe(finalize(() => {this.loader.hide()})).subscribe({
       next: (tabela) => {
         this.tabelaDePreco = tabela;
         this.precos = tabela.precos ? tabela.precos : [];
@@ -120,6 +121,7 @@ export class TabelaDePrecosComponent implements AfterViewInit {
   }
 
   adicionarPreco(): void {
+    this.loader.show();
     if (this.selectedEstacionamentoId !== null && this.tabelaDePreco && this.tabelaDePreco.id) {
       const novoPreco: Preco = {
         id: 0,
@@ -152,6 +154,7 @@ export class TabelaDePrecosComponent implements AfterViewInit {
 
   salvarEdicao(elemento: Preco): void {
     if (this.tabelaDePreco && this.tabelaDePreco.id) {
+      this.loader.show();
       elemento.tabelaDePrecos = { id: this.tabelaDePreco.id };
       this.precosService.atualizarPreco(elemento).subscribe({
         next: () => {
@@ -173,6 +176,7 @@ export class TabelaDePrecosComponent implements AfterViewInit {
 
   deletarPreco(elemento: Preco): void {
     if (this.tabelaDePreco && this.tabelaDePreco.id) {
+      this.loader.show();
       elemento.tabelaDePrecos = { id: this.tabelaDePreco.id };
       this.precosService.deletarPreco(elemento).subscribe({
         next: () => { 

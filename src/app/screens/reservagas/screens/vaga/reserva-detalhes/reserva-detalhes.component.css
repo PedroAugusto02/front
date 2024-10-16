@@ -94,6 +94,17 @@ tr.example-detail-row {
     }
   }
 
+  mat-button-toggle {
+    margin: 0 10px;
+    &.mat-button-toggle-checked {
+      background-color: #3f51b5; /* cor do botão ativo */
+      color: white;
+    }
+    mat-icon {
+      margin-right: 5px;
+    }
+  }  
+
   .cliente-info {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -114,4 +125,44 @@ tr.example-detail-row {
 
     }
   }
+}
+
+.tipo-de-vaga-group mat-button-toggle {
+  margin-right: 10px;
+  
+  &.rotativa-active {
+    background-color: #007BFF;
+    color: white;
+  }
+
+  &.mensalista-active {
+    background-color: #28a745;
+    color: white;
+  }
+
+  &.reserva-active {
+    background-color: #ffc107;
+    color: black;
+  }
+}
+
+.tipo-de-vaga-group mat-button-toggle.rotativa-active {
+  background-color: #007BFF;
+  color: white;
+}
+
+.tipo-de-vaga-group mat-button-toggle.mensalista-active {
+  background-color: #28a745;
+  color: white;
+}
+
+.tipo-de-vaga-group mat-button-toggle.reserva-active {
+  background-color: #ffc107;
+  color: black;
+}
+
+
+
+mat-button-toggle mat-icon {
+  margin-right: 5px;
 }

@@ -1,14 +1,18 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ButtonComponent } from '../../../../../components/buttons/button/button.component';
 import { ModalReservaComponent } from '../../../../../components/dialogs/modal-reserva/modal-reserva.component';
+import { IconComponent } from '../../../../../components/icon/icon.component';
 import { ColorPickerComponent } from '../../../../../components/inputs/color-picker/color-picker.component';
 import { InputtextComponent } from '../../../../../components/inputs/inputtext/inputtext.component';
 import { ToggleComponent } from '../../../../../components/inputs/toggle/toggle.component';
@@ -19,14 +23,24 @@ import { LoaderService } from '../../../../../service/loader.service';
 import { EstacionamentoService } from '../../../service/estacionamento.service';
 import { ReservaService } from '../../../service/reserva.service';
 import { VagaService } from '../../../service/vaga.service';
-import { Usuario } from '../../../../../model/Usuario';
-import { Vendedor } from '../../../../../model/Vendedor';
-import { IconComponent } from '../../../../../components/icon/icon.component';
 
 @Component({
   selector: 'app-reserva-detalhes',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, InputtextComponent, ToggleComponent, ColorPickerComponent, MatTableModule, MatButtonModule, MatIconModule, IconComponent],
+  imports: [
+    CommonModule, 
+    ButtonComponent,
+     InputtextComponent,
+     ToggleComponent,
+     ColorPickerComponent,
+     MatTableModule,
+     MatButtonModule,
+     MatIconModule,
+     MatButton,
+     MatButtonToggleModule,
+     MatSlideToggle,
+     FormsModule,
+     IconComponent],
   templateUrl: './reserva-detalhes.component.html',
   animations: [
     trigger('detailExpand', [
@@ -151,5 +165,10 @@ export class ReservaDetalhesComponent {
   getColumnHeader(column: string): string {
     return this.columnHeaders[column] || column;
   }
+
+  onTipoVagaClick(tipo: string) {
+    console.log('Tipo de vaga selecionado:', tipo);
+    // Aqui você pode realizar ações adicionais, como atualizar variáveis ou chamar serviços
+  }  
 
 }

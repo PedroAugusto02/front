@@ -23,24 +23,26 @@ import { LoaderService } from '../../../../../service/loader.service';
 import { EstacionamentoService } from '../../../service/estacionamento.service';
 import { ReservaService } from '../../../service/reserva.service';
 import { VagaService } from '../../../service/vaga.service';
+import { ModalConfirmaComponent } from '../../../../../components/dialogs/modal-confirma/modal-confirma.component';
+import { TipoDeVaga } from '../../../../../model/TipoDeVaga';
 
 @Component({
   selector: 'app-reserva-detalhes',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     ButtonComponent,
-     InputtextComponent,
-     ToggleComponent,
-     ColorPickerComponent,
-     MatTableModule,
-     MatButtonModule,
-     MatIconModule,
-     MatButton,
-     MatButtonToggleModule,
-     MatSlideToggle,
-     FormsModule,
-     IconComponent],
+    InputtextComponent,
+    ToggleComponent,
+    ColorPickerComponent,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatButton,
+    MatButtonToggleModule,
+    MatSlideToggle,
+    FormsModule,
+    IconComponent],
   templateUrl: './reserva-detalhes.component.html',
   animations: [
     trigger('detailExpand', [
@@ -55,6 +57,7 @@ import { VagaService } from '../../../service/vaga.service';
 export class ReservaDetalhesComponent {
 
   readonly dialog = inject(MatDialog);
+  vagaSelecionada!: Vaga;
   vaga: Vaga;
   estacionamento: Estacionamento;
   reservas: Reserva[] = [];
@@ -62,6 +65,7 @@ export class ReservaDetalhesComponent {
   columnsToDisplay = ['dataHoraReserva', 'dataHoraTermino', 'valor', 'pago'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: Reserva | null | undefined;
+  tipoDeVagaSelecionadaAnterior!: TipoDeVaga;
 
   constructor(
     private router: Router,
@@ -76,6 +80,8 @@ export class ReservaDetalhesComponent {
 
   ngOnInit(): void {
     this.vaga = history.state.vaga;
+    this.vagaSelecionada = history.state.vaga;
+    this.tipoDeVagaSelecionadaAnterior = this.vaga.tipoDeVaga; // Guardar o valor inicial ao carregar a página
     this.buscaEstacionamento(this.vaga.estacionamento.id);
     this.buscaReservasPorVaga(this.vaga.id); // Buscar as reservas associadas à vaga
   }
@@ -165,10 +171,22 @@ export class ReservaDetalhesComponent {
   getColumnHeader(column: string): string {
     return this.columnHeaders[column] || column;
   }
-
+  
   onTipoVagaClick(tipo: string) {
-    console.log('Tipo de vaga selecionado:', tipo);
-    // Aqui você pode realizar ações adicionais, como atualizar variáveis ou chamar serviços
-  }  
+    const dialogRef = this.dialog.open(ModalConfirmaComponent, {
+      data: { pergunta: 'Deseja realmente trocar o tipo de Vaga?' }
+    });
+  
+    dialogRef.afterClosed().subscribe((confirmado: boolean) => {
+      if (confirmado) {
+        // Se confirmado, atualiza o tipo de vaga
+        this.vaga.tipoDeVaga.descricao = tipo;
+        this.tipoDeVagaSelecionadaAnterior.descricao = tipo; // Atualiza a seleção anterior
+      } else {
+        // Se cancelado, restaura o tipo de vaga anterior
+        this.vaga.tipoDeVaga = this.tipoDeVagaSelecionadaAnterior;
+      }
+    });
+  }
 
 }

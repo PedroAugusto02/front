@@ -132,36 +132,39 @@ tr.example-detail-row {
   
   &.rotativa-active {
     background-color: #007BFF;
-    color: white;
   }
 
   &.mensalista-active {
     background-color: #28a745;
-    color: white;
   }
 
   &.reserva-active {
     background-color: #ffc107;
-    color: black;
   }
 }
 
-.tipo-de-vaga-group mat-button-toggle.rotativa-active {
-  background-color: #007BFF;
-  color: white;
-}
-
-.tipo-de-vaga-group mat-button-toggle.mensalista-active {
-  background-color: #28a745;
-  color: white;
-}
-
-.tipo-de-vaga-group mat-button-toggle.reserva-active {
-  background-color: #ffc107;
+::ng-deep .light-theme .tipo-de-vaga-group mat-button-toggle.rotativa-active {
   color: black;
 }
 
+::ng-deep .light-theme .tipo-de-vaga-group mat-button-toggle.mensalista-active {
+  color: black;
+}
 
+::ng-deep .light-theme .tipo-de-vaga-group mat-button-toggle.reserva-active {
+  color: black;
+}
+::ng-deep .dark-theme .tipo-de-vaga-group mat-button-toggle.rotativa-active {
+  color: white;
+}
+
+::ng-deep .dark-theme .tipo-de-vaga-group mat-button-toggle.mensalista-active {
+  color: white;
+}
+
+::ng-deep .dark-theme .tipo-de-vaga-group mat-button-toggle.reserva-active {
+  color: white;
+}
 
 mat-button-toggle mat-icon {
   margin-right: 5px;

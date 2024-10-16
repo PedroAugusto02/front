@@ -26,27 +26,20 @@
           <h4>Tipo de Vaga:</h4>
           <div class="d-flex">
             <mat-button-toggle-group name="tipoDeVaga" [(ngModel)]="vaga.tipoDeVaga" appearance="legacy" class="tipo-de-vaga-group">
-              <mat-button-toggle value="rotativa" 
-                [ngClass]="{'rotativa-active': vaga.tipoDeVaga.descricao === 'Rotatividade'}"
-                (click)="onTipoVagaClick('Rotatividade')">
-                <mat-icon>directions_car</mat-icon>
-                Rotativa
+              <mat-button-toggle *ngFor="let tipo of tiposDeVagas" 
+                [value]="tipo.codigo" 
+                [ngClass]="{
+                  'rotativa-active': tipo.descricao === 'Rotatividade' && vaga.tipoDeVaga.descricao === 'Rotatividade',
+                  'mensalista-active': tipo.descricao === 'Mensalista' && vaga.tipoDeVaga.descricao === 'Mensalista',
+                  'reserva-active': tipo.descricao === 'Reserva' && vaga.tipoDeVaga.descricao === 'Reserva'
+                }"
+                (click)="onTipoVagaClick(tipo)">
+                <mat-icon *ngIf="tipo.descricao === 'Rotatividade'">directions_car</mat-icon>
+                <mat-icon *ngIf="tipo.descricao === 'Mensalista'">calendar_today</mat-icon>
+                <mat-icon *ngIf="tipo.descricao === 'Reserva'">bookmark</mat-icon>
+                {{ tipo.descricao }}
               </mat-button-toggle>
-            
-              <mat-button-toggle value="mensalista" 
-                [ngClass]="{'mensalista-active': vaga.tipoDeVaga.descricao === 'Mensalista'}"
-                (click)="onTipoVagaClick('Mensalista')">
-                <mat-icon>calendar_today</mat-icon>
-                Mensalista
-              </mat-button-toggle>
-            
-              <mat-button-toggle value="reserva" 
-                [ngClass]="{'reserva-active': vaga.tipoDeVaga.descricao === 'Reserva'}"
-                (click)="onTipoVagaClick('Reserva')">
-                <mat-icon>bookmark</mat-icon>
-                Reserva
-              </mat-button-toggle>
-            </mat-button-toggle-group>            
+            </mat-button-toggle-group>                        
           </div>
         </div>
         <div class="marginTopo">

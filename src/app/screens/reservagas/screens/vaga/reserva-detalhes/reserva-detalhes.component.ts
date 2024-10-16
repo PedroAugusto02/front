@@ -66,6 +66,11 @@ export class ReservaDetalhesComponent {
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: Reserva | null | undefined;
   tipoDeVagaSelecionadaAnterior!: TipoDeVaga;
+  tiposDeVagas: TipoDeVaga[] = [
+    { id: 1, codigo: 'ROT', descricao: 'Rotatividade' },
+    { id: 2, codigo: 'RES', descricao: 'Reserva' },
+    { id: 3, codigo: 'MEN', descricao: 'Mensalista' }
+  ];
 
   constructor(
     private router: Router,
@@ -146,7 +151,8 @@ export class ReservaDetalhesComponent {
       this.loader.hide();
     })).subscribe({
       next: () => {
-        this.router.navigate(['/vagas'], { state: { reload: true } });
+        // this.router.navigate(['/vagas'], { state: { reload: true } });
+        this.buscaReservasPorVaga(this.vaga.id);
       },
       error: (error) => {
         console.log('Erro ao salvar a vaga:', error);
@@ -172,7 +178,7 @@ export class ReservaDetalhesComponent {
     return this.columnHeaders[column] || column;
   }
   
-  onTipoVagaClick(tipo: string) {
+  onTipoVagaClick(tipo: TipoDeVaga) {
     const dialogRef = this.dialog.open(ModalConfirmaComponent, {
       data: { pergunta: 'Deseja realmente trocar o tipo de Vaga?' }
     });
@@ -180,8 +186,9 @@ export class ReservaDetalhesComponent {
     dialogRef.afterClosed().subscribe((confirmado: boolean) => {
       if (confirmado) {
         // Se confirmado, atualiza o tipo de vaga
-        this.vaga.tipoDeVaga.descricao = tipo;
-        this.tipoDeVagaSelecionadaAnterior.descricao = tipo; // Atualiza a seleção anterior
+        this.vaga.tipoDeVaga = tipo;
+        this.tipoDeVagaSelecionadaAnterior = tipo; // Atualiza a seleção anterior
+        this.salvarVaga();
       } else {
         // Se cancelado, restaura o tipo de vaga anterior
         this.vaga.tipoDeVaga = this.tipoDeVagaSelecionadaAnterior;

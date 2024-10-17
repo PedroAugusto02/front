@@ -25,6 +25,7 @@ import { ReservaService } from '../../../service/reserva.service';
 import { VagaService } from '../../../service/vaga.service';
 import { ModalConfirmaComponent } from '../../../../../components/dialogs/modal-confirma/modal-confirma.component';
 import { TipoDeVaga } from '../../../../../model/TipoDeVaga';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reserva-detalhes',
@@ -76,8 +77,8 @@ export class ReservaDetalhesComponent {
     private router: Router,
     private estacionamentoService: EstacionamentoService,
     private vagaService: VagaService,
-    private reservaService: ReservaService,
     private loader: LoaderService,
+    private toast: ToastrService,
   ) {
     this.vaga = new Vaga();
     this.estacionamento = new Estacionamento();
@@ -152,7 +153,7 @@ export class ReservaDetalhesComponent {
     })).subscribe({
       next: () => {
         // this.router.navigate(['/vagas'], { state: { reload: true } });
-        this.buscaReservasPorVaga(this.vaga.id);
+        this.toast.success("Vaga salvar com sucesso!","Sucesso");
       },
       error: (error) => {
         console.log('Erro ao salvar a vaga:', error);

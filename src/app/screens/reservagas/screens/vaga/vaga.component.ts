@@ -22,6 +22,8 @@ import { LoaderService } from '../../../../service/loader.service';
 import { TitleService } from '../../../../service/title.service';
 import { EstacionamentoService } from '../../service/estacionamento.service';
 import { VagaService } from '../../service/vaga.service';
+import { MatIcon } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-vaga',
@@ -38,6 +40,8 @@ import { VagaService } from '../../service/vaga.service';
     InputSelectComponent, 
     FormsModule, 
     MinibuttonComponent,
+    MatIcon,
+    MatButtonModule,
     ToastrModule],
   styleUrls: ['./vaga.component.css']
 })
@@ -48,6 +52,7 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
   selectedEstacionamentoId: number = 0;
   cardsVagas: Vaga[] = [];
   intervalId: any;
+  isMinimized = false;
   readonly dialog = inject(MatDialog);
 
   constructor(
@@ -195,7 +200,7 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
   
       dialogRef.afterClosed().subscribe(result => {
         if (result?.reservaCriada) {
-          this.toast.success('Reserva criada com sucesso!', 'Sucesso');
+          this.toast.success('Reserva criada com sucesso!', 'Sucesso',{titleClass:'tituloToast',progressBar:true});
           this.carregarVagas(this.selectedEstacionamentoId);
         }
       });
@@ -224,4 +229,9 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
       }
     });
   }
+
+  toggleMinimize() {
+    this.isMinimized = !this.isMinimized;
+  }
+  
 }

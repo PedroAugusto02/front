@@ -153,7 +153,7 @@ export class ReservaDetalhesComponent {
     })).subscribe({
       next: () => {
         // this.router.navigate(['/vagas'], { state: { reload: true } });
-        this.toast.success("Vaga salvar com sucesso!","Sucesso");
+        this.toast.success("Vaga salvar com sucesso!","Sucesso",{titleClass:'tituloToast',progressBar:true});
       },
       error: (error) => {
         console.log('Erro ao salvar a vaga:', error);

@@ -95,8 +95,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  restorePage(page: MinimizedPage): void {
-    const restoredPage = this.minimizeService.restorePage(page.route);
+  restaurarPagina(page: MinimizedPage): void {
+    const restoredPage = this.minimizeService.restaurarPagina(page.route);
     if (restoredPage) {
       this.router.navigate([restoredPage.route], { state: { data: restoredPage.state } });
     }

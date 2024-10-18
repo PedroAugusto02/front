@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TitleService } from '../../../../service/title.service';
 
 @Component({
@@ -15,4 +15,7 @@ export class VendedoresComponent {
   ){
     this.titleService.setPageTitle("Vendedores");
   }
+
+  @ViewChild('resizableElement') resizableElement!: ElementRef;
+
 }

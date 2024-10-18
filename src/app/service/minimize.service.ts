@@ -21,7 +21,7 @@ export class MinimizeService {
     return this.minimizedPages;
   }
 
-  restorePage(route: string): MinimizedPage | undefined {
+  restaurarPagina(route: string): MinimizedPage | undefined {
     const index = this.minimizedPages.findIndex(page => page.route === route);
     if (index !== -1) {
       const [restoredPage] = this.minimizedPages.splice(index, 1);

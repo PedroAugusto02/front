@@ -1,7 +1,18 @@
 <div class="d-flex">
-  <div class="container-estacionamento shadow p-4">
-    <h2>Estacionamento</h2>
-    <div class="ativo-adicionar">
+  <!-- Botão para desminimizar, visível somente quando minimizado -->
+  <button *ngIf="isMinimized" type="button" aria-label="Maximize page" mat-icon-button (click)="toggleMinimize()"
+    [title]="'Maximizar Página'">
+    <mat-icon aria-label="Maximize icon">maximize</mat-icon>
+  </button>
+  <div class="container-estacionamento shadow p-4" [ngClass]="{ 'minimized': isMinimized }">
+    <div class="d-flex" style="justify-content: space-between;">
+      <h2>Estacionamento</h2>
+      <button type="button" aria-label="Minimize page" mat-icon-button (click)="toggleMinimize()"
+        [title]="isMinimized ? 'Maximizar Página' : 'Minimizar Página'">
+        <mat-icon aria-label="Minimize icon">{{ isMinimized ? 'maximize' : 'minimize' }}</mat-icon>
+      </button>
+    </div>
+    <div class="ativo-adicionar" *ngIf="!isMinimized">
       <div>
         <app-inputselect [atributoExibido]="'nome'" [lista]="estacionamentos" [label]="'Selecione um Estacionamento'"
           [atributoValor]="'id'" [(value)]="selectedEstacionamentoId" (valueChange)="selecionarEstacionamento($event)">
@@ -20,7 +31,8 @@
       <div *ngFor="let vaga of cardsVagas" class="cartao" [ngClass]="{
         'cartao-rotatividade': vaga.tipoDeVaga.codigo === 'ROT', 
         'cartao-reserva': vaga.tipoDeVaga.codigo === 'RES', 
-        'cartao-mensalista': vaga.tipoDeVaga.codigo === 'MEN'
+        'cartao-mensalista': vaga.tipoDeVaga.codigo === 'MEN',
+        'minimized': isMinimized
       }" (click)="abrirDetalhesReserva(vaga)" [style.background]="vaga.cor">
         <div class="vaga-header">
           <h1>Vaga {{ vaga.numeroDaVaga }}</h1>

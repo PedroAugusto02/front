@@ -1,14 +1,18 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ButtonComponent } from '../../../../../components/buttons/button/button.component';
 import { ModalReservaComponent } from '../../../../../components/dialogs/modal-reserva/modal-reserva.component';
+import { IconComponent } from '../../../../../components/icon/icon.component';
 import { ColorPickerComponent } from '../../../../../components/inputs/color-picker/color-picker.component';
 import { InputtextComponent } from '../../../../../components/inputs/inputtext/inputtext.component';
 import { ToggleComponent } from '../../../../../components/inputs/toggle/toggle.component';
@@ -19,14 +23,27 @@ import { LoaderService } from '../../../../../service/loader.service';
 import { EstacionamentoService } from '../../../service/estacionamento.service';
 import { ReservaService } from '../../../service/reserva.service';
 import { VagaService } from '../../../service/vaga.service';
-import { Usuario } from '../../../../../model/Usuario';
-import { Vendedor } from '../../../../../model/Vendedor';
-import { IconComponent } from '../../../../../components/icon/icon.component';
+import { ModalConfirmaComponent } from '../../../../../components/dialogs/modal-confirma/modal-confirma.component';
+import { TipoDeVaga } from '../../../../../model/TipoDeVaga';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reserva-detalhes',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, InputtextComponent, ToggleComponent, ColorPickerComponent, MatTableModule, MatButtonModule, MatIconModule, IconComponent],
+  imports: [
+    CommonModule,
+    ButtonComponent,
+    InputtextComponent,
+    ToggleComponent,
+    ColorPickerComponent,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatButton,
+    MatButtonToggleModule,
+    MatSlideToggle,
+    FormsModule,
+    IconComponent],
   templateUrl: './reserva-detalhes.component.html',
   animations: [
     trigger('detailExpand', [
@@ -41,6 +58,7 @@ import { IconComponent } from '../../../../../components/icon/icon.component';
 export class ReservaDetalhesComponent {
 
   readonly dialog = inject(MatDialog);
+  vagaSelecionada!: Vaga;
   vaga: Vaga;
   estacionamento: Estacionamento;
   reservas: Reserva[] = [];
@@ -48,13 +66,19 @@ export class ReservaDetalhesComponent {
   columnsToDisplay = ['dataHoraReserva', 'dataHoraTermino', 'valor', 'pago'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: Reserva | null | undefined;
+  tipoDeVagaSelecionadaAnterior!: TipoDeVaga;
+  tiposDeVagas: TipoDeVaga[] = [
+    { id: 1, codigo: 'ROT', descricao: 'Rotatividade' },
+    { id: 2, codigo: 'RES', descricao: 'Reserva' },
+    { id: 3, codigo: 'MEN', descricao: 'Mensalista' }
+  ];
 
   constructor(
     private router: Router,
     private estacionamentoService: EstacionamentoService,
     private vagaService: VagaService,
-    private reservaService: ReservaService,
     private loader: LoaderService,
+    private toast: ToastrService,
   ) {
     this.vaga = new Vaga();
     this.estacionamento = new Estacionamento();
@@ -62,6 +86,8 @@ export class ReservaDetalhesComponent {
 
   ngOnInit(): void {
     this.vaga = history.state.vaga;
+    this.vagaSelecionada = history.state.vaga;
+    this.tipoDeVagaSelecionadaAnterior = this.vaga.tipoDeVaga; // Guardar o valor inicial ao carregar a página
     this.buscaEstacionamento(this.vaga.estacionamento.id);
     this.buscaReservasPorVaga(this.vaga.id); // Buscar as reservas associadas à vaga
   }
@@ -126,7 +152,8 @@ export class ReservaDetalhesComponent {
       this.loader.hide();
     })).subscribe({
       next: () => {
-        this.router.navigate(['/vagas'], { state: { reload: true } });
+        // this.router.navigate(['/vagas'], { state: { reload: true } });
+        this.toast.success("Vaga salvar com sucesso!","Sucesso",{titleClass:'tituloToast',progressBar:true});
       },
       error: (error) => {
         console.log('Erro ao salvar a vaga:', error);
@@ -150,6 +177,24 @@ export class ReservaDetalhesComponent {
   // Retorna o nome amigável da coluna
   getColumnHeader(column: string): string {
     return this.columnHeaders[column] || column;
+  }
+  
+  onTipoVagaClick(tipo: TipoDeVaga) {
+    const dialogRef = this.dialog.open(ModalConfirmaComponent, {
+      data: { pergunta: 'Deseja realmente trocar o tipo de Vaga?' }
+    });
+  
+    dialogRef.afterClosed().subscribe((confirmado: boolean) => {
+      if (confirmado) {
+        // Se confirmado, atualiza o tipo de vaga
+        this.vaga.tipoDeVaga = tipo;
+        this.tipoDeVagaSelecionadaAnterior = tipo; // Atualiza a seleção anterior
+        this.salvarVaga();
+      } else {
+        // Se cancelado, restaura o tipo de vaga anterior
+        this.vaga.tipoDeVaga = this.tipoDeVagaSelecionadaAnterior;
+      }
+    });
   }
 
 }

@@ -1,17 +1,18 @@
 <h2 mat-dialog-title>Adicionar Cliente Avulso</h2>
 <h1 mat-dialog-title>Vaga {{ vaga.numeroDaVaga }}</h1>
 <mat-dialog-content class="mat-typography">
-  <inputtext class="input-custom-width mt-3" [label]="'Nome'" [placeholder]="'Digite o nome do cliente'" [value]="clienteAvulso.nome"
-    [validacao]="true" (valueChange)="clienteAvulso.nome = $event"/>
-
-  <inputtext class="input-custom-width mt-3" [label]="'Placa do Veículo'" [placeholder]="'Digite a placa do veículo'" [value]="clienteAvulso.placaVeiculo"
-      [validacao]="false" (valueChange)="clienteAvulso.placaVeiculo = $event"/>
-
-  <inputtext class="input-custom-width mt-3" [label]="'Documento de Identidade'" [placeholder]="'Digite o documento de identidade'" [value]="clienteAvulso.documentoIdentidade"
-      [validacao]="false" (valueChange)="clienteAvulso.documentoIdentidade = $event"/>
-
-  <div>
-    <app-button class="disponível float-left" [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"/>
-    <app-button class="disponivel float-right" [label]="'Incluir Reserva'" [color]="'success'" (buttonClick)="salvarClienteAvulso()"/>
+  <div class="d-flex inputs">
+    <inputtext class="input-custom-width" [label]="'Nome'" [placeholder]="'Digite o nome do cliente'" [value]="clienteAvulso.nome"
+      [validacao]="true" (valueChange)="clienteAvulso.nome = $event"/>
+  
+    <inputtext class="input-custom-width" [label]="'Placa do Veículo'" [placeholder]="'Digite a placa do veículo'" [value]="clienteAvulso.placaVeiculo"
+        [validacao]="false" (valueChange)="clienteAvulso.placaVeiculo = $event"/>
+  
+    <inputtext class="input-custom-width" [label]="'Documento de Identidade'" [placeholder]="'Digite o documento de identidade'" [value]="clienteAvulso.documentoIdentidade"
+        [validacao]="false" (valueChange)="clienteAvulso.documentoIdentidade = $event"/>
+  </div>
+  <div class="d-flex botoes">
+    <app-button class="disponível" [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"/>
+    <app-button class="disponivel" [label]="'Incluir Reserva'" [color]="'success'" (buttonClick)="salvarClienteAvulso()"/>
   </div>
 </mat-dialog-content>

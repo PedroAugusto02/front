@@ -7,11 +7,9 @@
     <h2>Valor Calculado: 
       <span class="valor-destaque">R$ {{ valorCalculado | number: '1.2-2' }}</span>
     </h2> 
-    <h2 *ngIf="reserva.dataHoraTermino">
-      <toggle class="disponivel" [label]="'Disponível'" [checked]="vaga.disponivel"
-              (checkedChange)="onDisponivelChange($event)" />
-    </h2>
   </div>
-  <app-button class="disponível float-left" [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"/>
-  <app-button class="disponível float-right" [label]="'Fechar Reserva'" [color]="'primary'" (buttonClick)="fecharReserva()"/>
+  <div class="d-flex">
+    <app-button class="disponível float-left" [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"/>
+    <app-button class="disponível float-right" [label]="'Fechar Reserva'" [color]="'primary'" (buttonClick)="fecharReserva()"/>
+  </div>
 </mat-dialog-content>

@@ -4,24 +4,26 @@ import { AfterViewInit, Component, inject, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { InputtextComponent } from '../../../../components/inputs/inputtext/inputtext.component';
-import { ButtonComponent } from '../../../../components/buttons/button/button.component';
-import { InputSelectComponent } from '../../../../components/inputs/inputselect/inputselect.component';
-import { CheckboxComponent } from '../../../../components/inputs/checkbox/checkbox.component';
-import { MinibuttonComponent } from '../../../../components/buttons/minibutton/minibutton.component';
-import { Estacionamento } from '../../../../model/Estacionamento';
-import { Vaga } from '../../../../model/Vaga';
 import { AuthService } from '../../../../authentication/auth.service';
-import { VagaService } from '../../service/vaga.service';
-import { EstacionamentoService } from '../../service/estacionamento.service';
-import { TitleService } from '../../../../service/title.service';
-import { LoaderService } from '../../../../service/loader.service';
-import { ToastService } from '../../../../service/toast.service';
+import { ButtonComponent } from '../../../../components/buttons/button/button.component';
+import { MinibuttonComponent } from '../../../../components/buttons/minibutton/minibutton.component';
 import { ModalConfirmaComponent } from '../../../../components/dialogs/modal-confirma/modal-confirma.component';
 import { ModalFecharReservaComponent } from '../../../../components/dialogs/modal-fechar-reserva/modal-fechar-reserva.component';
-import { ModalReservaComponent } from '../../../../components/dialogs/modal-reserva/modal-reserva.component';
 import { ModalReservaDetalhadaComponent } from '../../../../components/dialogs/modal-reserva-detalhada/modal-reserva-detalhada.component';
+import { ModalReservaComponent } from '../../../../components/dialogs/modal-reserva/modal-reserva.component';
+import { CheckboxComponent } from '../../../../components/inputs/checkbox/checkbox.component';
+import { InputSelectComponent } from '../../../../components/inputs/inputselect/inputselect.component';
+import { InputtextComponent } from '../../../../components/inputs/inputtext/inputtext.component';
+import { Estacionamento } from '../../../../model/Estacionamento';
+import { Vaga } from '../../../../model/Vaga';
+import { LoaderService } from '../../../../service/loader.service';
+import { TitleService } from '../../../../service/title.service';
+import { EstacionamentoService } from '../../service/estacionamento.service';
+import { VagaService } from '../../service/vaga.service';
+import { MatIcon } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-vaga',
@@ -35,7 +37,12 @@ import { ModalReservaDetalhadaComponent } from '../../../../components/dialogs/m
     CdkDropList,
     CdkDrag,
     CommonModule,
-    InputSelectComponent, FormsModule, MinibuttonComponent],
+    InputSelectComponent, 
+    FormsModule, 
+    MinibuttonComponent,
+    MatIcon,
+    MatButtonModule,
+    ToastrModule],
   styleUrls: ['./vaga.component.css']
 })
 
@@ -45,6 +52,7 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
   selectedEstacionamentoId: number = 0;
   cardsVagas: Vaga[] = [];
   intervalId: any;
+  isMinimized = false;
   readonly dialog = inject(MatDialog);
 
   constructor(
@@ -54,7 +62,7 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
     private router: Router,
     private titleService: TitleService,
     private loader: LoaderService,
-    private toast: ToastService,
+    private toast: ToastrService,
   ) {
     this.titleService.setPageTitle("Vagas");
   }
@@ -175,33 +183,29 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
 
   incluirReservaModal(vaga: Vaga): void {
     if (vaga.tipoDeVaga.codigo === 'ROT') {
-      // Abre modal para cliente avulso em vaga de rotatividade (ROT)
       const dialogRef = this.dialog.open(ModalReservaComponent, {
         data: { vaga: vaga }
       });
   
       dialogRef.afterClosed().subscribe(result => {
         if (result?.reservaCriada) {
-          this.toast.success('Reserva criada com sucesso!', 'Sucesso');
-          // Recarregar vagas para garantir que as reservas estejam completas
+          this.toast.success('Reserva criada com sucesso!', 'Sucesso',{titleClass:'tituloToast',progressBar:true});
           this.carregarVagas(this.selectedEstacionamentoId);
         }
       });
     } else if (vaga.tipoDeVaga.codigo === 'RES') {
-      // Abre modal para reservas agendadas em vaga reservada (RES)
       const dialogRef = this.dialog.open(ModalReservaDetalhadaComponent, {
         data: { vaga: vaga }
       });
   
       dialogRef.afterClosed().subscribe(result => {
         if (result?.reservaCriada) {
-          this.toast.success('Reserva criada com sucesso!', 'Sucesso');
-          // Recarregar vagas
+          this.toast.success('Reserva criada com sucesso!', 'Sucesso',{titleClass:'tituloToast',progressBar:true});
           this.carregarVagas(this.selectedEstacionamentoId);
         }
       });
     } else if (vaga.tipoDeVaga.codigo === 'MEN') {
-      this.toast.warn('Essa vaga é mensalista e não aceita reservas avulsas.', 'Atenção');
+      this.toast.warning('Essa vaga é mensalista e não aceita reservas avulsas.', 'Atenção',{titleClass:'tituloToast',progressBar:true});
     }
   }
 
@@ -225,4 +229,9 @@ export class VagaComponent implements AfterViewInit, OnDestroy {
       }
     });
   }
+
+  toggleMinimize() {
+    this.isMinimized = !this.isMinimized;
+  }
+  
 }

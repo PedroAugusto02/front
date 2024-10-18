@@ -94,6 +94,17 @@ tr.example-detail-row {
     }
   }
 
+  mat-button-toggle {
+    margin: 0 10px;
+    &.mat-button-toggle-checked {
+      background-color: #3f51b5; /* cor do botão ativo */
+      color: white;
+    }
+    mat-icon {
+      margin-right: 5px;
+    }
+  }  
+
   .cliente-info {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -114,4 +125,47 @@ tr.example-detail-row {
 
     }
   }
+}
+
+.tipo-de-vaga-group mat-button-toggle {
+  margin-right: 10px;
+  
+  &.rotativa-active {
+    background-color: #007BFF;
+  }
+
+  &.mensalista-active {
+    background-color: #28a745;
+  }
+
+  &.reserva-active {
+    background-color: #ffc107;
+  }
+}
+
+::ng-deep .light-theme .tipo-de-vaga-group mat-button-toggle.rotativa-active {
+  color: black;
+}
+
+::ng-deep .light-theme .tipo-de-vaga-group mat-button-toggle.mensalista-active {
+  color: black;
+}
+
+::ng-deep .light-theme .tipo-de-vaga-group mat-button-toggle.reserva-active {
+  color: black;
+}
+::ng-deep .dark-theme .tipo-de-vaga-group mat-button-toggle.rotativa-active {
+  color: white;
+}
+
+::ng-deep .dark-theme .tipo-de-vaga-group mat-button-toggle.mensalista-active {
+  color: white;
+}
+
+::ng-deep .dark-theme .tipo-de-vaga-group mat-button-toggle.reserva-active {
+  color: white;
+}
+
+mat-button-toggle mat-icon {
+  margin-right: 5px;
 }

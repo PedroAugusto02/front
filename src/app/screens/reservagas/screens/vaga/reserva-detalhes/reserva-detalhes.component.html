@@ -6,6 +6,7 @@
         <div class="d-flex">
           <h4>Estacionamento:</h4>
           <h4 class="estacionamentoNome">{{ estacionamento.nome }}</h4>
+
         </div>
         <div class="d-flex">
           <h4>Número da Vaga:</h4>
@@ -22,10 +23,29 @@
           <color-picker class="disponivel" (colorChange)="onColorPickerChange($event)"
             [color]="vaga.cor"></color-picker>
         </div>
+        <div>
+          <h4>Tipo de Vaga:</h4>
+          <div class="d-flex">
+            <mat-button-toggle-group name="tipoDeVaga" [(ngModel)]="vaga.tipoDeVaga" appearance="legacy" class="tipo-de-vaga-group">
+              <mat-button-toggle *ngFor="let tipo of tiposDeVagas" 
+                [value]="tipo.codigo" 
+                [ngClass]="{
+                  'rotativa-active': tipo.descricao === 'Rotatividade' && vaga.tipoDeVaga.descricao === 'Rotatividade',
+                  'mensalista-active': tipo.descricao === 'Mensalista' && vaga.tipoDeVaga.descricao === 'Mensalista',
+                  'reserva-active': tipo.descricao === 'Reserva' && vaga.tipoDeVaga.descricao === 'Reserva'
+                }"
+                (click)="onTipoVagaClick(tipo)">
+                <mat-icon *ngIf="tipo.descricao === 'Rotatividade'">directions_car</mat-icon>
+                <mat-icon *ngIf="tipo.descricao === 'Mensalista'">calendar_today</mat-icon>
+                <mat-icon *ngIf="tipo.descricao === 'Reserva'">bookmark</mat-icon>
+                {{ tipo.descricao }}
+              </mat-button-toggle>
+            </mat-button-toggle-group>                        
+          </div>
+        </div>
         <div class="marginTopo">
           <app-button [label]="'Voltar'" [color]="'primary'" (buttonClick)="voltar()"></app-button>
-          <app-button class="disponivel" [label]="'Salvar'" [color]="'success'"
-            (buttonClick)="salvarVaga()"></app-button>
+          <app-button class="disponivel" [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarVaga()" />
           <app-button class="disponivel" [label]="'Incluir Reserva'" [color]="'incluir-reserva'"
             (buttonClick)="incluirReservaModal()"></app-button>
         </div>

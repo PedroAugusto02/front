@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'inputtext',
+  encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule],
   templateUrl: './inputtext.component.html',

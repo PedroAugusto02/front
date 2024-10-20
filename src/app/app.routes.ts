@@ -2,7 +2,8 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './screens/home/home.component';
 import { LoginComponent } from './screens/login/login/login.component';
-import { UsuariosComponent } from './screens/pessoas/usuario/usuarios.component';
+import { UsuarioComponent } from './screens/pessoas/usuario/usuario.component';
+import { UsuariosComponent } from './screens/pessoas/usuarios/usuarios.component';
 import { PrimeiroEstacionamentoComponent } from './screens/primeiro-estacionamento/primeiro-estacionamento.component';
 import { EstacionamentoComponent } from './screens/reservagas/screens/estacionamento/estacionamento.component';
 import { TabelaDePrecosComponent } from './screens/reservagas/screens/tabela-de-precos/tabela-de-precos.component';
@@ -22,6 +23,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'home', component: HomeComponent },
+      { path: 'usuario', component: UsuarioComponent },
       { path: 'usuarios', component: UsuariosComponent },
       { path: 'estacionamento', component: EstacionamentoComponent },
       { path: 'vagas', component: VagaComponent },

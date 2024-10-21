@@ -1,28 +1,28 @@
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { finalize, Subscription } from 'rxjs';
-import { InputtextComponent } from '../../../components/inputs/inputtext/inputtext.component';
 import { ButtonComponent } from '../../../components/buttons/button/button.component';
-import { CheckboxComponent } from '../../../components/inputs/checkbox/checkbox.component';
 import { MinibuttonComponent } from '../../../components/buttons/minibutton/minibutton.component';
+import { CheckboxComponent } from '../../../components/inputs/checkbox/checkbox.component';
 import { InputEmailComponent } from '../../../components/inputs/input-email/input-email.component';
 import { InputPasswordComponent } from '../../../components/inputs/input-password/input-password.component';
 import { InputSelectComponent } from '../../../components/inputs/inputselect/inputselect.component';
-import { Usuario } from '../../../model/Usuario';
+import { InputtextComponent } from '../../../components/inputs/inputtext/inputtext.component';
 import { UserRoles } from '../../../model/UserRoles';
-import { UsuarioService } from './service/usuario.service';
-import { TitleService } from '../../../service/title.service';
-import { MinimizableStateService } from '../../../service/minimizable-state.service';
+import { Usuario } from '../../../model/Usuario';
 import { AuthService } from '../../../authentication/auth.service';
 import { LoaderService } from '../../../service/loader.service';
+import { MinimizableStateService } from '../../../service/minimizable-state.service';
 import { ModalService } from '../../../service/modal.service';
+import { TitleService } from '../../../service/title.service';
+import { UsuarioService } from '../service/usuario.service';
 
 
 @Component({
@@ -80,8 +80,10 @@ export class UsuariosComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     const minimizando = this.restoreStateIfNeeded();
-    if(!minimizando)
+    if(!minimizando) {
+      this.authService.fetchLoggedInUser();
       this.carregarUsuarios();
+    }
     // Inscrever-se no evento de minimização
     this.minimizeSubscription = this.minimizableStateService.getMinimizeEvent().subscribe((componentName: string | null) => {
       if (componentName === '/usuarios') {

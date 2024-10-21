@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, forwardRef, OnChanges, SimpleChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, forwardRef, OnChanges, SimpleChanges, Output, ViewEncapsulation } from '@angular/core';
 import { FormControl, NG_VALUE_ACCESSOR, ControlValueAccessor, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,6 +6,7 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-inputselect',
+  encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [MatFormFieldModule, MatSelectModule, ReactiveFormsModule, CommonModule],
   templateUrl: './inputselect.component.html',

@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Fechar Reserva</h1>
-<h1 mat-dialog-title>Vaga {{ vaga.numeroDaVaga }}</h1>
 <mat-dialog-content class="mat-typography">
+  <h2>Vaga {{ vaga.numeroDaVaga }}</h2>
   <div>
     <h2>Entrada: {{ formatarData(reserva.dataHoraReserva) }}</h2>
     <h2>Saída: {{ dataHoraTerminoFormatada }}</h2>
@@ -8,8 +8,12 @@
       <span class="valor-destaque">R$ {{ valorCalculado | number: '1.2-2' }}</span>
     </h2> 
   </div>
-  <div class="d-flex">
-    <app-button class="disponível float-left" [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"/>
-    <app-button class="disponível float-right" [label]="'Fechar Reserva'" [color]="'primary'" (buttonClick)="fecharReserva()"/>
+  <div class="row">
+    <div class="col-md-4">
+      <app-button [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"/>
+    </div>
+    <div class="col-md-8">
+      <app-button [label]="'Fechar Reserva'" [color]="'primary'" (buttonClick)="fecharReserva()"/>
+    </div>
   </div>
 </mat-dialog-content>

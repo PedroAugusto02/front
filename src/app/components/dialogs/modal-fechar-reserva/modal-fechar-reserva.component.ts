@@ -11,7 +11,7 @@ import { EstacionamentoService } from '../../../screens/reservagas/service/estac
 import { ReservaService } from '../../../screens/reservagas/service/reserva.service';
 import { VagaService } from '../../../screens/reservagas/service/vaga.service';
 import { ButtonComponent } from '../../buttons/button/button.component';
-import { InputtextComponent } from "../../inputs/inputtext/inputtext.component";
+import { InputtextComponent } from "../../inputs/text/inputtext/inputtext.component";
 import { ToggleComponent } from '../../inputs/toggle/toggle.component';
 
 @Component({

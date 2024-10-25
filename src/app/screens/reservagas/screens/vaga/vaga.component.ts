@@ -15,7 +15,7 @@ import { ModalReservaDetalhadaComponent } from '../../../../components/dialogs/m
 import { ModalReservaComponent } from '../../../../components/dialogs/modal-reserva/modal-reserva.component';
 import { CheckboxComponent } from '../../../../components/inputs/checkbox/checkbox.component';
 import { InputSelectComponent } from '../../../../components/inputs/inputselect/inputselect.component';
-import { InputtextComponent } from '../../../../components/inputs/inputtext/inputtext.component';
+import { InputtextComponent } from '../../../../components/inputs/text/inputtext/inputtext.component';
 import { Estacionamento } from '../../../../model/Estacionamento';
 import { Vaga } from '../../../../model/Vaga';
 import { LoaderService } from '../../../../service/loader.service';

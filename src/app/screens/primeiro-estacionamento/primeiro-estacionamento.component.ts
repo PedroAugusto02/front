@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { InputtextComponent } from '../../components/inputs/inputtext/inputtext.component';
+import { InputtextComponent } from '../../components/inputs/text/inputtext/inputtext.component';
 import { Estacionamento } from '../../model/Estacionamento';
 import { TitleService } from '../../service/title.service';
 import { LoaderService } from '../../service/loader.service';

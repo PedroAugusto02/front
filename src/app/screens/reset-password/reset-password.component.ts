@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../authentication/auth.service';
 
 import { ToggleDarkThemeComponent } from '../../components/inputs/toggle-dark-theme/toggle-dark-theme.component';
-import { InputtextComponent } from '../../components/inputs/inputtext/inputtext.component';
+import { InputtextComponent } from '../../components/inputs/text/inputtext/inputtext.component';
 import { ButtonComponent } from '../../components/buttons/button/button.component';
-import { InputPasswordComponent } from '../../components/inputs/input-password/input-password.component';
+import { InputPasswordComponent } from '../../components/inputs/text/input-password/input-password.component';
 import { LoaderCircularComponent } from '../../components/loader-circular/loader-circular.component';
 import { LoaderService } from '../../service/loader.service';
 

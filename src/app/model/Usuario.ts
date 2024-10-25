@@ -8,9 +8,16 @@ export class Usuario {
   login: string = "";
   password: string = "";
   nome: string = "";
+  role: UserRoles = UserRoles.USER;
   email: string = "";
-  role: UserRoles = UserRoles.USER; 
   age: number = 0;
+  telefone: number = 0;
+  endereco: string = "";
+  bairro: string = "";
+  cep: string = "";
+  numero: string = "";
+  nomeDaEmpresa: string = "";
+  cnpj: string = "";
   active: boolean = false;
   passwordResetRequired: boolean = true;
   creation_date: Date = new Date();

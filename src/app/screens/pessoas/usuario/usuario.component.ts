@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TitleService } from '../../../service/title.service';
 import { AuthService } from '../../../authentication/auth.service';
 import { Usuario } from '../../../model/Usuario';
-import { InputtextComponent } from "../../../components/inputs/inputtext/inputtext.component";
+import { InputtextComponent } from "../../../components/inputs/text/inputtext/inputtext.component";
 import { Carro } from '../../../model/Carro';
 import { ButtonComponent } from '../../../components/buttons/button/button.component';
 import { LoaderService } from '../../../service/loader.service';
@@ -12,17 +12,27 @@ import { EstacionamentoService } from '../../reservagas/service/estacionamento.s
 import { Estacionamento } from '../../../model/Estacionamento';
 import { finalize } from 'rxjs';
 import { InputSelectComponent } from '../../../components/inputs/inputselect/inputselect.component';
+import { InputTelefoneComponent } from "../../../components/inputs/text/input-telefone/input-telefone.component";
+import { InputEmailComponent } from "../../../components/inputs/text/input-email/input-email.component";
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { UtilService } from '../../reservagas/service/util.service';
+import { ModalService } from '../../../service/modal.service';
 
 @Component({
   selector: 'app-usuario',
   standalone: true,
   imports: [
+    MatButton,
+    MatButtonModule,
     MatTabsModule,
-    MatIcon, 
-    InputtextComponent, 
+    MatIconModule,
+    MatIcon,
+    InputtextComponent,
     ButtonComponent,
     InputSelectComponent,
-  ],
+    InputTelefoneComponent,
+    InputEmailComponent
+],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
@@ -38,6 +48,8 @@ export class UsuarioComponent implements OnInit {
     private authService: AuthService,
     private loader: LoaderService,
     private estacionamentoService: EstacionamentoService,
+    private utilService: UtilService,
+    private modal: ModalService,
   ) {
     this.titleService.setPageTitle("Usuario");
   }
@@ -79,7 +91,17 @@ export class UsuarioComponent implements OnInit {
   }
 
   salvarUsuario() {
+  }
 
+  buscarCEP() {
+    this.utilService.obterCep(this.usuarioLogado.cep).subscribe({
+      next: (result) => {
+        console.log(result);
+      },
+      error: (error) => {
+        this.modal.showError("Não foi possível obter CEP");
+      }
+    })
   }
 
 }

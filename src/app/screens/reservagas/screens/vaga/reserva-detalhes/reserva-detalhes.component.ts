@@ -14,7 +14,7 @@ import { ButtonComponent } from '../../../../../components/buttons/button/button
 import { ModalReservaComponent } from '../../../../../components/dialogs/modal-reserva/modal-reserva.component';
 import { IconComponent } from '../../../../../components/icon/icon.component';
 import { ColorPickerComponent } from '../../../../../components/inputs/color-picker/color-picker.component';
-import { InputtextComponent } from '../../../../../components/inputs/inputtext/inputtext.component';
+import { InputtextComponent } from '../../../../../components/inputs/text/inputtext/inputtext.component';
 import { ToggleComponent } from '../../../../../components/inputs/toggle/toggle.component';
 import { Estacionamento } from '../../../../../model/Estacionamento';
 import { Reserva } from '../../../../../model/Reserva';

@@ -7,7 +7,7 @@ import { ClienteAvulso } from '../../../model/ClienteAvulso';
 import { Vaga } from '../../../model/Vaga';
 import { VagaService } from '../../../screens/reservagas/service/vaga.service';
 import { ButtonComponent } from '../../buttons/button/button.component';
-import { InputtextComponent } from "../../inputs/inputtext/inputtext.component";
+import { InputtextComponent } from "../../inputs/text/inputtext/inputtext.component";
 
 @Component({
   selector: 'app-modal-reserva',

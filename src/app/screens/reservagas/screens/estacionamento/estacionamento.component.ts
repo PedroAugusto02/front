@@ -12,7 +12,7 @@ import { AuthService } from '../../../../authentication/auth.service';
 import { ButtonComponent } from '../../../../components/buttons/button/button.component';
 import { MinibuttonComponent } from '../../../../components/buttons/minibutton/minibutton.component';
 import { CheckboxComponent } from '../../../../components/inputs/checkbox/checkbox.component';
-import { InputtextComponent } from '../../../../components/inputs/inputtext/inputtext.component';
+import { InputtextComponent } from '../../../../components/inputs/text/inputtext/inputtext.component';
 import { Estacionamento } from '../../../../model/Estacionamento';
 import { Vaga } from '../../../../model/Vaga';
 import { LoaderService } from '../../../../service/loader.service';

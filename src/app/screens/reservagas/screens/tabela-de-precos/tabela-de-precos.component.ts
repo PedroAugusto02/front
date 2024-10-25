@@ -10,11 +10,11 @@ import { Preco } from '../../../../model/Preco';
 import { PrecosService } from '../../service/precos.service';
 import { ButtonComponent } from '../../../../components/buttons/button/button.component';
 import { CommonModule } from '@angular/common';
-import { InputtextComponent } from '../../../../components/inputs/inputtext/inputtext.component';
+import { InputtextComponent } from '../../../../components/inputs/text/inputtext/inputtext.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { InputNumberValorComponent } from '../../../../components/inputs/input-number/input-number-valor.component';
+import { InputNumberValorComponent } from '../../../../components/inputs/text/input-number/input-number-valor.component';
 import { Usuario } from '../../../../model/Usuario';
 
 @Component({

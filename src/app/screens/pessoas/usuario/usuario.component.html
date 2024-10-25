@@ -10,10 +10,38 @@
           <inputtext [label]="'Nome'" [value]="usuarioLogado.nome" />
         </div>
         <div class="col-md-2">
-          <inputtext [label]="'Email'" [value]="usuarioLogado.email" />
+          <input-email [label]="'Email'" [value]="usuarioLogado.email"></input-email>
         </div>
         <div class="col-md-2">
           <inputtext [label]="'Idade'" [value]="usuarioLogado.age" />
+        </div>
+        <div class="col-md-3">
+          <input-telefone [label]="'Telefone'" [ddd]="41" [placeholder]="'99999-9999'"></input-telefone>
+        </div>
+        <div class="col-md-2">
+          <inputtext [label]="'CPF/CNPJ'"  [placeholder]="'999999999-99'"></inputtext>
+        </div>
+      </div>
+      <div class="mt-3 row">
+        <div class="col-md-2">
+          <inputtext [label]="'CEP'"  [placeholder]="'999999999-99'" [value]="usuarioLogado.cep"></inputtext>
+        </div>
+        <button type="button" aria-label="Search" mat-icon-button (click)="buscarCEP()" [title]="'CEP'">
+          <mat-icon aria-label="Search icon">search</mat-icon>
+        </button>
+      </div>
+      <div class="mt-3 row">
+        <div class="col-md-2">
+          <inputtext [label]="'Endereço'"  [placeholder]="'Rua professor B'"></inputtext>
+        </div>
+        <div class="col-md-2">
+          <inputtext [label]="'Bairro'"  [placeholder]="'Rua professor B'"></inputtext>
+        </div>
+        <div class="col-md-2">
+          <inputtext [label]="'Cidade'"  [placeholder]="'Rua professor B'"></inputtext>
+        </div>
+        <div class="col-md-1">
+          <inputtext [label]="'Numero'"  [placeholder]="'ex: 2105'"></inputtext>
         </div>
       </div>
     </mat-tab>

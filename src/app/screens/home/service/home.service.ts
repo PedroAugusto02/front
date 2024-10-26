@@ -13,12 +13,13 @@ import { Card } from '../../../model/Card';
 })
 export class HomeService {
 
-    private baseUrl = `${environment.apiUrl}/home/cards`;
+    public baseUrl = `${environment.apiUrl}/home/cards`;
 
     constructor(private http: HttpClient) { }
 
     getCardsByRole(role: UserRoles, userId: number): Observable<Card[]> {
-      return this.http.get<Card[]>(`http://localhost:8080/home/cards/role?role=${role}&userId=${userId}`);
+      const url = `${this.baseUrl}/role?role=${role}&userId=${userId}`;
+      return this.http.get<Card[]>(url);
     }
 
 }

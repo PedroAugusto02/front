@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { ViaCep } from '../../../model/ViaCep';
+import { Estado } from '../../../model/Estado';
+import { Cidade } from '../../../model/Cidade';
 
 @Injectable({
   providedIn: 'root'

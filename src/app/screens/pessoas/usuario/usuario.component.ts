@@ -91,17 +91,26 @@ export class UsuarioComponent implements OnInit {
   }
 
   salvarUsuario() {
+
   }
 
   buscarCEP() {
-    this.utilService.obterCep(this.usuarioLogado.cep).subscribe({
-      next: (result) => {
-        console.log(result);
+    this.loader.show();
+    this.utilService.obterCep(this.usuarioLogado.cep).pipe(finalize(() => { this.loader.hide()})).subscribe({
+      next: (viaCep) => {
+        this.usuarioLogado.bairro = viaCep.bairro;
+        this.usuarioLogado.ddd = viaCep.ddd;
+        this.usuarioLogado.endereco = viaCep.logradouro;
+        this.usuarioLogado.cep = viaCep.cep;
+        this.usuarioLogado.ddd = viaCep.ddd;
+        this.usuarioLogado.complemento = viaCep.complemento == undefined ? '' : '';
       },
       error: (error) => {
         this.modal.showError("Não foi possível obter CEP");
       }
     })
   }
+
+  
 
 }

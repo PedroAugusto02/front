@@ -14,9 +14,19 @@ export class UtilService {
 
   constructor(private http: HttpClient) { }
 
-  // Faz a requisição para a API de CEP passando o CEP informado
+  // Requisição para obter CEP
   obterCep(cep: string): Observable<ViaCep> {
-    return this.http.get<ViaCep>(`${this.apiUrl}/obterCep`);
+    return this.http.get<ViaCep>(`${this.apiUrl}/obterCep?cep=${cep}`);
+  }
+
+  // Requisição para obter todos os estados
+  obterEstados(): Observable<Estado[]> {
+    return this.http.get<Estado[]>(`${this.apiUrl}/estados`);
+  }
+
+  // Requisição para obter cidades por estado
+  obterCidadesPorEstado(estadoId: number): Observable<Cidade[]> {
+    return this.http.get<Cidade[]>(`${this.apiUrl}/estados/${estadoId}/cidades`);
   } 
 
 }

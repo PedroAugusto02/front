@@ -7,15 +7,18 @@
       </ng-template>
       <div class="mt-3 row">
         <div class="col-md-2">
-          <inputtext [label]="'Nome'" [value]="usuarioLogado.nome" />
+          <inputtext [label]="'Nome'" [value]="usuarioLogado.nome" (valueChange)="usuarioLogado.nome = $event" />
         </div>
         <div class="col-md-2">
-          <input-email [label]="'Email'" [value]="usuarioLogado.email"></input-email>
+          <input-email [label]="'Email'" [value]="usuarioLogado.email" (valueChange)="usuarioLogado.email = $event"></input-email>
         </div>
         <div class="col-md-2">
-          <inputtext [label]="'Idade'" [value]="usuarioLogado.age" />
+          <inputtext [label]="'Idade'" [value]="usuarioLogado.age" (valueChange)="usuarioLogado.age = $event" />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-1">
+          <inputtext [label]="'DDD'" [value]="usuarioLogado.ddd" (valueChange)="usuarioLogado.ddd = $event" />
+        </div>
+        <div class="col-md-2">
           <input-telefone [label]="'Telefone'" [ddd]="41" [placeholder]="'99999-9999'"></input-telefone>
         </div>
         <div class="col-md-2">
@@ -24,7 +27,7 @@
       </div>
       <div class="mt-3 row">
         <div class="col-md-2">
-          <inputtext [label]="'CEP'"  [placeholder]="'999999999-99'" [value]="usuarioLogado.cep"></inputtext>
+          <inputtext [label]="'CEP'"  [placeholder]="'999999999-99'" [value]="usuarioLogado.cep" (valueChange)="usuarioLogado.cep = $event"></inputtext>
         </div>
         <button type="button" aria-label="Search" mat-icon-button (click)="buscarCEP()" [title]="'CEP'">
           <mat-icon aria-label="Search icon">search</mat-icon>
@@ -32,10 +35,10 @@
       </div>
       <div class="mt-3 row">
         <div class="col-md-2">
-          <inputtext [label]="'Endereço'"  [placeholder]="'Rua professor B'"></inputtext>
+          <inputtext [value]="usuarioLogado.endereco" [label]="'Endereço'"  [placeholder]="'Rua professor B'" (valueChange)="usuarioLogado.endereco = $event"></inputtext>
         </div>
         <div class="col-md-2">
-          <inputtext [label]="'Bairro'"  [placeholder]="'Rua professor B'"></inputtext>
+          <inputtext [value]="usuarioLogado.bairro" [label]="'Bairro'"  [placeholder]="'Rua professor B'" (valueChange)="usuarioLogado.bairro = $event"></inputtext>
         </div>
         <div class="col-md-2">
           <inputtext [label]="'Cidade'"  [placeholder]="'Rua professor B'"></inputtext>

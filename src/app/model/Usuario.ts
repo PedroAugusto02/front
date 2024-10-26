@@ -11,11 +11,13 @@ export class Usuario {
   role: UserRoles = UserRoles.USER;
   email: string = "";
   age: number = 0;
+  ddd: string = '41';
   telefone: number = 0;
   endereco: string = "";
   bairro: string = "";
   cep: string = "";
   numero: string = "";
+  complemento: string = "";
   nomeDaEmpresa: string = "";
   cnpj: string = "";
   active: boolean = false;

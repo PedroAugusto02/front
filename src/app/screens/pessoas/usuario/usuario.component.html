@@ -29,9 +29,17 @@
         <div class="col-md-2">
           <inputtext [label]="'CEP'"  [placeholder]="'999999999-99'" [value]="usuarioLogado.cep" (valueChange)="usuarioLogado.cep = $event"></inputtext>
         </div>
-        <button type="button" aria-label="Search" mat-icon-button (click)="buscarCEP()" [title]="'CEP'">
-          <mat-icon aria-label="Search icon">search</mat-icon>
-        </button>
+        <div class="col-md-2">
+          <button type="button" aria-label="Search" mat-icon-button (click)="buscarCEP()" [title]="'CEP'">
+            <mat-icon aria-label="Search icon">search</mat-icon>
+          </button>
+        </div>
+        <div class="col-md-2">
+          <app-inputselect [atributoExibido]="'nome'" [lista]="estados" [label]="'Selecione um Estado'"
+            [atributoValor]="'id'" [(value)]="estadoSelecionadoId"
+            (valueChange)="selecionarEstado($event)">
+          </app-inputselect>
+        </div>
       </div>
       <div class="mt-3 row">
         <div class="col-md-2">

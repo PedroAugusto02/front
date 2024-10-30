@@ -17,6 +17,8 @@ import { InputEmailComponent } from "../../../components/inputs/text/input-email
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { UtilService } from '../../reservagas/service/util.service';
 import { ModalService } from '../../../service/modal.service';
+import { InputNumberComponent } from "../../../components/inputs/text/input-number/input-number.component";
+import { Estado } from '../../../model/Estado';
 
 @Component({
   selector: 'app-usuario',
@@ -31,8 +33,9 @@ import { ModalService } from '../../../service/modal.service';
     ButtonComponent,
     InputSelectComponent,
     InputTelefoneComponent,
-    InputEmailComponent
-],
+    InputEmailComponent,
+    InputNumberComponent
+  ],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
@@ -41,7 +44,9 @@ export class UsuarioComponent implements OnInit {
   usuarioLogado: Usuario = new Usuario();
   carros: Carro[] = [];
   estacionamentos: Estacionamento[] = [];
+  estados: Estado[] = [];
   estacionamentoSelecionadoId: number = 0;
+  estadoSelecionadoId: number = 0;
 
   constructor(
     private titleService: TitleService,
@@ -62,16 +67,17 @@ export class UsuarioComponent implements OnInit {
     await this.authService.fetchLoggedInUser();
     this.usuarioLogado = this.authService.getLoggedInUser();
     this.carros = this.usuarioLogado.carros;
-    this.carregarEstacionamentos();
+    this.loader.show();
+    await Promise.all([
+      this.obterEstados(),
+      this.carregarEstacionamentos(),
+    ])
+    this.loader.hide();
   }
 
   async carregarEstacionamentos(): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
-      this.loader.show();
       this.estacionamentoService.listarEstacionamentosPorUsuario(this.usuarioLogado.id).pipe(
-        finalize(() => {
-          this.loader.hide();
-        })
       ).subscribe({
         next: (estacionamentos) => {
           this.estacionamentos = estacionamentos;
@@ -96,7 +102,7 @@ export class UsuarioComponent implements OnInit {
 
   buscarCEP() {
     this.loader.show();
-    this.utilService.obterCep(this.usuarioLogado.cep).pipe(finalize(() => { this.loader.hide()})).subscribe({
+    this.utilService.obterCep(this.usuarioLogado.cep).pipe(finalize(() => { this.loader.hide() })).subscribe({
       next: (viaCep) => {
         this.usuarioLogado.bairro = viaCep.bairro;
         this.usuarioLogado.ddd = viaCep.ddd;
@@ -104,13 +110,37 @@ export class UsuarioComponent implements OnInit {
         this.usuarioLogado.cep = viaCep.cep;
         this.usuarioLogado.ddd = viaCep.ddd;
         this.usuarioLogado.complemento = viaCep.complemento == undefined ? '' : '';
+
+        // Verifica o estado com base na descrição retornada do CEP
+        const estadoCorrespondente = this.estados.find(estado => estado.nome === viaCep.estado);
+        if (estadoCorrespondente) {
+          this.estadoSelecionadoId = estadoCorrespondente.id; // Define o id do estado encontrado
+        }
       },
       error: (error) => {
         this.modal.showError("Não foi possível obter CEP");
       }
+    });
+  }
+
+
+  obterEstados(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.utilService.obterEstados().subscribe({
+        next: (result) => {
+          this.estados = result;
+          resolve();
+        },
+        error: (error) => {
+          reject();
+          this.modal.showError("Não foi possível obter Estados " + error.error);
+        }
+      })
     })
   }
 
-  
+  selecionarEstado(id: number): void {
+    this.estacionamentoSelecionadoId = id;
+  }
 
 }

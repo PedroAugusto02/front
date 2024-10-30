@@ -18,6 +18,7 @@ export class InputtextComponent implements OnInit, OnChanges {
   @Input() placeholder!: string;
   @Input() disabled: boolean = false;
   @Input() validacao: boolean = false;
+  @Input() maximoCaracteres: number = 25;
   @Input() class: string = '';
   @Output() valueChange = new EventEmitter<any>();
 

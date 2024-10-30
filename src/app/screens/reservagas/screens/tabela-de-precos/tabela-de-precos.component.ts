@@ -14,8 +14,9 @@ import { InputtextComponent } from '../../../../components/inputs/text/inputtext
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { InputNumberValorComponent } from '../../../../components/inputs/text/input-number/input-number-valor.component';
+import { InputNumberValorComponent } from '../../../../components/inputs/text/input-number-valor/input-number-valor.component';
 import { Usuario } from '../../../../model/Usuario';
+import { InputNumberComponent } from "../../../../components/inputs/text/input-number/input-number.component";
 
 @Component({
   selector: 'app-tabela-de-precos',
@@ -30,7 +31,8 @@ import { Usuario } from '../../../../model/Usuario';
     MatButtonModule,
     MatIconModule,
     CommonModule,
-  ],
+    InputNumberComponent
+],
   templateUrl: './tabela-de-precos.component.html',
   styleUrls: ['./tabela-de-precos.component.css'],
 })

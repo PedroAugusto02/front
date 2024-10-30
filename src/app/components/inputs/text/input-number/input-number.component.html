@@ -1,0 +1,7 @@
+<mat-form-field floatLabel="always" class="example-full-width">
+    <mat-label>{{label}}</mat-label>
+    <input matInput type="number" class="example-right-align" placeholder="{{placeholder}}" [formControl]="campoFormControl" (blur)="onBlur()" />
+    <mat-error *ngIf="campoFormControl.hasError('required')">
+      {{ label }} é <strong>obrigatório</strong>
+    </mat-error>
+  </mat-form-field>

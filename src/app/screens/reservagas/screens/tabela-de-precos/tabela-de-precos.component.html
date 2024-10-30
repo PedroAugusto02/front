@@ -1,6 +1,8 @@
-<app-inputselect [atributoExibido]="'nome'" [lista]="estacionamentos" [label]="'Selecione um Estacionamento'"
+<div class="col-md-2">
+  <app-inputselect [atributoExibido]="'nome'" [lista]="estacionamentos" [label]="'Selecione um Estacionamento'"
     [atributoValor]="'id'" [(value)]="selectedEstacionamentoId" (valueChange)="selecionarEstacionamento($event)">
-</app-inputselect>
+  </app-inputselect>
+</div>
 
 <table mat-table [dataSource]="precos" class="mat-elevation-z8">
   <!-- Tempo Mínimo Column -->
@@ -11,8 +13,10 @@
         {{ element.tempoMinimo }} min
       </ng-container>
       <ng-container *ngIf="editandoElemento?.id === element.id">
-        <inputtext class="input-custom-width mt-3" [label]="'Tempo Mínimo'" [placeholder]="'ex: 30 minutos'" [value]="editandoElemento.tempoMinimo"
-        [validacao]="false" (valueChange)="editandoElemento.tempoMinimo = $event"></inputtext>
+          <div class="col-md-7">
+            <input-number [label]="'Tempo Mínimo'" [placeholder]="'ex: 30 minutos'"  [validacao]="false" [value]="editandoElemento.tempoMinimo"
+              [validacao]="true" (valueChange)="editandoElemento.tempoMinimo = $event"></input-number>
+          </div>
       </ng-container>
     </td>
   </ng-container>
@@ -25,8 +29,10 @@
         {{ element.tempoMaximo }} min
       </ng-container>
       <ng-container *ngIf="editandoElemento?.id === element.id">
-        <inputtext class="input-custom-width mt-3" [label]="'Tempo Máximo'" [placeholder]="'ex: 120 minutos'" [value]="editandoElemento.tempoMaximo"
-        [validacao]="false" (valueChange)="editandoElemento.tempoMaximo = $event"></inputtext>
+        <div class="col-md-7">
+          <input-number [label]="'Tempo Máximo'" [placeholder]="'ex: 120 minutos'" [value]="editandoElemento.tempoMaximo"
+            [validacao]="true" (valueChange)="editandoElemento.tempoMaximo = $event"></input-number>
+        </div>
       </ng-container>
     </td>
   </ng-container>
@@ -39,16 +45,9 @@
         {{ element.valor | currency:'BRL' }}
       </ng-container>
       <ng-container *ngIf="editandoElemento?.id === element.id">
-        <input-number-valor 
-        class="input-custom-width mt-3" 
-        [label]="'Valor'" 
-        [placeholder]="'ex: 15,00'" 
-        [value]="editandoElemento.valor"
-        [validacao]="true" 
-        (valueChange)="handleValueChange($event)">
-      </input-number-valor>
-      
-      
+        <input-number-valor class="input-custom-width mt-3" [label]="'Valor'" [placeholder]="'ex: 15,00'"
+          [value]="editandoElemento.valor" [validacao]="true" (valueChange)="handleValueChange($event)">
+        </input-number-valor>
       </ng-container>
     </td>
   </ng-container>
@@ -64,7 +63,8 @@
       </ng-container>
       <ng-container *ngIf="editandoElemento?.id === element.id">
         <div class="acoes-button-container">
-          <app-button [label]="'Salvar'" [color]="'success'" (buttonClick)="salvarEdicao(editandoElemento)"></app-button>
+          <app-button [label]="'Salvar'" [color]="'success'"
+            (buttonClick)="salvarEdicao(editandoElemento)"></app-button>
           <app-button [label]="'Cancelar'" [color]="'secundary'" (buttonClick)="cancelarEdicao()"></app-button>
           <app-button [label]="'Excluir'" [color]="'warn'" (buttonClick)="deletarPreco(editandoElemento)"></app-button>
         </div>
@@ -76,4 +76,7 @@
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
 </table>
 
-<app-button class="disponivel mt-3" [label]="'Adicionar Preço'" [color]="'primary'" (buttonClick)="adicionarPreco()"></app-button>
+<div class="col-md-2">
+  <app-button class="disponivel mt-3" [label]="'Adicionar Preço'" [color]="'primary'"
+    (buttonClick)="adicionarPreco()"></app-button>
+</div>

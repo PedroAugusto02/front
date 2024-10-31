@@ -19,6 +19,7 @@ import { UtilService } from '../../reservagas/service/util.service';
 import { ModalService } from '../../../service/modal.service';
 import { InputNumberComponent } from "../../../components/inputs/text/input-number/input-number.component";
 import { Estado } from '../../../model/Estado';
+import { Cidade } from '../../../model/Cidade';
 
 @Component({
   selector: 'app-usuario',
@@ -45,8 +46,11 @@ export class UsuarioComponent implements OnInit {
   carros: Carro[] = [];
   estacionamentos: Estacionamento[] = [];
   estados: Estado[] = [];
+  cidades: Cidade[] = [];
+
   estacionamentoSelecionadoId: number = 0;
   estadoSelecionadoId: number = 0;
+  cidadeSelecionadoId: number = 0;
 
   constructor(
     private titleService: TitleService,
@@ -70,6 +74,7 @@ export class UsuarioComponent implements OnInit {
     this.loader.show();
     await Promise.all([
       this.obterEstados(),
+      this.obterCidades(),
       this.carregarEstacionamentos(),
     ])
     this.loader.hide();
@@ -103,7 +108,7 @@ export class UsuarioComponent implements OnInit {
   buscarCEP() {
     this.loader.show();
     this.utilService.obterCep(this.usuarioLogado.cep).pipe(finalize(() => { this.loader.hide() })).subscribe({
-      next: (viaCep) => {
+      next: async (viaCep) => {
         this.usuarioLogado.bairro = viaCep.bairro;
         this.usuarioLogado.ddd = viaCep.ddd;
         this.usuarioLogado.endereco = viaCep.logradouro;
@@ -111,11 +116,13 @@ export class UsuarioComponent implements OnInit {
         this.usuarioLogado.ddd = viaCep.ddd;
         this.usuarioLogado.complemento = viaCep.complemento == undefined ? '' : '';
 
-        // Verifica o estado com base na descrição retornada do CEP
+        
         const estadoCorrespondente = this.estados.find(estado => estado.nome === viaCep.estado);
-        if (estadoCorrespondente) {
-          this.estadoSelecionadoId = estadoCorrespondente.id; // Define o id do estado encontrado
-        }
+        const cidadeCorrespondente = this.cidades.find(cidade => cidade.nome === viaCep.localidade);
+        if (estadoCorrespondente) 
+          this.estadoSelecionadoId = estadoCorrespondente.id;
+        if (cidadeCorrespondente)
+          this.cidadeSelecionadoId = cidadeCorrespondente.id;
       },
       error: (error) => {
         this.modal.showError("Não foi possível obter CEP");
@@ -127,7 +134,7 @@ export class UsuarioComponent implements OnInit {
   obterEstados(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.utilService.obterEstados().subscribe({
-        next: (result) => {
+        next: async (result) => {
           this.estados = result;
           resolve();
         },
@@ -139,8 +146,48 @@ export class UsuarioComponent implements OnInit {
     })
   }
 
+  obterCidadesPorEstado(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.estadoSelecionadoId) {
+        this.loader.show();
+        this.utilService.obterCidadesPorEstado(this.estadoSelecionadoId).pipe(finalize(() => {this.loader.hide();})).subscribe({
+          next: (result) => {
+            this.cidades = result;
+            resolve();
+          },
+          error: (error) => {
+            this.modal.showError("Não foi possível obter Cidades " + error.error);
+            reject();
+          }
+        })
+      }
+      resolve();
+    })
+  }
+
+  obterCidades(): Promise<void> {
+    return new Promise((resolve,reject) => {
+      this.utilService.obterCidades().subscribe({
+        next: (result) => {
+          this.cidades = result;
+          resolve();
+        },
+        error: (error) => {
+          this.modal.showError("Não foi possível obter Cidades" + error.error);
+          reject();
+        }
+      })
+    })
+
+  }
+
   selecionarEstado(id: number): void {
-    this.estacionamentoSelecionadoId = id;
+    this.estadoSelecionadoId = id;
+    this.obterCidadesPorEstado();
+  }
+
+  selecionarCidade(id: number): void {
+    this.cidadeSelecionadoId = id;
   }
 
 }

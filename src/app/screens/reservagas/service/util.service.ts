@@ -26,9 +26,14 @@ export class UtilService {
     return this.http.get<Estado[]>(`${this.apiUrl}/estados`);
   }
 
+  // Requisição para obter todos os estados
+  obterCidades(): Observable<Cidade[]> {
+    return this.http.get<Estado[]>(`${this.apiUrl}/cidades`);
+  }
+
   // Requisição para obter cidades por estado
   obterCidadesPorEstado(estadoId: number): Observable<Cidade[]> {
     return this.http.get<Cidade[]>(`${this.apiUrl}/estados/${estadoId}/cidades`);
-  } 
+  }
 
 }

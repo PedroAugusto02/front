@@ -13,26 +13,26 @@
           <input-email [label]="'Email'" [value]="usuarioLogado.email"
             (valueChange)="usuarioLogado.email = $event"></input-email>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
           <inputtext [label]="'Idade'" [value]="usuarioLogado.age" (valueChange)="usuarioLogado.age = $event" />
         </div>
         <div class="col-md-1">
           <inputtext [label]="'DDD'" [value]="usuarioLogado.ddd" (valueChange)="usuarioLogado.ddd = $event" />
         </div>
         <div class="col-md-2">
-          <input-telefone [label]="'Telefone'" [ddd]="41" [placeholder]="'99999-9999'"></input-telefone>
+          <input-telefone  [label]="'Telefone'" [ddd]="41" [placeholder]="'99999-9999'" (valueChange)="trocaTelefone($event)"></input-telefone>
         </div>
         <div class="col-md-2">
-          <inputtext [label]="'CPF/CNPJ'" [placeholder]="'999999999-99'"></inputtext>
+          <inputtext [label]="'CPF/CNPJ'" [(value)]="usuarioLogado.cnpj" [placeholder]="'999999999-99'"></inputtext>
         </div>
       </div>
       <div class="mt-3 row">
-        <div class="col-md-2">
-          <inputtext [label]="'CEP'" [placeholder]="'999999999-99'" [value]="usuarioLogado.cep"
+        <div class="col-md-2" (keyup.enter)="buscarCEP()">
+          <inputtext [apenasNumeros]="true" [maximoCaracteres]="9" [label]="'CEP'" [placeholder]="'999999999-99'" [value]="usuarioLogado.cep"
             (valueChange)="usuarioLogado.cep = $event"></inputtext>
         </div>
         <div class="col-md-2">
-          <button type="button" aria-label="Search" mat-icon-button (click)="buscarCEP()" [title]="'CEP'">
+          <button class="botao-pesquisa" mat-mini-fab aria-label="Search" (click)="buscarCEP()" [title]="'CEP'">
             <mat-icon aria-label="Search icon">search</mat-icon>
           </button>
         </div>
@@ -48,8 +48,7 @@
             (valueChange)="usuarioLogado.endereco = $event"></inputtext>
         </div>
         <div class="col-md-2">
-          <inputtext [value]="usuarioLogado.bairro" [label]="'Bairro'" [placeholder]="'Rua professor B'"
-            (valueChange)="usuarioLogado.bairro = $event"></inputtext>
+          <inputtext [(value)]="usuarioLogado.bairro" [label]="'Bairro'" [placeholder]="'Rua professor B'"></inputtext>
         </div>
         <div class="col-md-2">
           <app-inputselect [atributoExibido]="'nome'" [lista]="cidades" [label]="'Cidade'" [atributoValor]="'id'"
@@ -57,7 +56,7 @@
           </app-inputselect>
         </div>
         <div class="col-md-1">
-          <inputtext [label]="'Numero'" [placeholder]="'ex: 2105'"></inputtext>
+          <inputtext [(value)]="usuarioLogado.numero" [label]="'Numero'" [placeholder]="'ex: 2105'"></inputtext>
         </div>
       </div>
     </mat-tab>

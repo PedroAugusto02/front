@@ -20,6 +20,8 @@ import { ModalService } from '../../../service/modal.service';
 import { InputNumberComponent } from "../../../components/inputs/text/input-number/input-number.component";
 import { Estado } from '../../../model/Estado';
 import { Cidade } from '../../../model/Cidade';
+import { UsuarioService } from '../service/usuario.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-usuario',
@@ -58,6 +60,8 @@ export class UsuarioComponent implements OnInit {
     private loader: LoaderService,
     private estacionamentoService: EstacionamentoService,
     private utilService: UtilService,
+    private usuarioService: UsuarioService,
+    private toast: ToastrService,
     private modal: ModalService,
   ) {
     this.titleService.setPageTitle("Usuario");
@@ -102,27 +106,42 @@ export class UsuarioComponent implements OnInit {
   }
 
   salvarUsuario() {
-
+    this.loader.show();
+    console.log(this.usuarioLogado);
+    this.usuarioService.atualizarUsuario(this.usuarioLogado.id,this.usuarioLogado).pipe(finalize(() => {this.loader.hide()})).subscribe({
+      next: () => {
+        this.toast.success("Usuario salvo com sucesso!","Sucesso",{progressBar: true});
+      },
+      error: (error) => {
+        this.modal.showError("Não foi possível salvar usuario." + error.error);
+      }
+    })
   }
 
   buscarCEP() {
+    // Remove caracteres especiais, deixando apenas os números
+    this.usuarioLogado.cep = this.usuarioLogado.cep.replace(/\D/g, '');
+
     this.loader.show();
-    this.utilService.obterCep(this.usuarioLogado.cep).pipe(finalize(() => { this.loader.hide() })).subscribe({
+    this.utilService.obterCep(this.usuarioLogado.cep).pipe(
+      finalize(() => { this.loader.hide() })
+    ).subscribe({
       next: async (viaCep) => {
         this.usuarioLogado.bairro = viaCep.bairro;
         this.usuarioLogado.ddd = viaCep.ddd;
         this.usuarioLogado.endereco = viaCep.logradouro;
         this.usuarioLogado.cep = viaCep.cep;
-        this.usuarioLogado.ddd = viaCep.ddd;
-        this.usuarioLogado.complemento = viaCep.complemento == undefined ? '' : '';
+        this.usuarioLogado.complemento = viaCep.complemento ?? '';
 
-        
         const estadoCorrespondente = this.estados.find(estado => estado.nome === viaCep.estado);
         const cidadeCorrespondente = this.cidades.find(cidade => cidade.nome === viaCep.localidade);
-        if (estadoCorrespondente) 
+
+        if (estadoCorrespondente)
           this.estadoSelecionadoId = estadoCorrespondente.id;
-        if (cidadeCorrespondente)
+        if (cidadeCorrespondente) {
           this.cidadeSelecionadoId = cidadeCorrespondente.id;
+          this.selecionarCidade(this.cidadeSelecionadoId);
+        }
       },
       error: (error) => {
         this.modal.showError("Não foi possível obter CEP");
@@ -150,7 +169,7 @@ export class UsuarioComponent implements OnInit {
     return new Promise((resolve, reject) => {
       if (this.estadoSelecionadoId) {
         this.loader.show();
-        this.utilService.obterCidadesPorEstado(this.estadoSelecionadoId).pipe(finalize(() => {this.loader.hide();})).subscribe({
+        this.utilService.obterCidadesPorEstado(this.estadoSelecionadoId).pipe(finalize(() => { this.loader.hide(); })).subscribe({
           next: (result) => {
             this.cidades = result;
             resolve();
@@ -166,7 +185,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   obterCidades(): Promise<void> {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
       this.utilService.obterCidades().subscribe({
         next: (result) => {
           this.cidades = result;
@@ -187,7 +206,14 @@ export class UsuarioComponent implements OnInit {
   }
 
   selecionarCidade(id: number): void {
-    this.cidadeSelecionadoId = id;
+    const cidadeEncontrada = this.cidades.find(cidade => cidade.id == id);
+    // this.usuarioLogado.cidade = cidadeEncontrada || new Cidade(); // Atribui uma nova instância se não encontrar
   }
+  
+  trocaTelefone(numero: string) {
+    const telefoneSemHifen = numero.replace(/-/g, '');
+    this.usuarioLogado.telefone = Number(telefoneSemHifen);
+  }
+
 
 }

@@ -81,6 +81,7 @@ export class UsuarioComponent implements OnInit {
       this.obterCidades(),
       this.carregarEstacionamentos(),
     ])
+    this.verificaEstadoECidade();
     this.loader.hide();
   }
 
@@ -107,10 +108,11 @@ export class UsuarioComponent implements OnInit {
 
   salvarUsuario() {
     this.loader.show();
+    this.selecionarCidade(this.usuarioLogado.cidade.id);
     console.log(this.usuarioLogado);
-    this.usuarioService.atualizarUsuario(this.usuarioLogado.id,this.usuarioLogado).pipe(finalize(() => {this.loader.hide()})).subscribe({
+    this.usuarioService.atualizarUsuario(this.usuarioLogado.id, this.usuarioLogado).pipe(finalize(() => { this.loader.hide() })).subscribe({
       next: () => {
-        this.toast.success("Usuario salvo com sucesso!","Sucesso",{progressBar: true});
+        this.toast.success("Usuario salvo com sucesso!", "Sucesso", { progressBar: true });
       },
       error: (error) => {
         this.modal.showError("Não foi possível salvar usuario." + error.error);
@@ -206,14 +208,31 @@ export class UsuarioComponent implements OnInit {
   }
 
   selecionarCidade(id: number): void {
-    const cidadeEncontrada = this.cidades.find(cidade => cidade.id == id);
-    // this.usuarioLogado.cidade = cidadeEncontrada || new Cidade(); // Atribui uma nova instância se não encontrar
+    const cidadeEncontrada: Cidade | undefined = this.cidades.find(cidade => cidade.id === id);
+
+    if (cidadeEncontrada) {
+      // Apenas extraia as propriedades que você precisa
+      this.usuarioLogado.cidade = {
+        id: cidadeEncontrada.id,
+        nome: cidadeEncontrada.nome,
+        codigoIbge: cidadeEncontrada.codigoIbge
+      } as Cidade; // Assegurando que o tipo seja Cidade, se necessário
+    } else {
+      this.usuarioLogado.cidade = new Cidade(); // Atribui uma nova instância se não encontrar
+    }
   }
-  
+
   trocaTelefone(numero: string) {
     const telefoneSemHifen = numero.replace(/-/g, '');
     this.usuarioLogado.telefone = Number(telefoneSemHifen);
   }
 
+  verificaEstadoECidade() {
+    if(this.usuarioLogado.cidade) {
+      this.cidadeSelecionadoId = this.usuarioLogado.cidade.id;
+      const cidadeCorrespondente : any = this.cidades.find(cidade => cidade.id === this.cidadeSelecionadoId);
+      this.estadoSelecionadoId = cidadeCorrespondente.estado.id;
+    }
+  }
 
 }

@@ -20,7 +20,7 @@
           <inputtext [label]="'DDD'" [value]="usuarioLogado.ddd" (valueChange)="usuarioLogado.ddd = $event" />
         </div>
         <div class="col-md-2">
-          <input-telefone  [label]="'Telefone'" [ddd]="41" [placeholder]="'99999-9999'" (valueChange)="trocaTelefone($event)"></input-telefone>
+          <input-telefone  [label]="'Telefone'" [value]="usuarioLogado.telefone.toString()" [ddd]="41" [placeholder]="'99999-9999'" (valueChange)="trocaTelefone($event)"></input-telefone>
         </div>
         <div class="col-md-2">
           <inputtext [label]="'CPF/CNPJ'" [(value)]="usuarioLogado.cnpj" [placeholder]="'999999999-99'"></inputtext>

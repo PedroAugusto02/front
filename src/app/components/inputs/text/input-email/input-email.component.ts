@@ -26,7 +26,7 @@ export class InputEmailComponent {
   @Input() value!: any;
   @Output() valueChange = new EventEmitter<any>();
 
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  emailFormControl = new FormControl('', Validators.email);
   matcher = new MyErrorStateMatcher();
 
   onInputChange(event: any) {

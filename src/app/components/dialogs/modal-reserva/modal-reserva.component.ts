@@ -8,6 +8,8 @@ import { Vaga } from '../../../model/Vaga';
 import { VagaService } from '../../../screens/reservagas/service/vaga.service';
 import { ButtonComponent } from '../../buttons/button/button.component';
 import { InputtextComponent } from "../../inputs/text/inputtext/inputtext.component";
+import { LoaderService } from '../../../service/loader.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-modal-reserva',
@@ -24,13 +26,15 @@ export class ModalReservaComponent {
   constructor(
     public dialogRef: MatDialogRef<ModalReservaComponent>,
     private vagaService: VagaService, 
+    private loader: LoaderService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ){ 
     this.vaga = data.vaga;
   }
 
   salvarClienteAvulso() {
-    this.vagaService.criarReserva(this.vaga.id, this.clienteAvulso).subscribe({
+    this.loader.show();
+    this.vagaService.criarReserva(this.vaga.id, this.clienteAvulso).pipe(finalize(() => {this.loader.hide()})).subscribe({
       next: () => {
         this.vaga.disponivel = false;
         this.atualizarVaga();

@@ -13,6 +13,8 @@ import { VagaService } from '../../../screens/reservagas/service/vaga.service';
 import { ButtonComponent } from '../../buttons/button/button.component';
 import { InputtextComponent } from "../../inputs/text/inputtext/inputtext.component";
 import { ToggleComponent } from '../../inputs/toggle/toggle.component';
+import { LoaderService } from '../../../service/loader.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-modal-fechar-reserva',
@@ -35,6 +37,7 @@ export class ModalFecharReservaComponent implements OnInit {
     private vagaService: VagaService,
     private reservaService: ReservaService,
     private estacionamentoService: EstacionamentoService,
+    private loader: LoaderService,
     @Inject(MAT_DIALOG_DATA) public data: { vaga: Vaga, reserva: Reserva }
   ) {
     this.vaga = data.vaga;
@@ -47,8 +50,9 @@ export class ModalFecharReservaComponent implements OnInit {
   }
 
   buscarTabelaDePrecos(): void {
+    this.loader.show();
     const estacionamentoId = this.vaga.estacionamento.id;
-    this.estacionamentoService.carregarTabelaDePrecoPorEstacionamento(estacionamentoId).subscribe((response: TabelaDePrecos) => {
+    this.estacionamentoService.carregarTabelaDePrecoPorEstacionamento(estacionamentoId).pipe(finalize(() => {this.loader.hide()})).subscribe((response: TabelaDePrecos) => {
       this.tabelaPrecos = response;
       this.precos = this.tabelaPrecos.precos;
       this.calcularValorReserva();
@@ -77,6 +81,7 @@ export class ModalFecharReservaComponent implements OnInit {
   }
 
   fecharReserva(): void {
+    this.loader.show();
     const ultimaReserva: Reserva = { ...this.reserva }; // Cria uma cópia da reserva
     ultimaReserva.pago = true;
     ultimaReserva.valor = this.valorCalculado;
@@ -87,7 +92,7 @@ export class ModalFecharReservaComponent implements OnInit {
   
     this.vaga.disponivel = true;
   
-    this.vagaService.atualizarVaga(this.vaga).subscribe({
+    this.vagaService.atualizarVaga(this.vaga).pipe(finalize(() => {this.loader.hide()})).subscribe({
       next: () => {
         this.atualizarReserva(ultimaReserva);
       },

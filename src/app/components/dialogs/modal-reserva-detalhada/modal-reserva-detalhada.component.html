@@ -1,33 +1,17 @@
-<h2 mat-dialog-title>Detalhes da Vaga Reservada</h2>
+<h2 mat-dialog-title>Adicionar Cliente Avulso</h2>
 <h1 mat-dialog-title>Vaga {{ vaga.numeroDaVaga }}</h1>
 
 <mat-dialog-content class="mat-typography">
-  <table mat-table [dataSource]="reservas" class="mat-elevation-z8">
-    <!-- Coluna de horário da reserva -->
-    <ng-container matColumnDef="horario">
-      <th mat-header-cell *matHeaderCellDef> Horário </th>
-      <td mat-cell *matCellDef="let reserva">{{ reserva.horarioInicio | date:'shortTime' }} - {{ reserva.horarioFim | date:'shortTime' }}</td>
-    </ng-container>
+  <date-picker [(value)]="dataEscolhida"></date-picker>
+  <inputtext [value]="horarioDeInicio" (input)="mascara($event,'Inicio')" [label]="'Horário de Início'" />
 
-    <!-- Coluna de cliente -->
-    <ng-container matColumnDef="cliente">
-      <th mat-header-cell *matHeaderCellDef> Cliente </th>
-      <td mat-cell *matCellDef="let reserva">{{ reserva.cliente?.nome || 'Não informado' }}</td>
-    </ng-container>
-
-    <!-- Coluna de ação para incluir nova reserva -->
-    <ng-container matColumnDef="acao">
-      <th mat-header-cell *matHeaderCellDef> Ação </th>
-      <td mat-cell *matCellDef="let reserva">
-        <button mat-button color="primary" (click)="incluirReserva(reserva)">Incluir Reserva</button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-
-  <div>
-    <app-button class="float-left" [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"></app-button>
+  <inputtext [value]="horarioDeFim" (input)="mascara($event,'Fim')" [label]="'Horário de Fim'" />
+  <div class="d-flex botoes">
+    <div class="col-md-2">
+      <app-button class="float-left" [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"></app-button>
+    </div>
+    <div class="col-md-3">
+      <app-button class="disponivel" [label]="'Incluir Reserva'" [color]="'success'" (buttonClick)="salvarClienteAvulso()"/>
+    </div>
   </div>
 </mat-dialog-content>

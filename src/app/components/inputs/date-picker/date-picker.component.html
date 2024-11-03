@@ -1,0 +1,8 @@
+<mat-form-field class="example-full-width">
+  <mat-label>Escolha uma data</mat-label>
+  <input matInput [matDatepicker]="picker" [min]="startDate"  [(ngModel)]="value"
+    (dateChange)="onDateChange($event.value)" />
+  <mat-hint>DD/MM/YYYY</mat-hint>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker touchUi #picker [startAt]="startDate"></mat-datepicker>
+</mat-form-field>

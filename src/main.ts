@@ -10,10 +10,13 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { authInterceptor } from './app/authentication/auth.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
+    provideNativeDateAdapter(),
+    {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
     provideHttpClient(withInterceptors([authInterceptor])), provideAnimationsAsync(),
     provideAnimations(), // required animations providers
     provideToastr(), // Toastr providers

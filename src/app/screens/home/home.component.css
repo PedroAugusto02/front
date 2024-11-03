@@ -1,33 +1,75 @@
-
 .grid {
-    gap: 30px;
-}
-
-.cartao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    padding: 10px;
+  }
+  
+  .cartao {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: 200px;
+    width: 100%;
     max-width: 250px;
+    min-width: 200px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
     cursor: pointer;
     text-decoration: none;
     color: inherit;
-}
-
-.cartao:hover {
+  }
+  
+  .cartao:hover {
     transform: translateY(-10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.cartao:active {
+  }
+  
+  .cartao:active {
     transform: translateY(-5px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.cartao h1 {
+  }
+  
+  .cartao h1 {
     font-size: 20px;
     margin-top: 10px;
-}
+  }
+  
+  /* Responsividade para dispositivos menores */
+  @media (max-width: 768px) {
+    .grid {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .cartao {
+      max-width: 90%;
+      margin: 0 auto;
+    }
+  
+    .cartao h1 {
+      font-size: 18px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .cartao {
+      max-width: 100%;
+      padding: 15px;
+    }
+  
+    .cartao h1 {
+      font-size: 16px;
+    }
+  
+    .minimized-tabs-container {
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    .minimized-tab {
+      display: inline-block;
+      padding: 10px;
+    }
+  }
+  

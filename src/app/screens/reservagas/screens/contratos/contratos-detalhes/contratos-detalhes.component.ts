@@ -10,6 +10,7 @@ import { InputtextComponent } from '../../../../../components/inputs/text/inputt
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { TitleService } from '../../../../../service/title.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contratos-detalhes',
@@ -35,9 +36,22 @@ export class ContratosDetalhesComponent {
 
   constructor(
     private titleService: TitleService,
+    private router: Router,
   )
   {
-    this.titleService.setPageTitle("Contratos Detalhes");  
+    this.titleService.setPageTitle("Contratos Detalhes");
+    // Recebe os dados do contrato
+    this.contrato = history.state.contrato || {
+      clienteNome: '',
+      clienteCpf: '',
+      contato: '',
+      placaCarro: '',
+      dataInicio: new Date(),
+      dataFim: null,
+      metodoCobranca: '',
+      valor: 0,
+      vagaId: null,
+    };  
   }
 
   contrato = {
@@ -63,6 +77,11 @@ export class ContratosDetalhesComponent {
   onSaveContrato() {
     // Lógica para salvar o contrato
     console.log('Contrato salvo', this.contrato);
+  }
+
+  voltar() {
+    // Volta para a tela de listagem
+    this.router.navigate(['/contratos']);
   }
 
 }

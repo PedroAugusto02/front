@@ -13,6 +13,7 @@ import { VendedoresComponent } from './screens/reservagas/screens/vendedores/ven
 import { ResetPasswordComponent } from './screens/reset-password/reset-password.component';
 import { SideNavComponent } from './screens/side-nav/side-nav.component';
 import { ContratosComponent } from './screens/reservagas/screens/contratos/contratos.component';
+import { ContratosDetalhesComponent } from './screens/reservagas/screens/contratos/contratos-detalhes/contratos-detalhes.component';
 
 export const routes: Routes = [
 
@@ -32,6 +33,7 @@ export const routes: Routes = [
       { path: 'reserva-detalhes', component: ReservaDetalhesComponent },
       { path: 'tabela-de-precos', component: TabelaDePrecosComponent },
       { path: 'contratos', component: ContratosComponent },
+      { path: 'contratos/detalhes', component: ContratosDetalhesComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },

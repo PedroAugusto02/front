@@ -1,9 +1,14 @@
-.modulo {
-    gap: 5px;
-    display: flex;
-    align-items: self-end;
-}
 
 .botoes {
     justify-content: space-between;
+}
+
+.botao-pesquisa {
+    background-color: #16405a;
+}
+
+.valor {
+    color: green;
+    font-weight: bold;
+
 }

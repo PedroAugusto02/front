@@ -1,47 +1,76 @@
 <div class="shadow p-4">
+    <div class="row">
+        <div class="col-md-3">
+            <inputtext [label]="'Nome do cliente'" />
+        </div>
+
+        <div class="col-md-2">
+            <button class="botao-pesquisa" mat-mini-fab aria-label="Search" (click)="buscarContrato()"
+                [title]="'Buscar'">
+                <mat-icon aria-label="Search icon">search</mat-icon>
+            </button>
+        </div>
+    </div>
+
     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
         class="mat-elevation-z8">
 
-        <!-- Botão Column -->
-        <ng-container matColumnDef="botao">
+        <!-- Ação Column (Botão de Ação) -->
+        <ng-container matColumnDef="acao">
             <th mat-header-cell *matHeaderCellDef> Ação </th>
-            <td mat-cell *matCellDef="let element">
-                <button mat-button color="primary" (click)="handleButtonClick(element)">
+            <td mat-cell *matCellDef="let contrato">
+                <button mat-button class="primary" (click)="handleButtonClick(contrato)">
                     <mat-icon>edit</mat-icon> Editar
                 </button>
             </td>
         </ng-container>
 
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-                No.
-            </th>
-            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        <!-- Nome do Cliente Column -->
+        <ng-container matColumnDef="clienteNome">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome do Cliente </th>
+            <td mat-cell *matCellDef="let contrato"> {{contrato.clienteNome}} </td>
         </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
-                Name
-            </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <!-- CPF do Cliente Column -->
+        <ng-container matColumnDef="clienteCpf">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CPF do Cliente </th>
+            <td mat-cell *matCellDef="let contrato"> {{contrato.clienteCpf}} </td>
         </ng-container>
 
-        <!-- Weight Column -->
-        <ng-container matColumnDef="weight">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
-                Weight
-            </th>
-            <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+        <!-- Placa do Carro Column -->
+        <ng-container matColumnDef="placaCarro">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Placa do Carro </th>
+            <td mat-cell *matCellDef="let contrato"> {{contrato.placaCarro}} </td>
         </ng-container>
 
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="symbol">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
-                Symbol
-            </th>
-            <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        <!-- Data de Início Column -->
+        <ng-container matColumnDef="dataInicio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Data de Início </th>
+            <td mat-cell *matCellDef="let contrato"> {{contrato.dataInicio | date:'dd/MM/yyyy : HH:mm'}} </td>
+        </ng-container>
+
+        <!-- Data de Fim Column -->
+        <ng-container matColumnDef="dataFim">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Data de Fim </th>
+            <td mat-cell *matCellDef="let contrato"> {{contrato.dataFim | date}} </td>
+        </ng-container>
+
+        <!-- Método de Cobrança Column -->
+        <ng-container matColumnDef="metodoCobranca">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Método de Cobrança </th>
+            <td mat-cell *matCellDef="let contrato"> {{contrato.metodoCobranca}} </td>
+        </ng-container>
+
+        <!-- Valor Column -->
+        <ng-container matColumnDef="valor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor </th>
+            <td mat-cell *matCellDef="let contrato" class="valor"> {{contrato.valor | currency}} </td>
+        </ng-container>
+
+        <!-- Status do Contrato Column -->
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+            <td mat-cell *matCellDef="let contrato"> {{contrato.status}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

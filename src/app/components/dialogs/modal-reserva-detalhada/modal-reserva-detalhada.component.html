@@ -2,7 +2,7 @@
 <h1 mat-dialog-title>Vaga {{ vaga.numeroDaVaga }}</h1>
 
 <mat-dialog-content class="mat-typography">
-  <date-picker [(value)]="dataEscolhida"></date-picker>
+  <date-picker [label]="'Escolha uma data'" [(value)]="dataEscolhida"></date-picker>
   <inputtext [value]="horarioDeInicio" (input)="mascara($event,'Inicio')" [label]="'Horário de Início'" />
 
   <inputtext [value]="horarioDeFim" (input)="mascara($event,'Fim')" [label]="'Horário de Fim'" />

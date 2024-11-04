@@ -8,7 +8,7 @@ import { Vaga } from '../../../model/Vaga';
 import { Reserva } from '../../../model/Reserva';
 import { ButtonComponent } from '../../buttons/button/button.component';
 import { ModalReservaComponent } from '../modal-reserva/modal-reserva.component';
-import { DatePickerComponent } from "../../inputs/date-picker/date-picker.component";
+import { DatePickerComponent } from "../../inputs/date-picker-ui/date-picker.component";
 import { InputtextComponent } from "../../inputs/text/inputtext/inputtext.component";
 
 @Component({

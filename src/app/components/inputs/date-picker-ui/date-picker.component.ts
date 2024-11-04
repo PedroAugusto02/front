@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 export class DatePickerComponent {
 
   @Input() value: Date | null = null; // Valor inicial da data
+  @Input() label!: string;
   @Output() valueChange = new EventEmitter<Date>(); // Emissor de mudanças
   startDate: Date = new Date();
   

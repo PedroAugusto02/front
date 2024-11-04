@@ -16,7 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 export class InputNumberComponent {
 
   @Input() label!: string;
-  @Input() value: number = 0;
+  @Input() value!: number;
   @Input() placeholder!: string;
   @Input() disabled: boolean = false;
   @Input() validacao: boolean = false;
@@ -27,7 +27,7 @@ export class InputNumberComponent {
 
   ngOnInit(): void {
     this.campoFormControl = new FormControl({
-      value: this.formatValue(this.value),
+      value: this.value.toString(),
       disabled: this.disabled
     });
   
@@ -44,7 +44,7 @@ export class InputNumberComponent {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['value'] && !changes['value'].firstChange) {
       console.log('Campo ngOnChanges Value:', this.value);
-      this.campoFormControl.setValue(this.formatValue(this.value), { emitEvent: false });
+      this.campoFormControl.setValue(this.value.toString(), { emitEvent: false });
     }
   
     if (changes['disabled']) {
@@ -58,14 +58,12 @@ export class InputNumberComponent {
 
   onBlur(): void {
     const rawValue = this.campoFormControl.value;
-    // Certifique-se de que o valor seja convertido corretamente
     const parsedValue = this.parseValue(rawValue);
     this.campoFormControl.setValue(this.formatValue(parsedValue), { emitEvent: false });
   }
   
 
   private formatValue(value: number): string {
-    // Retorna o valor formatado com ponto como separador decimal
     return value.toFixed(2);
   }
   
@@ -74,7 +72,7 @@ export class InputNumberComponent {
       // Substitui vírgula por ponto e converte para número
       return parseFloat(value.replace(',', '.').trim());
     }
-    return value; // Se já for um número, retorna diretamente
+    return value;
   }
 
 }

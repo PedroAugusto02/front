@@ -1,0 +1,9 @@
+.modulo {
+    gap: 5px;
+    display: flex;
+    align-items: self-end;
+}
+
+.botoes {
+    justify-content: space-between;
+}

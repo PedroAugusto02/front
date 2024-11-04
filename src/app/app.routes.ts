@@ -12,6 +12,7 @@ import { VagaComponent } from './screens/reservagas/screens/vaga/vaga.component'
 import { VendedoresComponent } from './screens/reservagas/screens/vendedores/vendedores.component';
 import { ResetPasswordComponent } from './screens/reset-password/reset-password.component';
 import { SideNavComponent } from './screens/side-nav/side-nav.component';
+import { ContratosComponent } from './screens/reservagas/screens/contratos/contratos.component';
 
 export const routes: Routes = [
 
@@ -30,6 +31,7 @@ export const routes: Routes = [
       { path: 'vendedores', component: VendedoresComponent },
       { path: 'reserva-detalhes', component: ReservaDetalhesComponent },
       { path: 'tabela-de-precos', component: TabelaDePrecosComponent },
+      { path: 'contratos', component: ContratosComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },

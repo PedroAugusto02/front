@@ -1,0 +1,67 @@
+<p>contratos-detalhes works!</p>
+<div class="shadow p-4">
+    <div class="modulo">
+        <mat-icon class="example-tab-icon">person</mat-icon>
+        <div>Cliente</div>
+    </div>
+    <div class="mt-3 row">
+        <div class="col-md-2">
+            <inputtext [label]="'Nome'" [(value)]="contrato.clienteNome" />
+        </div>
+        <div class="col-md-2">
+            <inputtext [label]="'CPF'" [(value)]="contrato.clienteCpf" />
+        </div>
+        <div class="col-md-1">
+            <input-telefone [label]="'DDD'"></input-telefone>
+        </div>
+        <div class="col-md-2">
+            <input-telefone [label]="'Contato'" [(value)]="contrato.contato"></input-telefone>
+        </div>
+    </div>
+    <div class="modulo">
+        <mat-icon class="example-tab-icon">directions_car</mat-icon>
+        <div>Carro</div>
+    </div>
+    <div class="mt-3 row">
+        <div class="col-md-2">
+            <inputtext [label]="'Placa do Carro'" [(value)]="contrato.placaCarro" />
+        </div>
+    </div>
+    <div class="modulo">
+        <mat-icon class="example-tab-icon">schedule</mat-icon>
+        <div>Período do Contrato</div>
+    </div>
+    <div class="mt-3 row">
+        <div class="col-md-2">
+            <date-picker [label]="'Data de Início'" [(value)]="contrato.dataInicio" />
+        </div>
+        <div class="col-md-2">
+            <date-picker [label]="'Date de termino'" [(value)]="contrato.dataFim" />
+        </div>
+    </div>
+    <div class="modulo mt-2">
+        <mat-icon class="example-tab-icon">payments</mat-icon>
+        <div>Pagamento</div>
+    </div>
+    <div class="mt-3 row">
+        <div class="col-md-2">
+            <app-inputselect [label]="'Método de Cobrança'" [lista]="metodosCobranca"
+                [(value)]="contrato.metodoCobranca" [atributoExibido]="'nome'" [atributoValor]="'id'">
+            </app-inputselect>
+        </div>
+        <div class="col-md-2">
+            <input-number-valor class="input-custom-width mt-3" [label]="'Valor'" [placeholder]="'ex: 15,00'"
+                [value]="contrato.valor" [validacao]="true">
+            </input-number-valor>
+        </div>
+    </div>
+
+    <div class="row botoes">
+        <div class="col-md-2 salvar">
+            <app-button [label]="'Voltar'" [color]="'primary'" (buttonClick)="onSaveContrato()" />
+        </div>
+        <div class="col-md-1 salvar">
+            <app-button [label]="'Salvar'" [color]="'success'" (buttonClick)="onSaveContrato()" />
+        </div>
+    </div>
+</div>

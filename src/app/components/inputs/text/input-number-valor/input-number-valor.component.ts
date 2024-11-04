@@ -26,7 +26,7 @@ export class InputNumberValorComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.campoFormControl = new FormControl({
-      value: this.formatValue(this.value),
+      value: this.value.toString(), // Mantém o valor sem formatação enquanto o usuário digita
       disabled: this.disabled
     });
   
@@ -43,7 +43,7 @@ export class InputNumberValorComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['value'] && !changes['value'].firstChange) {
       console.log('Campo ngOnChanges Value:', this.value);
-      this.campoFormControl.setValue(this.formatValue(this.value), { emitEvent: false });
+      this.campoFormControl.setValue(this.value.toString(), { emitEvent: false });
     }
   
     if (changes['disabled']) {

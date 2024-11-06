@@ -15,7 +15,6 @@
     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
         class="mat-elevation-z8">
 
-        <!-- Ação Column (Botão de Ação) -->
         <ng-container matColumnDef="acao">
             <th mat-header-cell *matHeaderCellDef> Ação </th>
             <td mat-cell *matCellDef="let contrato">
@@ -25,49 +24,41 @@
             </td>
         </ng-container>
 
-        <!-- Nome do Cliente Column -->
         <ng-container matColumnDef="clienteNome">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome do Cliente </th>
             <td mat-cell *matCellDef="let contrato"> {{contrato.clienteNome}} </td>
         </ng-container>
 
-        <!-- CPF do Cliente Column -->
         <ng-container matColumnDef="clienteCpf">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> CPF do Cliente </th>
             <td mat-cell *matCellDef="let contrato"> {{contrato.clienteCpf}} </td>
         </ng-container>
 
-        <!-- Placa do Carro Column -->
         <ng-container matColumnDef="placaCarro">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Placa do Carro </th>
             <td mat-cell *matCellDef="let contrato"> {{contrato.placaCarro}} </td>
         </ng-container>
 
-        <!-- Data de Início Column -->
         <ng-container matColumnDef="dataInicio">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Data de Início </th>
             <td mat-cell *matCellDef="let contrato"> {{contrato.dataInicio | date:'dd/MM/yyyy : HH:mm'}} </td>
         </ng-container>
 
-        <!-- Data de Fim Column -->
         <ng-container matColumnDef="dataFim">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Data de Fim </th>
             <td mat-cell *matCellDef="let contrato"> {{contrato.dataFim | date}} </td>
         </ng-container>
 
-        <!-- Método de Cobrança Column -->
         <ng-container matColumnDef="metodoCobranca">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Método de Cobrança </th>
             <td mat-cell *matCellDef="let contrato"> {{contrato.metodoCobranca}} </td>
         </ng-container>
 
-        <!-- Valor Column -->
         <ng-container matColumnDef="valor">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor </th>
             <td mat-cell *matCellDef="let contrato" class="valor"> {{contrato.valor | currency}} </td>
         </ng-container>
 
-        <!-- Status do Contrato Column -->
         <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
             <td mat-cell *matCellDef="let contrato"> {{contrato.status}} </td>

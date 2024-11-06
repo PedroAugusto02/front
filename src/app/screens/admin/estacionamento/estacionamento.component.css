@@ -10,11 +10,6 @@
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.estacionamento-card {
-  border-left: 5px solid #007bff;
-}
-
 .usuario-card {
-  color: #fff;
   padding: 10px;
 }

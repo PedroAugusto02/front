@@ -1,0 +1,44 @@
+<div class="d-flex flex-wrap">
+
+  <!-- Seção de Adicionar Estacionamento -->
+  <div class="container-estacionamentos shadow p-4 m-2">
+    <h2>Adicionar Novo Estacionamento</h2>
+    <div>
+      <inputtext class="estilomeu" [label]="'Nome'" [placeholder]="'ex: Estacionamento ABC'"
+        [(value)]="estacionamentoNovo.nome"></inputtext>
+      <inputtext [label]="'Número de Vagas'" [(value)]="estacionamentoNovo.quantidadeVagas"></inputtext>
+      <inputtext [label]="'Endereço'" [(value)]="estacionamentoNovo.endereco"></inputtext>
+      <app-button [label]="'Adicionar'" [color]="'primary'" (buttonClick)="adicionarEstacionamento()"></app-button>
+    </div>
+  </div>
+
+  <!-- Seção de Estacionamentos -->
+  <div class="container-estacionamentos shadow p-4 m-2">
+    <h2>Estacionamentos</h2>
+    <div *ngFor="let estacionamento of estacionamentos_lista; let i = index" class="estacionamento-card"
+      [ngStyle]="{'border-left': '5px solid ' + getColor(i)}">
+      <h3>{{ estacionamento.nome }}</h3>
+      <p>Vagas: {{ estacionamento.quantidadeVagas }}</p>
+      <p>Endereço: {{ estacionamento.endereco }}</p>
+      <app-button [label]="'Vincular Usuário'" [color]="'secondary'"
+        (buttonClick)="abrirModalVinculo(estacionamento.id)"></app-button>
+    </div>
+  </div>
+
+  <!-- Seção de Usuários Vinculados -->
+  <div class="container-usuarios shadow p-4 m-2">
+    <h2>Usuários com Estacionamentos</h2>
+    <div *ngFor="let usuario of usuariosVinculados" class="usuario-card">
+      <h3>{{ usuario.nome }}</h3>
+      <div class="estacionamentos-lista">
+        <div *ngFor="let estacionamento of usuario.estacionamentos" class="estacionamento-card"
+          [ngStyle]="{'background-color': getColorForEstacionamento(estacionamento.id)}">
+          <h4>{{ estacionamento.nome }}</h4>
+          <p>Endereço: {{ estacionamento.endereco }}</p>
+          <p>Nome: {{ estacionamento.nome }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

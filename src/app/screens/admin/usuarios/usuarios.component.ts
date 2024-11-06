@@ -22,7 +22,7 @@ import { LoaderService } from '../../../service/loader.service';
 import { MinimizableStateService } from '../../../service/minimizable-state.service';
 import { ModalService } from '../../../service/modal.service';
 import { TitleService } from '../../../service/title.service';
-import { UsuarioService } from '../service/usuario.service';
+import { UsuarioService } from '../../usuario/service/usuario.service';
 
 
 @Component({

@@ -1,0 +1,20 @@
+.container-estacionamentos, .container-usuarios {
+  width: 100%;
+  max-width: 350px;
+}
+
+.estacionamento-card, .usuario-card {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.estacionamento-card {
+  border-left: 5px solid #007bff;
+}
+
+.usuario-card {
+  color: #fff;
+  padding: 10px;
+}

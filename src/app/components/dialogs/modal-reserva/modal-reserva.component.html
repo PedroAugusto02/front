@@ -13,6 +13,6 @@
   </div>
   <div class="d-flex botoes">
     <app-button class="disponível" [label]="'Cancelar'" [color]="'basic'" (buttonClick)="cancelar()"/>
-    <app-button class="disponivel" [label]="'Incluir Reserva'" [color]="'success'" (buttonClick)="salvarClienteAvulso()"/>
+    <app-button class="disponivel" [disabled]="incluido" [label]="'Incluir Reserva'" [color]="'success'" (buttonClick)="salvarClienteAvulso()"/>
   </div>
 </mat-dialog-content>

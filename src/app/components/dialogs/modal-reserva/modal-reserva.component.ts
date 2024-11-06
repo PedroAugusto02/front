@@ -22,6 +22,7 @@ export class ModalReservaComponent {
 
   clienteAvulso: ClienteAvulso = new ClienteAvulso();
   vaga: Vaga = new Vaga();
+  incluido: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<ModalReservaComponent>,
@@ -34,6 +35,7 @@ export class ModalReservaComponent {
 
   salvarClienteAvulso() {
     this.loader.show();
+    this.incluido = true;
     this.vagaService.criarReserva(this.vaga.id, this.clienteAvulso).pipe(finalize(() => {this.loader.hide()})).subscribe({
       next: () => {
         this.vaga.disponivel = false;

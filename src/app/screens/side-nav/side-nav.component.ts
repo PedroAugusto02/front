@@ -19,8 +19,8 @@ import { MenuService } from '../../service/menu.service';
 import { MinimizableStateService } from '../../service/minimizable-state.service';
 import { MinimizeService } from '../../service/minimize.service';
 import { TitleService } from '../../service/title.service';
-import { UsuariosComponent } from '../pessoas/usuarios/usuarios.component';
 import { Menu } from './interfaces/model';
+import { UsuariosComponent } from '../admin/usuarios/usuarios.component';
 
 @Component({
   selector: 'app-side-nav',

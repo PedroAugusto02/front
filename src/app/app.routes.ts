@@ -1,11 +1,9 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './screens/home/home.component';
-import { LoginComponent } from './screens/login/login/login.component';
-import { UsuarioComponent } from './screens/pessoas/usuario/usuario.component';
-import { UsuariosComponent } from './screens/pessoas/usuarios/usuarios.component';
+
 import { PrimeiroEstacionamentoComponent } from './screens/primeiro-estacionamento/primeiro-estacionamento.component';
-import { EstacionamentoComponent } from './screens/reservagas/screens/estacionamento/estacionamento.component';
+
 import { TabelaDePrecosComponent } from './screens/reservagas/screens/tabela-de-precos/tabela-de-precos.component';
 import { ReservaDetalhesComponent } from './screens/reservagas/screens/vaga/reserva-detalhes/reserva-detalhes.component';
 import { VagaComponent } from './screens/reservagas/screens/vaga/vaga.component';
@@ -14,6 +12,10 @@ import { ResetPasswordComponent } from './screens/reset-password/reset-password.
 import { SideNavComponent } from './screens/side-nav/side-nav.component';
 import { ContratosComponent } from './screens/reservagas/screens/contratos/contratos.component';
 import { ContratosDetalhesComponent } from './screens/reservagas/screens/contratos/contratos-detalhes/contratos-detalhes.component';
+import { UsuarioComponent } from './screens/usuario/usuario/usuario.component';
+import { UsuariosComponent } from './screens/admin/usuarios/usuarios.component';
+import { EstacionamentoComponent } from './screens/admin/estacionamento/estacionamento.component';
+import { LoginComponent } from './screens/login/login.component';
 
 export const routes: Routes = [
 

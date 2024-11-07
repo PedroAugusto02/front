@@ -64,6 +64,7 @@ export class HomeComponent implements OnInit {
 
   async iniciaHome() {
     if (this.authService.isLoggedIn()) {
+      this.loader.show();
       await this.authService.fetchLoggedInUser();
       this.usuario = this.authService.getLoggedInUser();
       this.loadCards(this.usuario.role, this.usuario.id);

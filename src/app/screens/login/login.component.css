@@ -15,7 +15,6 @@ mat-toolbar {
 }
 
 .login-page {
-  height: 100vh; /* Faz com que a página ocupe toda a altura da viewport */
   display: flex;
   justify-content: center;
   align-items: flex-start; /* Alinha o contêiner de login no topo */
@@ -30,14 +29,6 @@ mat-toolbar {
   align-items: center;
   padding: 16px;
   background: var(--background-color); /* Use uma variável CSS para alternar o fundo com base no tema */
-}
-
-::ng-deep .light-theme .login-page {
-  background-color: white;
-}
-
-::ng-deep .dark-theme .login-page {
-  background-color: #333;
 }
 
 .menu-login {

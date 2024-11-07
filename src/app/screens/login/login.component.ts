@@ -37,7 +37,8 @@ export class LoginComponent  {
     this.titleService.setPageTitle("Login");
   }
 
-  fazerLogin() {
+  async fazerLogin() {
+    this.loader.show();
     this.authService.login(this.login, this.password);
   }
 

@@ -29,13 +29,9 @@ export class AuthService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
-  login(login: string, password: string) {
-    this.loader.show();
-    return this.http.post<{ token: string, userId: number, resetPassword: boolean }>(`${this.apiUrl}`, { login, password }).pipe(
-      finalize(() => {
-        this.loader.hide();
-      })
-    ).subscribe({
+  login(login: string, password: string): Promise<void> {
+    return new Promise((resolve,reject) => {
+     this.http.post<{ token: string, userId: number, resetPassword: boolean }>(`${this.apiUrl}`, { login, password }).subscribe({
       next: async (response) => {
         if (isPlatformBrowser(this.platformId)) {
           localStorage.setItem('authToken', response.token);
@@ -46,17 +42,25 @@ export class AuthService {
           this.router.navigate(['/reset-password']);
         } else {
           this.router.navigate(['/home']);
+          this.loader.hide();
         }
+        resolve();
       },
       error: (error: HttpErrorResponse) => {
         this.handleLoginError(error);
+        reject();
       }
     });
+    })
   }
 
   handleLoginError(error: HttpErrorResponse) {
     let errorMessage = "";
-    this.modalService.showError(errorMessage);
+    if(error.status == 0)
+      this.modalService.showError("Não foi possível fazer login.");
+    else {
+      this.modalService.showError(error.error);
+    }
     console.log('Erro ao fazer login:', error);
   }
 
@@ -85,7 +89,6 @@ export class AuthService {
   }
 
   fetchLoggedInUser(): Promise<void> {
-    this.loader.show();
     const token = localStorage.getItem('authToken');
     if (!token) {
       this.router.navigate(['/login']);
@@ -93,9 +96,7 @@ export class AuthService {
     }
     const headers = { 'Authorization': `Bearer ${token}` };
     return new Promise((resolve, reject) => {
-      this.http.get<Usuario>(this.userUrl, { headers }).pipe(finalize(() => {
-        this.loader.hide();
-      })).subscribe({
+      this.http.get<Usuario>(this.userUrl, { headers }).subscribe({
         next: (user) => {
           this.usuarioLogado = user;
           resolve();

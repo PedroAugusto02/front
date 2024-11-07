@@ -1,8 +1,8 @@
 <mat-toolbar color="primary">
-  <loader-circular></loader-circular>
   <h1 class="titulo">Login</h1>
 </mat-toolbar>
-<div class="login-page">
+<loader-circular></loader-circular>
+<div class="login-page container-fluid">
   <div class="login-container">
     <div class="shadow p-4 menu-login" (keyup.enter)="fazerLogin()">
       <inputtext class="input-custom-width" [label]="'Login'" [placeholder]="'ex: Pedro'" [value]="login"
